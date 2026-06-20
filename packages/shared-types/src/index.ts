@@ -63,3 +63,40 @@ export interface CreateTagGroupDto {
   icon?: string;
   tagType: TagType;
 }
+
+// 地点信息
+export interface PlaceDto {
+  id: string;
+  userId: string;
+  realName: string;
+  customName: string;
+  latitude: number;
+  longitude: number;
+  address: string | null;
+  coverImage: string | null;
+  checkinCount: number;
+  collectedAt: string;
+  createdAt: string;
+  updatedAt: string;
+  tags: TagDto[];
+}
+
+// 创建地点请求
+export interface CreatePlaceDto {
+  realName: string;
+  customName: string;
+  latitude: number;
+  longitude: number;
+  address?: string;
+  coverImage?: string;
+  attributeTagIds: string[];
+  sceneTagIds: string[];
+}
+
+// 查询地点请求
+export interface QueryPlaceDto {
+  sort?: 'recent' | 'year' | 'date' | 'checkin';
+  tagId?: string;
+  page?: number;
+  pageSize?: number;
+}
