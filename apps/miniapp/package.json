@@ -29,6 +29,7 @@
     "@tarojs/runtime": "4.x",
     "@tarojs/shared": "4.x",
     "@tarojs/taro": "4.x",
+    "@zuji/shared-types": "workspace:*",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "zustand": "^5.0.14"
