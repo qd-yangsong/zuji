@@ -6,6 +6,7 @@ import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { TagModule } from './modules/tag/tag.module';
 import { TagGroupModule } from './modules/tag-group/tag-group.module';
+import { PlaceModule } from './modules/place/place.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
@@ -18,6 +19,7 @@ import { AppService } from './app.service';
     AuthModule,
     TagModule,
     TagGroupModule,
+    PlaceModule,
   ],
   controllers: [AppController],
   providers: [AppService],
