@@ -1,0 +1,167 @@
+.collection-create {
+  min-height: 100vh;
+  background: #f8f9fa;
+  padding: 24rpx;
+  padding-bottom: 140rpx;
+
+  &__section {
+    background: #fff;
+    border-radius: 20rpx;
+    padding: 28rpx;
+    margin-bottom: 24rpx;
+  }
+
+  &__label {
+    display: block;
+    font-size: 28rpx;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 16rpx;
+  }
+
+  &__input {
+    width: 100%;
+    height: 80rpx;
+    font-size: 30rpx;
+    border-bottom: 2rpx solid #eee;
+  }
+
+  &__textarea {
+    width: 100%;
+    min-height: 100rpx;
+    font-size: 28rpx;
+    line-height: 1.6;
+  }
+
+  &__cover-area {
+    width: 100%;
+    height: 240rpx;
+    border-radius: 16rpx;
+    overflow: hidden;
+  }
+
+  &__cover-img {
+    width: 100%;
+    height: 100%;
+  }
+
+  &__cover-placeholder {
+    width: 100%;
+    height: 100%;
+    background: #f5f5f5;
+    border: 2rpx dashed #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16rpx;
+  }
+
+  &__cover-add {
+    font-size: 28rpx;
+    color: #999;
+  }
+
+  &__no-places {
+    font-size: 26rpx;
+    color: #999;
+    text-align: center;
+    padding: 40rpx;
+  }
+
+  &__place-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16rpx;
+  }
+
+  &__place-item {
+    display: flex;
+    align-items: center;
+    background: #f8f9fa;
+    border-radius: 16rpx;
+    padding: 20rpx;
+    border: 2rpx solid transparent;
+
+    &--selected {
+      border-color: #54a0ff;
+      background: #ebf5ff;
+    }
+  }
+
+  &__place-badge {
+    width: 56rpx;
+    height: 56rpx;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 24rpx;
+    flex-shrink: 0;
+  }
+
+  &__place-info {
+    flex: 1;
+    margin-left: 20rpx;
+  }
+
+  &__place-name {
+    display: block;
+    font-size: 28rpx;
+    font-weight: bold;
+    color: #333;
+  }
+
+  &__place-sub {
+    display: block;
+    font-size: 22rpx;
+    color: #999;
+    margin-top: 4rpx;
+  }
+
+  &__checkbox {
+    width: 40rpx;
+    height: 40rpx;
+    border: 2rpx solid #ddd;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &--checked {
+      background: #54a0ff;
+      border-color: #54a0ff;
+    }
+  }
+
+  &__check {
+    color: #fff;
+    font-size: 24rpx;
+  }
+
+  &__footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20rpx 32rpx;
+    background: #fff;
+    box-shadow: 0 -2rpx 10rpx rgba(0,0,0,0.05);
+  }
+
+  &__submit {
+    height: 88rpx;
+    background: #54a0ff;
+    border-radius: 44rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 32rpx;
+    font-weight: bold;
+
+    &--disabled {
+      opacity: 0.6;
+    }
+  }
+}

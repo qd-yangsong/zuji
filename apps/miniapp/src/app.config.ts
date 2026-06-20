@@ -7,6 +7,8 @@ export default defineAppConfig({
     'pages/checkin/index',
     'pages/journey/index',
     'pages/collections/index',
+    'pages/collection-detail/index',
+    'pages/collection-create/index',
   ],
   window: {
     backgroundTextStyle: 'light',
