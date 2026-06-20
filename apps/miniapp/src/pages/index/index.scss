@@ -4,3 +4,19 @@
   align-items: center;
   padding-top: 100rpx;
 }
+
+.index {
+  padding: 32rpx;
+
+  &__section {
+    margin-top: 32rpx;
+  }
+
+  &__label {
+    display: block;
+    font-size: 28rpx;
+    font-weight: bold;
+    margin-bottom: 16rpx;
+    color: #333;
+  }
+}

@@ -1,0 +1,67 @@
+.tag-selector {
+  &__scroll {
+    white-space: nowrap;
+    padding: 8rpx 0;
+  }
+
+  &__loading {
+    color: #999;
+    font-size: 24rpx;
+  }
+
+  &__tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 8rpx 24rpx;
+    margin-right: 12rpx;
+    border-radius: 32rpx;
+    background: #f5f5f5;
+    font-size: 26rpx;
+    color: #333;
+    transition: all 0.2s;
+
+    &--active {
+      background: #54a0ff;
+      color: #fff;
+    }
+
+    &--add {
+      background: transparent;
+      border: 2rpx dashed #ccc;
+      color: #999;
+    }
+  }
+
+  &__badge {
+    margin-left: 8rpx;
+    font-size: 18rpx;
+    color: #aaa;
+    background: rgba(255, 255, 255, 0.3);
+    padding: 2rpx 8rpx;
+    border-radius: 8rpx;
+  }
+
+  &__input-bar {
+    display: flex;
+    align-items: center;
+    margin-top: 12rpx;
+    gap: 12rpx;
+  }
+
+  &__input {
+    flex: 1;
+    height: 64rpx;
+    padding: 0 20rpx;
+    border: 2rpx solid #ddd;
+    border-radius: 12rpx;
+    font-size: 26rpx;
+  }
+
+  &__confirm {
+    padding: 12rpx 32rpx;
+    background: #54a0ff;
+    color: #fff;
+    border-radius: 12rpx;
+    font-size: 26rpx;
+  }
+}

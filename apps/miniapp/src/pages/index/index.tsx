@@ -4,11 +4,14 @@ import Taro from '@tarojs/taro';
 import { loginWithWx } from '../../services/auth';
 import { uploadImage } from '../../services/upload';
 import { useUserStore } from '../../stores/userStore';
+import TagSelector from '../../components/TagSelector';
 import './index.scss';
 
 export default function Index() {
   const { user, setUser } = useUserStore();
   const [loading, setLoading] = useState(false);
+  const [selectedAttrTags, setSelectedAttrTags] = useState<string[]>([]);
+  const [selectedEventTags, setSelectedEventTags] = useState<string[]>([]);
 
   const handleLogin = async () => {
     setLoading(true);
@@ -41,6 +44,22 @@ export default function Index() {
         <>
           <Text>已登录：{user.openid}</Text>
           <Button onClick={handleUpload}>测试上传图片</Button>
+          <View className='index__section'>
+            <Text className='index__label'>属性标签</Text>
+            <TagSelector
+              type='attribute'
+              selectedIds={selectedAttrTags}
+              onChange={setSelectedAttrTags}
+            />
+          </View>
+          <View className='index__section'>
+            <Text className='index__label'>事件标签</Text>
+            <TagSelector
+              type='event'
+              selectedIds={selectedEventTags}
+              onChange={setSelectedEventTags}
+            />
+          </View>
         </>
       ) : (
         <Button loading={loading} onClick={handleLogin}>
