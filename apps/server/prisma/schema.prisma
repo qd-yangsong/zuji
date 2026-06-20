@@ -74,6 +74,7 @@ model Place {
   updatedAt       DateTime @updatedAt
   tags            PlaceTag[]
   checkins        CheckIn[]
+  collections     CollectionPlace[]
 
   @@index([userId])
   @@index([userId, collectedAt])
@@ -125,4 +126,34 @@ model CheckInTag {
   @@unique([checkinId, tagId])
   @@index([tagId])
   @@map("checkin_tags")
+}
+
+// 地点合集 —— 用户自定义打包多个地点（如"成都美食10选"）
+model Collection {
+  id          String   @id @default(cuid())
+  userId      String   // 所属用户
+  name        String   // 合集名称
+  description String?  // 合集描述
+  coverImage  String?  // 合集封面图
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  places      CollectionPlace[]
+
+  @@index([userId])
+  @@map("collections")
+}
+
+// 合集-地点中间表（多对多）
+model CollectionPlace {
+  id           String   @id @default(cuid())
+  collectionId String
+  placeId      String
+  sort         Int      @default(0) // 排序序号
+  collection   Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  place        Place      @relation(fields: [placeId], references: [id], onDelete: Cascade)
+  createdAt    DateTime @default(now())
+
+  @@unique([collectionId, placeId])
+  @@index([placeId])
+  @@map("collection_places")
 }

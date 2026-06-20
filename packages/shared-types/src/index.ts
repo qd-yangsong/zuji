@@ -154,3 +154,36 @@ export interface CreateCheckInDto {
   images?: string[];
   eventTagIds: string[];
 }
+
+// ========== 地点合集类型 ==========
+
+// 地点合集
+export interface CollectionDto {
+  id: string;
+  userId: string;
+  name: string;
+  description: string | null;
+  coverImage: string | null;
+  createdAt: string;
+  updatedAt: string;
+  places: PlaceDto[];
+}
+
+// 创建合集请求
+export interface CreateCollectionDto {
+  name: string;
+  description?: string;
+  coverImage?: string;
+  placeIds?: string[];
+}
+
+// 旅程地图标记点（由后端聚合 CheckIn + Place 生成）
+export interface JourneyMarkerDto {
+  placeId: string;
+  customName: string;
+  realName: string;
+  latitude: number;
+  longitude: number;
+  checkinCount: number;
+  lastCheckinAt: string | null;
+}
