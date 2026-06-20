@@ -12,7 +12,7 @@ interface ApiResponse<T> {
 // 统一网络请求封装：自动携带 JWT、处理错误
 export async function request<T = unknown>(options: {
   url: string;
-  method?: 'GET' | 'POST' | 'PUT' | 'DELETE';
+  method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
   data?: unknown;
   needAuth?: boolean;
 }): Promise<T> {

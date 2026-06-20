@@ -1,0 +1,215 @@
+.cards {
+  min-height: 100vh;
+  background: #f5f5f5;
+
+  // ===== 排序栏（固定顶部） =====
+  &__sort-bar {
+    display: flex;
+    background: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    border-bottom: 2rpx solid #f0f0f0;
+  }
+
+  &__sort-tab {
+    flex: 1;
+    text-align: center;
+    padding: 24rpx 0;
+    font-size: 28rpx;
+    color: #666;
+    position: relative;
+
+    &--active {
+      color: #54a0ff;
+      font-weight: 600;
+
+      // 选中态下划线
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 48rpx;
+        height: 4rpx;
+        background: #54a0ff;
+        border-radius: 2rpx;
+      }
+    }
+  }
+
+  // ===== 双列卡片列表 =====
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 16rpx;
+  }
+
+  &__item {
+    width: 50%;
+    padding: 8rpx;
+    box-sizing: border-box;
+  }
+
+  &__card {
+    border-radius: 16rpx;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.06);
+  }
+
+  // 封面区域（4:3 宽高比）
+  &__cover {
+    width: 100%;
+    padding-top: 75%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  &__cover-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  &__cover-placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__cover-letter {
+    font-size: 56rpx;
+    color: #fff;
+    font-weight: bold;
+  }
+
+  // 卡片信息区
+  &__info {
+    padding: 16rpx;
+  }
+
+  &__custom-name {
+    display: block;
+    font-size: 28rpx;
+    font-weight: bold;
+    color: #333;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__real-name {
+    display: block;
+    font-size: 22rpx;
+    color: #999;
+    margin-top: 4rpx;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__checkin {
+    display: block;
+    font-size: 22rpx;
+    color: #666;
+    margin-top: 8rpx;
+  }
+
+  &__tags {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 8rpx;
+  }
+
+  &__tag {
+    font-size: 20rpx;
+    color: #54a0ff;
+    background: rgba(84, 160, 255, 0.1);
+    padding: 2rpx 12rpx;
+    border-radius: 16rpx;
+    margin-right: 8rpx;
+  }
+
+  // ===== 浮动添加按钮 =====
+  &__fab {
+    position: fixed;
+    right: 32rpx;
+    bottom: 120rpx;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #54a0ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4rpx 16rpx rgba(84, 160, 255, 0.4);
+    z-index: 100;
+  }
+
+  &__fab-icon {
+    font-size: 40rpx;
+    color: #fff;
+    line-height: 1;
+  }
+
+  // ===== 空状态 =====
+  &__empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 200rpx 64rpx;
+  }
+
+  &__empty-text {
+    font-size: 28rpx;
+    color: #999;
+    text-align: center;
+    line-height: 1.6;
+  }
+
+  // ===== 加载中 =====
+  &__loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 200rpx 0;
+    color: #999;
+    font-size: 28rpx;
+  }
+
+  // ===== 登录引导 =====
+  &--login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 300rpx;
+  }
+
+  &__login-text {
+    font-size: 28rpx;
+    color: #999;
+    margin-bottom: 40rpx;
+  }
+
+  &__login-btn {
+    padding: 20rpx 64rpx;
+    background: #54a0ff;
+    border-radius: 44rpx;
+    color: #fff;
+    font-size: 30rpx;
+
+    &--disabled {
+      opacity: 0.6;
+    }
+  }
+}
