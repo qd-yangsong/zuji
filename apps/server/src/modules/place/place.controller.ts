@@ -20,6 +20,11 @@ export class PlaceController {
     return this.placeService.findAll(user.id, query);
   }
 
+  @Get('journey/map')
+  getJourneyMap(@CurrentUser() user: { id: string; openid: string }) {
+    return this.placeService.getJourneyMarkers(user.id);
+  }
+
   @Get(':id')
   findOne(
     @Param('id') id: string,

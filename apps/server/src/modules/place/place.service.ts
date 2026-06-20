@@ -126,4 +126,37 @@ export class PlaceService {
       tags: place.tags?.map((pt: any) => pt.tag) || [],
     };
   }
+
+  // 获取旅程地图标记点（所有有打卡记录的地点）
+  async getJourneyMarkers(userId: string) {
+    const places = await this.prisma.place.findMany({
+      where: {
+        userId,
+        checkinCount: { gt: 0 },
+      },
+      select: {
+        id: true,
+        customName: true,
+        realName: true,
+        latitude: true,
+        longitude: true,
+        checkinCount: true,
+        checkins: {
+          orderBy: { checkinAt: 'desc' },
+          take: 1,
+          select: { checkinAt: true },
+        },
+      },
+    });
+
+    return places.map((p) => ({
+      placeId: p.id,
+      customName: p.customName,
+      realName: p.realName,
+      latitude: p.latitude,
+      longitude: p.longitude,
+      checkinCount: p.checkinCount,
+      lastCheckinAt: p.checkins[0]?.checkinAt || null,
+    }));
+  }
 }
