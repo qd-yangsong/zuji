@@ -9,6 +9,7 @@ import { TagGroupModule } from './modules/tag-group/tag-group.module';
 import { PlaceModule } from './modules/place/place.module';
 import { CheckInModule } from './modules/checkin/checkin.module';
 import { CollectionModule } from './modules/collection/collection.module';
+import { ShareModule } from './modules/share/share.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
@@ -24,6 +25,7 @@ import { AppService } from './app.service';
     PlaceModule,
     CheckInModule,
     CollectionModule,
+    ShareModule,
   ],
   controllers: [AppController],
   providers: [AppService],
