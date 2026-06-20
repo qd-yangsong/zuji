@@ -79,6 +79,9 @@ export interface PlaceDto {
   createdAt: string;
   updatedAt: string;
   tags: TagDto[];
+  // 审核状态：passed | pending | rejected（后端默认 passed，老数据兼容为可选）
+  reviewStatus?: string;
+  reviewReason?: string | null;
 }
 
 // 创建地点请求
@@ -145,6 +148,9 @@ export interface CheckInDto {
   createdAt: string;
   updatedAt: string;
   tags: TagDto[];
+  // 审核状态：passed | pending | rejected（后端默认 passed，老数据兼容为可选）
+  reviewStatus?: string;
+  reviewReason?: string | null;
 }
 
 // 创建打卡请求

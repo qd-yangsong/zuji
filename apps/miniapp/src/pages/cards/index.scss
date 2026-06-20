@@ -233,6 +233,20 @@
     line-height: 1;
   }
 
+  // 反馈按钮：位于添加按钮上方，尺寸略小、白底蓝字
+  &__fab--feedback {
+    bottom: 300rpx;
+    width: 44px;
+    height: 44px;
+    background: #fff;
+    box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.12);
+  }
+
+  &__fab-icon--feedback {
+    font-size: 32rpx;
+    color: #54a0ff;
+  }
+
   // ===== 空状态卡片（与设计图同款） =====
   &__empty-wrap {
     padding: 24rpx 16rpx 0;

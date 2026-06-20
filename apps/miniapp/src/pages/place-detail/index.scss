@@ -41,6 +41,36 @@
     color: #333;
   }
 
+  // ===== 审核状态提示条 =====
+  &__review-tip {
+    margin: 0 24rpx 16rpx;
+    padding: 20rpx 24rpx;
+    border-radius: 16rpx;
+    display: flex;
+    align-items: center;
+    gap: 12rpx;
+  }
+
+  &__review-tip--rejected {
+    background: #fff1f0;
+    color: #cf1322;
+  }
+
+  &__review-tip--pending {
+    background: #fffbe6;
+    color: #d48806;
+  }
+
+  &__review-tip-icon {
+    font-size: 32rpx;
+  }
+
+  &__review-tip-text {
+    font-size: 26rpx;
+    line-height: 1.5;
+    flex: 1;
+  }
+
   // ===== 封面区（渐变背景 + 双栏：左字右图） =====
   &__cover {
     position: relative;
@@ -458,6 +488,18 @@
     color: #333;
     line-height: 1.6;
     margin-top: 12rpx;
+  }
+
+  // 被拒打卡的下架提示
+  &-rejected {
+    display: block;
+    font-size: 26rpx;
+    color: #cf1322;
+    background: #fff1f0;
+    padding: 16rpx 20rpx;
+    border-radius: 12rpx;
+    margin-top: 12rpx;
+    line-height: 1.5;
   }
 
   &-images {

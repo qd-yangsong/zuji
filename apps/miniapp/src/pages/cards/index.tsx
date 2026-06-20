@@ -5,6 +5,7 @@ import { fetchPlaces } from '../../services/place';
 import { loginWithWx } from '../../services/auth';
 import { useUserStore } from '../../stores/userStore';
 import { resourceService } from '../../services/resource';
+import AnnouncementModal from '../../components/AnnouncementModal';
 import type { PlaceDto, ThemeResource } from '@zuji/shared-types';
 import './index.scss';
 
@@ -23,6 +24,7 @@ export default function Cards() {
   const [loading, setLoading] = useState(false);
   const [sort, setSort] = useState<SortKey>('recent');
   const [loginLoading, setLoginLoading] = useState(false);
+  const [showAnnouncement, setShowAnnouncement] = useState(false);
 
   const loadPlaces = async () => {
     setLoading(true);
@@ -40,6 +42,9 @@ export default function Cards() {
     if (user) {
       loadPlaces();
     }
+    // 页面加载后延迟 1 秒检查公告
+    const timer = setTimeout(() => setShowAnnouncement(true), 1000);
+    return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, sort]);
 
@@ -70,6 +75,10 @@ export default function Cards() {
 
   const handleAddPlace = () => {
     Taro.navigateTo({ url: '/pages/place-create/index' });
+  };
+
+  const handleFeedback = () => {
+    Taro.navigateTo({ url: '/pages/feedback/index' });
   };
 
   // 选第一个属性标签（如"美食"）作为分类彩标色
@@ -193,10 +202,21 @@ export default function Cards() {
         </View>
       )}
 
+      {/* 浮动反馈按钮 */}
+      <View className='cards__fab cards__fab--feedback' onClick={handleFeedback}>
+        <Text className='cards__fab-icon cards__fab-icon--feedback'>✎</Text>
+      </View>
+
       {/* 浮动添加按钮 */}
       <View className='cards__fab' onClick={handleAddPlace}>
         <Text className='cards__fab-icon'>+</Text>
       </View>
+
+      {/* 公告弹窗 */}
+      <AnnouncementModal
+        visible={showAnnouncement}
+        onClose={() => setShowAnnouncement(false)}
+      />
 
       {/* 底部 TabBar（地点/发现/我的） */}
       <View className='cards__tabbar'>

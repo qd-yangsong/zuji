@@ -1,0 +1,65 @@
+.announcement-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.announcement-modal {
+  width: 560rpx;
+  background: #fff;
+  border-radius: 24rpx;
+  overflow: hidden;
+
+  &__header {
+    padding: 40rpx 32rpx 20rpx;
+    text-align: center;
+  }
+
+  &__title {
+    font-size: 34rpx;
+    font-weight: bold;
+    color: #333;
+  }
+
+  &__body {
+    max-height: 500rpx;
+    padding: 0 32rpx 32rpx;
+  }
+
+  &__content {
+    font-size: 28rpx;
+    color: #555;
+    line-height: 1.8;
+    white-space: pre-wrap;
+  }
+
+  &__footer {
+    display: flex;
+    border-top: 2rpx solid #f0f0f0;
+  }
+
+  &__link {
+    flex: 1;
+    padding: 28rpx;
+    text-align: center;
+    font-size: 30rpx;
+    color: #54a0ff;
+    border-right: 2rpx solid #f0f0f0;
+  }
+
+  &__btn {
+    flex: 1;
+    padding: 28rpx;
+    text-align: center;
+    font-size: 30rpx;
+    color: #333;
+    font-weight: bold;
+  }
+}

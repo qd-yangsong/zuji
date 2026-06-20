@@ -132,6 +132,22 @@ export default function PlaceDetail() {
         </View>
       </View>
 
+      {/* 审核状态提示条 */}
+      {place.reviewStatus === 'rejected' && (
+        <View className='place-detail__review-tip place-detail__review-tip--rejected'>
+          <Text className='place-detail__review-tip-icon'>⚠</Text>
+          <Text className='place-detail__review-tip-text'>
+            该内容已被审核下架{place.reviewReason ? `，原因：${place.reviewReason}` : ''}
+          </Text>
+        </View>
+      )}
+      {place.reviewStatus === 'pending' && (
+        <View className='place-detail__review-tip place-detail__review-tip--pending'>
+          <Text className='place-detail__review-tip-icon'>⏳</Text>
+          <Text className='place-detail__review-tip-text'>该内容正在审核中</Text>
+        </View>
+      )}
+
       {/* 封面区：渐变背景 + 首字装饰 + 角落装饰 */}
       <View className='place-detail__cover' style={{ background: theme.gradient }}>
         <Text className='place-detail__cover-deco place-detail__cover-deco--tl'>✦</Text>
@@ -249,33 +265,42 @@ export default function PlaceDetail() {
                     {formatDate(checkin.checkinAt)}
                     {checkin.isFirst && <Text className='place-detail__timeline-badge'>首次收藏</Text>}
                   </Text>
-                  {/* 事件标签 */}
-                  {checkin.tags.length > 0 && (
-                    <View className='place-detail__timeline-tags'>
-                      {checkin.tags.map((tag) => (
-                        <Text key={tag.id} className='place-detail__timeline-tag'>
-                          #{tag.name}
-                        </Text>
-                      ))}
-                    </View>
-                  )}
-                  {/* 文字内容 */}
-                  {checkin.content && (
-                    <Text className='place-detail__timeline-text'>{checkin.content}</Text>
-                  )}
-                  {/* 图片缩略图 */}
-                  {checkin.images.length > 0 && (
-                    <View className='place-detail__timeline-images'>
-                      {checkin.images.map((url, i) => (
-                        <Image
-                          key={i}
-                          className='place-detail__timeline-image'
-                          src={url}
-                          mode='aspectFill'
-                          onClick={() => Taro.previewImage({ urls: checkin.images, current: url })}
-                        />
-                      ))}
-                    </View>
+                  {checkin.reviewStatus === 'rejected' ? (
+                    // 被拒打卡：仅展示下架提示，隐藏正文/图片
+                    <Text className='place-detail__timeline-rejected'>
+                      该打卡已被审核下架{checkin.reviewReason ? `，原因：${checkin.reviewReason}` : ''}
+                    </Text>
+                  ) : (
+                    <>
+                      {/* 事件标签 */}
+                      {checkin.tags.length > 0 && (
+                        <View className='place-detail__timeline-tags'>
+                          {checkin.tags.map((tag) => (
+                            <Text key={tag.id} className='place-detail__timeline-tag'>
+                              #{tag.name}
+                            </Text>
+                          ))}
+                        </View>
+                      )}
+                      {/* 文字内容 */}
+                      {checkin.content && (
+                        <Text className='place-detail__timeline-text'>{checkin.content}</Text>
+                      )}
+                      {/* 图片缩略图 */}
+                      {checkin.images.length > 0 && (
+                        <View className='place-detail__timeline-images'>
+                          {checkin.images.map((url, i) => (
+                            <Image
+                              key={i}
+                              className='place-detail__timeline-image'
+                              src={url}
+                              mode='aspectFill'
+                              onClick={() => Taro.previewImage({ urls: checkin.images, current: url })}
+                            />
+                          ))}
+                        </View>
+                      )}
+                    </>
                   )}
                 </View>
               </View>
