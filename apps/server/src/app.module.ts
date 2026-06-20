@@ -13,6 +13,11 @@ import { ShareModule } from './modules/share/share.module';
 import { AdminAuthModule } from './modules/admin-auth/admin-auth.module';
 import { AdminAssetModule } from './modules/admin-asset/admin-asset.module';
 import { AdminThemeModule } from './modules/admin-theme/admin-theme.module';
+import { AdminReviewModule } from './modules/admin-review/admin-review.module';
+import { AdminAnnouncementModule } from './modules/admin-announcement/admin-announcement.module';
+import { FeedbackModule } from './modules/feedback/feedback.module';
+import { AdminUserModule } from './modules/admin-user/admin-user.module';
+import { AdminStatsModule } from './modules/admin-stats/admin-stats.module';
 import { ConfigModule as PublicConfigModule } from './modules/config/config.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -33,6 +38,11 @@ import { AppService } from './app.service';
     AdminAuthModule,
     AdminAssetModule,
     AdminThemeModule,
+    AdminReviewModule,
+    AdminAnnouncementModule,
+    FeedbackModule,
+    AdminUserModule,
+    AdminStatsModule,
     PublicConfigModule,
   ],
   controllers: [AppController],

@@ -7,9 +7,10 @@ export class ShareService {
 
   // 公开查看地点信息（不需要登录）
   // 返回地点基本信息 + 标签，不返回 userId 等隐私字段
+  // 过滤被拒绝的内容，不通过分享接口暴露
   async getSharedPlace(placeId: string) {
-    const place = await this.prisma.place.findUnique({
-      where: { id: placeId },
+    const place = await this.prisma.place.findFirst({
+      where: { id: placeId, reviewStatus: { not: 'rejected' } },
       select: {
         id: true,
         realName: true,

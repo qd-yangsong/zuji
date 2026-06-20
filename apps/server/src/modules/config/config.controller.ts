@@ -11,4 +11,10 @@ export class ConfigController {
   getActiveTheme() {
     return this.configService.getActiveTheme();
   }
+
+  // 小程序拉取当前生效的公告
+  @Get('announcements')
+  getActiveAnnouncements() {
+    return this.configService.getActiveAnnouncements();
+  }
 }
