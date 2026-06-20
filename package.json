@@ -1,0 +1,14 @@
+{
+  "name": "zuji-shouzhang",
+  "private": true,
+  "version": "0.0.1",
+  "scripts": {
+    "miniapp:dev": "pnpm --filter miniapp dev:weapp",
+    "server:dev": "pnpm --filter server start:dev",
+    "server:test": "pnpm --filter server test"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0"
+  },
+  "packageManager": "pnpm@11.5.2"
+}

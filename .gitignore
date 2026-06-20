@@ -1,0 +1,25 @@
+# deps
+node_modules/
+.pnpm-store/
+
+# build
+dist/
+.cache/
+
+# env
+.env
+.env.local
+*.local
+
+# logs
+*.log
+npm-debug.log*
+
+# editor
+.vscode/
+.idea/
+.DS_Store
+
+# taro
+apps/miniapp/dist/
+apps/miniapp/.swc/
