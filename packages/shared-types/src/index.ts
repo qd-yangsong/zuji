@@ -19,3 +19,47 @@ export interface LoginResponseDto {
   token: string;
   user: UserDto;
 }
+
+// 标签类型枚举
+export type TagType = 'attribute' | 'scene' | 'event';
+
+// 标签组
+export interface TagGroupDto {
+  id: string;
+  userId: string | null;
+  name: string;
+  color: string | null;
+  icon: string | null;
+  tagType: TagType;
+  isSystem: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+// 标签
+export interface TagDto {
+  id: string;
+  userId: string | null;
+  name: string;
+  type: TagType;
+  groupId: string | null;
+  isSystem: boolean;
+  usageCount: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+// 创建标签请求
+export interface CreateTagDto {
+  name: string;
+  type: TagType;
+  groupId?: string;
+}
+
+// 创建标签组请求
+export interface CreateTagGroupDto {
+  name: string;
+  color?: string;
+  icon?: string;
+  tagType: TagType;
+}
