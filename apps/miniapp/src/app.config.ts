@@ -4,6 +4,7 @@ export default defineAppConfig({
     'pages/index/index',
     'pages/place-create/index',
     'pages/place-detail/index',
+    'pages/checkin/index',
   ],
   window: {
     backgroundTextStyle: 'light',

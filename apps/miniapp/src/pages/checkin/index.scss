@@ -1,0 +1,124 @@
+.checkin {
+  min-height: 100vh;
+  background: #f8f9fa;
+  padding: 24rpx;
+  padding-bottom: 140rpx;
+
+  &__place-info {
+    background: #fff;
+    border-radius: 20rpx;
+    padding: 28rpx;
+    margin-bottom: 24rpx;
+  }
+
+  &__place-name {
+    display: block;
+    font-size: 34rpx;
+    font-weight: bold;
+    color: #333;
+  }
+
+  &__place-sub {
+    display: block;
+    font-size: 26rpx;
+    color: #999;
+    margin-top: 8rpx;
+  }
+
+  &__section {
+    background: #fff;
+    border-radius: 20rpx;
+    padding: 28rpx;
+    margin-bottom: 24rpx;
+  }
+
+  &__label {
+    display: block;
+    font-size: 28rpx;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 16rpx;
+  }
+
+  &__textarea {
+    width: 100%;
+    min-height: 120rpx;
+    font-size: 28rpx;
+    color: #333;
+    line-height: 1.6;
+  }
+
+  &__images {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16rpx;
+  }
+
+  &__image-item {
+    position: relative;
+    width: 200rpx;
+    height: 200rpx;
+  }
+
+  &__image {
+    width: 100%;
+    height: 100%;
+    border-radius: 12rpx;
+  }
+
+  &__image-del {
+    position: absolute;
+    top: -10rpx;
+    right: -10rpx;
+    width: 40rpx;
+    height: 40rpx;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.5);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24rpx;
+  }
+
+  &__image-add {
+    width: 200rpx;
+    height: 200rpx;
+    border: 2rpx dashed #ddd;
+    border-radius: 12rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__image-add-icon {
+    font-size: 56rpx;
+    color: #ccc;
+  }
+
+  &__footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20rpx 32rpx;
+    background: #fff;
+    box-shadow: 0 -2rpx 10rpx rgba(0,0,0,0.05);
+  }
+
+  &__submit {
+    height: 88rpx;
+    background: #54a0ff;
+    border-radius: 44rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 32rpx;
+    font-weight: bold;
+
+    &--disabled {
+      opacity: 0.6;
+    }
+  }
+}

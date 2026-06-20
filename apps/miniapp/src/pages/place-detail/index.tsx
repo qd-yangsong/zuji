@@ -2,8 +2,9 @@ import { View, Text, Image, Map } from '@tarojs/components';
 import { useState, useEffect } from 'react';
 import Taro from '@tarojs/taro';
 import { fetchPlaceDetail } from '../../services/place';
+import { fetchCheckins } from '../../services/checkin';
 import { resourceService } from '../../services/resource';
-import type { PlaceDto, TagDto, TagType } from '@zuji/shared-types';
+import type { PlaceDto, TagDto, TagType, CheckInDto } from '@zuji/shared-types';
 import './index.scss';
 
 // 格式化日期为 YYYY.MM.DD
@@ -22,6 +23,7 @@ function filterTagsByType(tags: TagDto[], type: TagType): TagDto[] {
 
 export default function PlaceDetail() {
   const [place, setPlace] = useState<PlaceDto | null>(null);
+  const [checkins, setCheckins] = useState<CheckInDto[]>([]);
   const [loading, setLoading] = useState(true);
 
   const id = Taro.getCurrentInstance().router?.params?.id;
@@ -40,10 +42,13 @@ export default function PlaceDetail() {
         Taro.showToast({ title: '加载失败', icon: 'error' });
       })
       .finally(() => setLoading(false));
+    // 同时加载打卡时间轴
+    fetchCheckins(id).then(setCheckins).catch(console.error);
   }, [id]);
 
   const handleCheckin = () => {
-    Taro.showToast({ title: '打卡功能即将上线', icon: 'none' });
+    if (!place) return;
+    Taro.navigateTo({ url: '/pages/checkin/index?placeId=' + place.id });
   };
 
   const handleShare = () => {
@@ -211,6 +216,58 @@ export default function PlaceDetail() {
           <Text className='place-detail__stats-dot'>·</Text>
           <Text className='place-detail__stats-item'>收藏于 {formatDate(place.collectedAt)}</Text>
         </View>
+
+        {/* 记忆时间轴 */}
+        {checkins.length > 0 && (
+          <View className='place-detail__timeline'>
+            <View className='place-detail__timeline-header'>
+              <Text className='place-detail__timeline-title'>记忆时间轴</Text>
+              <Text className='place-detail__timeline-count'>{checkins.length} 条记录</Text>
+            </View>
+            {checkins.map((checkin, idx) => (
+              <View key={checkin.id} className='place-detail__timeline-item'>
+                {/* 时间轴线 */}
+                <View className='place-detail__timeline-dot' />
+                {idx < checkins.length - 1 && <View className='place-detail__timeline-line' />}
+
+                <View className='place-detail__timeline-content'>
+                  <Text className='place-detail__timeline-date'>
+                    {formatDate(checkin.checkinAt)}
+                    {checkin.isFirst && <Text className='place-detail__timeline-badge'>首次收藏</Text>}
+                  </Text>
+                  {/* 事件标签 */}
+                  {checkin.tags.length > 0 && (
+                    <View className='place-detail__timeline-tags'>
+                      {checkin.tags.map((tag) => (
+                        <Text key={tag.id} className='place-detail__timeline-tag'>
+                          #{tag.name}
+                        </Text>
+                      ))}
+                    </View>
+                  )}
+                  {/* 文字内容 */}
+                  {checkin.content && (
+                    <Text className='place-detail__timeline-text'>{checkin.content}</Text>
+                  )}
+                  {/* 图片缩略图 */}
+                  {checkin.images.length > 0 && (
+                    <View className='place-detail__timeline-images'>
+                      {checkin.images.map((url, i) => (
+                        <Image
+                          key={i}
+                          className='place-detail__timeline-image'
+                          src={url}
+                          mode='aspectFill'
+                          onClick={() => Taro.previewImage({ urls: checkin.images, current: url })}
+                        />
+                      ))}
+                    </View>
+                  )}
+                </View>
+              </View>
+            ))}
+          </View>
+        )}
 
         {/* 小地图缩略（只读，显示该地点 marker + 路标装饰） */}
         <View className='place-detail__map-block'>
