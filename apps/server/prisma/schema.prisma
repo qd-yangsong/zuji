@@ -50,6 +50,7 @@ model Tag {
   usageCount  Int       @default(0) // 使用次数，用于热门排序
   group       TagGroup? @relation(fields: [groupId], references: [id], onDelete: SetNull)
   placeTags   PlaceTag[]
+  checkinTags CheckInTag[]
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 
@@ -72,6 +73,7 @@ model Place {
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
   tags            PlaceTag[]
+  checkins        CheckIn[]
 
   @@index([userId])
   @@index([userId, collectedAt])
@@ -90,4 +92,37 @@ model PlaceTag {
   @@unique([placeId, tagId])
   @@index([tagId])
   @@map("place_tags")
+}
+
+// 打卡记录 —— 用户在某个地点的一次到访记录
+model CheckIn {
+  id          String   @id @default(cuid())
+  placeId     String   // 关联地点
+  userId      String   // 所属用户
+  content     String?  // 文字日记
+  images      String[] // 图片 URL 列表（PostgreSQL 数组）
+  isFirst     Boolean  @default(false) // 是否首次收藏时的记录
+  checkinAt   DateTime @default(now()) // 打卡时间
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  place       Place    @relation(fields: [placeId], references: [id], onDelete: Cascade)
+  tags        CheckInTag[]
+
+  @@index([placeId, checkinAt])
+  @@index([userId])
+  @@map("checkins")
+}
+
+// 打卡-事件标签中间表（多对多）
+model CheckInTag {
+  id         String   @id @default(cuid())
+  checkinId  String
+  tagId      String
+  checkin    CheckIn  @relation(fields: [checkinId], references: [id], onDelete: Cascade)
+  tag        Tag      @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+
+  @@unique([checkinId, tagId])
+  @@index([tagId])
+  @@map("checkin_tags")
 }

@@ -130,3 +130,27 @@ export interface PlaceThemeExtension {
   themeId?: string;             // 用户指定的主题 ID（不指定则按名称哈希）
   customIllustUrl?: string;     // 用户上传的自定义插画
 }
+
+// ========== 打卡记录类型 ==========
+
+// 打卡记录
+export interface CheckInDto {
+  id: string;
+  placeId: string;
+  userId: string;
+  content: string | null;
+  images: string[];
+  isFirst: boolean;
+  checkinAt: string;
+  createdAt: string;
+  updatedAt: string;
+  tags: TagDto[];
+}
+
+// 创建打卡请求
+export interface CreateCheckInDto {
+  placeId: string;
+  content?: string;
+  images?: string[];
+  eventTagIds: string[];
+}
