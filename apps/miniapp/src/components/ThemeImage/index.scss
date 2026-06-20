@@ -1,0 +1,14 @@
+.theme-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &--fallback {
+    background: transparent;
+  }
+
+  &__emoji {
+    font-size: 48rpx;
+    line-height: 1;
+  }
+}

@@ -4,7 +4,8 @@ import Taro, { usePullDownRefresh } from '@tarojs/taro';
 import { fetchPlaces } from '../../services/place';
 import { loginWithWx } from '../../services/auth';
 import { useUserStore } from '../../stores/userStore';
-import type { PlaceDto } from '@zuji/shared-types';
+import { resourceService } from '../../services/resource';
+import type { PlaceDto, ThemeResource } from '@zuji/shared-types';
 import './index.scss';
 
 type SortKey = 'recent' | 'year' | 'date' | 'checkin';
@@ -16,9 +17,6 @@ const SORT_TABS: { key: SortKey; label: string }[] = [
   { key: 'checkin', label: '打卡次数' },
 ];
 
-// 无封面时的占位色板
-const PLACEHOLDER_COLORS = ['#54A0FF', '#48DBFB', '#FF6B6B', '#FFD93D', '#6BCB77', '#FF9F43'];
-
 export default function Cards() {
   const { user, setUser } = useUserStore();
   const [places, setPlaces] = useState<PlaceDto[]>([]);
@@ -26,7 +24,6 @@ export default function Cards() {
   const [sort, setSort] = useState<SortKey>('recent');
   const [loginLoading, setLoginLoading] = useState(false);
 
-  // 加载地点列表
   const loadPlaces = async () => {
     setLoading(true);
     try {
@@ -39,7 +36,6 @@ export default function Cards() {
     }
   };
 
-  // 登录态变化或排序切换时重新加载
   useEffect(() => {
     if (user) {
       loadPlaces();
@@ -47,7 +43,6 @@ export default function Cards() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, sort]);
 
-  // 下拉刷新
   usePullDownRefresh(() => {
     if (user) {
       loadPlaces().finally(() => Taro.stopPullDownRefresh());
@@ -56,7 +51,6 @@ export default function Cards() {
     }
   });
 
-  // 微信一键登录
   const handleLogin = async () => {
     setLoginLoading(true);
     try {
@@ -78,13 +72,10 @@ export default function Cards() {
     Taro.navigateTo({ url: '/pages/place-create/index' });
   };
 
-  // 根据昵称首字生成占位背景色
-  const getPlaceholderColor = (name: string) => {
-    const idx = name.charCodeAt(0) % PLACEHOLDER_COLORS.length;
-    return PLACEHOLDER_COLORS[idx];
-  };
+  // 选第一个属性标签（如"美食"）作为分类彩标色
+  const firstAttributeTag = (place: PlaceDto) =>
+    place.tags.find((t) => t.type === 'attribute');
 
-  // 未登录时显示登录引导
   if (!user) {
     return (
       <View className='cards cards--login'>
@@ -101,6 +92,18 @@ export default function Cards() {
 
   return (
     <View className='cards'>
+      {/* 顶部标题栏（带四角小装饰） */}
+      <View className='cards__header'>
+        <Text className='cards__deco cards__deco--tl'>✦</Text>
+        <Text className='cards__deco cards__deco--tr'>✦</Text>
+        <Text className='cards__deco cards__deco--bl'>✧</Text>
+        <Text className='cards__deco cards__deco--br'>✧</Text>
+        <Text className='cards__title'>我的地点</Text>
+        <View className='cards__search' onClick={() => Taro.showToast({ title: '搜索即将上线', icon: 'none' })}>
+          <Text className='cards__search-icon'>⌕</Text>
+        </View>
+      </View>
+
       {/* 排序栏 */}
       <View className='cards__sort-bar'>
         {SORT_TABS.map((tab) => (
@@ -120,57 +123,95 @@ export default function Cards() {
           <Text>加载中...</Text>
         </View>
       ) : places.length === 0 ? (
-        <View className='cards__empty'>
-          <Text className='cards__empty-text'>
-            还没有收藏任何地点，点击 + 标记第一个对你重要的地方
-          </Text>
+        // 空状态：设计图中的"还没有收藏"提示卡片
+        <View className='cards__empty-wrap'>
+          <View className='cards__empty-card'>
+            <View className='cards__empty-icon'>
+              <Text>📍</Text>
+            </View>
+            <View className='cards__empty-text-col'>
+              <Text className='cards__empty-title'>还没有收藏任何地点</Text>
+              <Text className='cards__empty-sub'>去标记第一个对你重要的地方吧</Text>
+            </View>
+          </View>
         </View>
       ) : (
-        <View className='cards__list'>
-          {places.map((place) => (
-            <View key={place.id} className='cards__item'>
-              <View className='cards__card' onClick={() => handleCardClick(place)}>
-                {/* 封面图（有封面用图片，无封面用纯色占位+首字） */}
-                <View className='cards__cover'>
-                  {place.coverImage ? (
-                    <Image className='cards__cover-img' src={place.coverImage} mode='aspectFill' />
-                  ) : (
-                    <View
-                      className='cards__cover-placeholder'
-                      style={{ background: getPlaceholderColor(place.customName) }}
-                    >
-                      <Text className='cards__cover-letter'>
-                        {place.customName.charAt(0)}
+        // 整齐双列网格（与设计图一致：每张卡片等高对齐）
+        <View className='cards__grid'>
+          {places.map((place) => {
+            const theme = resourceService.getThemeByName(place.customName);
+            const attrTag = firstAttributeTag(place);
+            const sceneTag = place.tags.find((t) => t.type === 'scene');
+            return (
+              <View key={place.id} className='cards__cell'>
+                <View
+                  className='cards__card'
+                  style={{ background: theme.bg }}
+                  onClick={() => handleCardClick(place)}
+                >
+                  {/* 角落装饰（与设计图同款：星/钻/爱心） */}
+                  <Text className='cards__card-deco'>{theme.deco}</Text>
+                  <Text className='cards__card-heart'>♡</Text>
+
+                  {/* 中央 3D 插画占位（emoji） */}
+                  <View className='cards__card-illu'>
+                    <Text className='cards__card-emoji'>{theme.emoji}</Text>
+                  </View>
+
+                  {/* 左上首字圆形图标 */}
+                  <View
+                    className='cards__card-badge'
+                    style={{ background: theme.iconBg }}
+                  >
+                    <Text style={{ color: theme.iconColor }}>
+                      {place.customName.charAt(0)}
+                    </Text>
+                  </View>
+
+                  {/* 底部信息 */}
+                  <View className='cards__card-info'>
+                    <Text className='cards__card-name'>{place.customName}</Text>
+                    <Text className='cards__card-sub'>{place.realName}</Text>
+                    <View className='cards__card-meta'>
+                      <Text className='cards__card-checkin'>
+                        {place.checkinCount > 0 ? `打卡 ${place.checkinCount} 次` : '还没打过卡'}
                       </Text>
+                      {attrTag && (
+                        <Text className='cards__card-attrtag'>{attrTag.name}</Text>
+                      )}
                     </View>
-                  )}
-                </View>
-                {/* 卡片信息 */}
-                <View className='cards__info'>
-                  <Text className='cards__custom-name'>{place.customName}</Text>
-                  <Text className='cards__real-name'>{place.realName}</Text>
-                  <Text className='cards__checkin'>
-                    {place.checkinCount > 0 ? `打卡 ${place.checkinCount} 次` : '还没打过卡'}
-                  </Text>
-                  {place.tags.length > 0 && (
-                    <View className='cards__tags'>
-                      {place.tags.slice(0, 2).map((tag) => (
-                        <Text key={tag.id} className='cards__tag'>
-                          {tag.name}
-                        </Text>
-                      ))}
-                    </View>
-                  )}
+                    {sceneTag && (
+                      <View className='cards__card-scenetag'>
+                        <Text>适合{sceneTag.name}</Text>
+                      </View>
+                    )}
+                  </View>
                 </View>
               </View>
-            </View>
-          ))}
+            );
+          })}
         </View>
       )}
 
       {/* 浮动添加按钮 */}
       <View className='cards__fab' onClick={handleAddPlace}>
         <Text className='cards__fab-icon'>+</Text>
+      </View>
+
+      {/* 底部 TabBar（地点/发现/我的） */}
+      <View className='cards__tabbar'>
+        <View className='cards__tab cards__tab--active'>
+          <Text className='cards__tab-icon'>📍</Text>
+          <Text className='cards__tab-label'>地点</Text>
+        </View>
+        <View className='cards__tab' onClick={() => Taro.showToast({ title: '发现即将上线', icon: 'none' })}>
+          <Text className='cards__tab-icon'>◫</Text>
+          <Text className='cards__tab-label'>发现</Text>
+        </View>
+        <View className='cards__tab' onClick={() => Taro.showToast({ title: '我的即将上线', icon: 'none' })}>
+          <Text className='cards__tab-icon'>👤</Text>
+          <Text className='cards__tab-label'>我的</Text>
+        </View>
       </View>
     </View>
   );

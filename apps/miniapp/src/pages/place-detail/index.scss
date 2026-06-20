@@ -1,34 +1,147 @@
+// 地点详情页样式
+
 .place-detail {
   min-height: 100vh;
-  background: #f5f5f5;
-  // 为底部按钮区留出空间
-  padding-bottom: 140rpx;
+  background: #fff8f0;
+  // 底部按钮区留出空间
+  padding-bottom: 180rpx;
 
-  // ===== 封面图 =====
-  &__cover {
-    width: 100%;
-    height: 400rpx;
+  // ===== 顶部导航 =====
+  &__nav {
     position: relative;
+    height: 88rpx;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16rpx;
+    z-index: 10;
+  }
+
+  &__nav-btn {
+    width: 64rpx;
+    height: 64rpx;
+    border-radius: 50%;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.08);
+  }
+
+  &__nav-icon {
+    font-size: 44rpx;
+    color: #333;
+    line-height: 1;
+    font-weight: 300;
+  }
+
+  &__nav-title {
+    font-size: 32rpx;
+    font-weight: 600;
+    color: #333;
+  }
+
+  // ===== 封面区（渐变背景 + 双栏：左字右图） =====
+  &__cover {
+    position: relative;
+    margin: 0 24rpx;
+    height: 360rpx;
+    border-radius: 32rpx;
     overflow: hidden;
+    display: flex;
+    align-items: center;
+    padding: 32rpx;
+    box-sizing: border-box;
+    box-shadow: 0 6rpx 20rpx rgba(0, 0, 0, 0.08);
+  }
+
+  // 封面四角小装饰
+  &__cover-deco {
+    position: absolute;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 24rpx;
+    pointer-events: none;
+  }
+  &__cover-deco--tl { top: 16rpx;  left: 16rpx;  }
+  &__cover-deco--tr { top: 24rpx;  right: 200rpx; }
+  &__cover-deco--bl { bottom: 80rpx; left: 200rpx; }
+  &__cover-deco--br { bottom: 200rpx; right: 24rpx; }
+
+  &__cover-left {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 24rpx;
+  }
+
+  &__cover-badge {
+    width: 120rpx;
+    height: 120rpx;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
+  }
+
+  &__cover-letter {
+    font-size: 64rpx;
+    font-weight: bold;
+    line-height: 1;
+  }
+
+  &__cover-emoji {
+    font-size: 60rpx;
+    margin-top: 12rpx;
+    line-height: 1;
+  }
+
+  &__cover-right {
+    flex: 1;
+    position: relative;
+    height: 100%;
   }
 
   &__cover-img {
     width: 100%;
     height: 100%;
+    border-radius: 24rpx;
   }
 
-  &__cover-placeholder {
+  &__cover-img-fake {
     width: 100%;
     height: 100%;
+    border-radius: 24rpx;
+    background: rgba(255, 255, 255, 0.4);
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
-  &__cover-letter {
-    font-size: 80rpx;
-    color: #fff;
-    font-weight: bold;
+  &__cover-img-emoji {
+    font-size: 100rpx;
+    line-height: 1;
+  }
+
+  // 封面右下角小图片（设计图中的"小食"装饰）
+  &__cover-corner {
+    position: absolute;
+    bottom: -16rpx;
+    right: -8rpx;
+    width: 72rpx;
+    height: 72rpx;
+    background: #fff;
+    border-radius: 16rpx;
+    box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__cover-corner-emoji {
+    font-size: 36rpx;
+    line-height: 1;
   }
 
   // ===== 信息卡片（圆角向上覆盖封面底部） =====
@@ -38,42 +151,46 @@
     margin-top: -32rpx;
     position: relative;
     z-index: 1;
-    padding: 32rpx;
+    padding: 40rpx 32rpx 24rpx;
   }
 
   &__custom-name {
     display: block;
-    font-size: 32rpx;
+    font-size: 36rpx;
     font-weight: bold;
     color: #333;
   }
 
   &__meta {
-    margin-top: 8rpx;
+    display: flex;
+    align-items: center;
+    margin-top: 12rpx;
+  }
+
+  &__pin {
+    font-size: 24rpx;
+    margin-right: 6rpx;
   }
 
   &__real-name {
     font-size: 24rpx;
-    color: #999;
+    color: #888;
   }
 
   &__address {
     font-size: 24rpx;
-    color: #999;
+    color: #888;
   }
 
-  &__stats {
-    display: block;
-    font-size: 24rpx;
-    color: #666;
-    margin-top: 12rpx;
+  // ===== 标签区域（属性/场景分组） =====
+  &__tag-block {
+    margin-top: 24rpx;
   }
 
-  // ===== 标签区域 =====
   &__tag-row {
     display: flex;
     align-items: flex-start;
-    margin-top: 24rpx;
+    margin-bottom: 16rpx;
   }
 
   &__tag-label {
@@ -90,7 +207,6 @@
     flex: 1;
   }
 
-  // 胶囊标签样式
   &__tag {
     font-size: 24rpx;
     padding: 6rpx 20rpx;
@@ -101,26 +217,99 @@
     // 属性标签 - 蓝色系
     &--attribute {
       color: #54a0ff;
-      background: rgba(84, 160, 255, 0.1);
+      background: #e8f1ff;
     }
 
     // 场景标签 - 绿色系
     &--scene {
-      color: #6bcb77;
-      background: rgba(107, 203, 119, 0.1);
+      color: #4caf50;
+      background: #e8f5e9;
     }
   }
 
+  // ===== 分割线 =====
+  &__divider {
+    height: 1rpx;
+    background: #f0f0f0;
+    margin: 16rpx 0;
+  }
+
+  // ===== 统计信息 =====
+  &__stats {
+    display: flex;
+    align-items: center;
+    font-size: 24rpx;
+    color: #888;
+  }
+
+  &__stats-item {
+    display: flex;
+    align-items: center;
+  }
+
+  &__stats-icon {
+    color: #ffb84d;
+    font-size: 24rpx;
+    margin-right: 4rpx;
+  }
+
+  &__stats-dot {
+    margin: 0 12rpx;
+    color: #ccc;
+  }
+
   // ===== 小地图缩略 =====
+  &__map-block {
+    margin-top: 24rpx;
+  }
+
+  &__map-title {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12rpx;
+  }
+
+  &__map-icon {
+    font-size: 28rpx;
+    color: #54a0ff;
+    margin-right: 8rpx;
+  }
+
+  &__map-label {
+    font-size: 26rpx;
+    color: #333;
+    font-weight: 500;
+  }
+
   &__map-wrapper {
-    margin-top: 32rpx;
+    position: relative;
     border-radius: 16rpx;
     overflow: hidden;
   }
 
   &__map {
     width: 100%;
-    height: 300rpx;
+    height: 320rpx;
+  }
+
+  // 右下角路标装饰
+  &__map-sign {
+    position: absolute;
+    bottom: 16rpx;
+    right: 16rpx;
+    width: 56rpx;
+    height: 56rpx;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__map-sign-icon {
+    color: #54a0ff;
+    font-size: 28rpx;
   }
 
   // ===== 底部按钮区 =====
@@ -140,22 +329,34 @@
 
   &__btn {
     flex: 1;
-    height: 80rpx;
-    background: #54a0ff;
-    border-radius: 40rpx;
+    height: 88rpx;
+    border-radius: 44rpx;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #fff;
-    font-size: 28rpx;
+    font-size: 30rpx;
     font-weight: 500;
 
-    // 分享按钮用描边样式
+    &--primary {
+      background: #54a0ff;
+      color: #fff;
+    }
+
     &--outline {
       background: #fff;
       color: #54a0ff;
       border: 2rpx solid #54a0ff;
     }
+  }
+
+  &__btn-icon {
+    font-size: 32rpx;
+    margin-right: 8rpx;
+    line-height: 1;
+  }
+
+  &__btn-text {
+    line-height: 1;
   }
 
   // ===== 加载/错误状态 =====

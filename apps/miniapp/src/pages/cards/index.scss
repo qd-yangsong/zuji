@@ -1,149 +1,221 @@
+// 卡片墙页面样式
+
 .cards {
   min-height: 100vh;
-  background: #f5f5f5;
+  background: #fff8f0; // 米色暖色背景，与设计图一致
+  // 底部 TabBar 留出空间
+  padding-bottom: 140rpx;
 
-  // ===== 排序栏（固定顶部） =====
-  &__sort-bar {
-    display: flex;
-    background: #fff;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    border-bottom: 2rpx solid #f0f0f0;
-  }
-
-  &__sort-tab {
-    flex: 1;
-    text-align: center;
-    padding: 24rpx 0;
-    font-size: 28rpx;
-    color: #666;
+  // ===== 顶部标题栏 =====
+  &__header {
     position: relative;
-
-    &--active {
-      color: #54a0ff;
-      font-weight: 600;
-
-      // 选中态下划线
-      &::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 48rpx;
-        height: 4rpx;
-        background: #54a0ff;
-        border-radius: 2rpx;
-      }
-    }
-  }
-
-  // ===== 双列卡片列表 =====
-  &__list {
-    display: flex;
-    flex-wrap: wrap;
-    padding: 16rpx;
-  }
-
-  &__item {
-    width: 50%;
-    padding: 8rpx;
-    box-sizing: border-box;
-  }
-
-  &__card {
-    border-radius: 16rpx;
-    overflow: hidden;
-    background: #fff;
-    box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.06);
-  }
-
-  // 封面区域（4:3 宽高比）
-  &__cover {
-    width: 100%;
-    padding-top: 75%;
-    position: relative;
-    overflow: hidden;
-  }
-
-  &__cover-img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-  }
-
-  &__cover-placeholder {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    padding: 24rpx 32rpx 12rpx;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
-  &__cover-letter {
-    font-size: 56rpx;
-    color: #fff;
-    font-weight: bold;
+  &__title {
+    font-size: 36rpx;
+    font-weight: 600;
+    color: #333;
+    letter-spacing: 4rpx;
   }
 
-  // 卡片信息区
-  &__info {
+  &__search {
+    position: absolute;
+    right: 32rpx;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 60rpx;
+    height: 60rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__search-icon {
+    font-size: 40rpx;
+    color: #333;
+  }
+
+  // 标题栏四角装饰（与设计图同款）
+  &__deco {
+    position: absolute;
+    color: #f5a3a3;
+    font-size: 24rpx;
+    pointer-events: none;
+  }
+  &__deco--tl { top: 16rpx;  left: 80rpx;  }
+  &__deco--tr { top: 16rpx;  right: 100rpx; }
+  &__deco--bl { top: 56rpx;  left: 56rpx;  }
+  &__deco--br { top: 56rpx;  right: 76rpx; }
+
+  // ===== 排序栏 =====
+  &__sort-bar {
+    display: flex;
+    background: transparent;
+    padding: 16rpx 16rpx 8rpx;
+  }
+
+  &__sort-tab {
+    flex: 1;
+    text-align: center;
+    padding: 16rpx 0;
+    font-size: 28rpx;
+    color: #666;
+    position: relative;
+
+    &--active {
+      color: #333;
+      font-weight: 600;
+      // 选中态下划线
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 4rpx;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 56rpx;
+        height: 6rpx;
+        background: #54a0ff;
+        border-radius: 3rpx;
+      }
+    }
+  }
+
+  // ===== 整齐双列网格（与设计图一致：每张卡片等高对齐） =====
+  &__grid {
+    display: flex;
+    flex-wrap: wrap;
     padding: 16rpx;
   }
 
-  &__custom-name {
+  &__cell {
+    width: 50%;
+    padding: 10rpx;
+    box-sizing: border-box;
+  }
+
+  &__card {
+    position: relative;
+    border-radius: 24rpx;
+    overflow: hidden;
+    box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.08);
+    // 固定高度，让双列卡片整齐对齐
+    height: 420rpx;
+    padding: 20rpx;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+  }
+
+  // 左上首字圆形图标
+  &__card-badge {
+    width: 56rpx;
+    height: 56rpx;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+  }
+
+  // 角落小装饰（星/钻）
+  &__card-deco {
+    position: absolute;
+    top: 18rpx;
+    right: 70rpx;
+    font-size: 32rpx;
+    z-index: 1;
+  }
+
+  // 右上收藏爱心
+  &__card-heart {
+    position: absolute;
+    top: 20rpx;
+    right: 24rpx;
+    font-size: 36rpx;
+    color: #ff8a8a;
+    z-index: 2;
+  }
+
+  // 中央 3D 插画区
+  &__card-illu {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__card-emoji {
+    font-size: 120rpx;
+    line-height: 1;
+  }
+
+  // 底部信息区
+  &__card-info {
+    margin-top: 8rpx;
+  }
+
+  &__card-name {
     display: block;
-    font-size: 28rpx;
-    font-weight: bold;
+    font-size: 30rpx;
+    font-weight: 600;
     color: #333;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 
-  &__real-name {
+  &__card-sub {
     display: block;
     font-size: 22rpx;
-    color: #999;
+    color: #888;
     margin-top: 4rpx;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 
-  &__checkin {
-    display: block;
+  &__card-meta {
+    display: flex;
+    align-items: center;
+    margin-top: 8rpx;
+  }
+
+  &__card-checkin {
     font-size: 22rpx;
     color: #666;
-    margin-top: 8rpx;
   }
 
-  &__tags {
-    display: flex;
-    flex-wrap: wrap;
-    margin-top: 8rpx;
+  &__card-attrtag {
+    margin-left: 16rpx;
+    font-size: 22rpx;
+    color: #333;
+    background: rgba(255, 255, 255, 0.55);
+    padding: 2rpx 14rpx;
+    border-radius: 20rpx;
   }
 
-  &__tag {
-    font-size: 20rpx;
-    color: #54a0ff;
-    background: rgba(84, 160, 255, 0.1);
-    padding: 2rpx 12rpx;
-    border-radius: 16rpx;
-    margin-right: 8rpx;
+  &__card-scenetag {
+    margin-top: 8rpx;
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.55);
+    border-radius: 20rpx;
+    padding: 2rpx 14rpx;
+
+    text {
+      font-size: 22rpx;
+      color: #333;
+    }
   }
 
   // ===== 浮动添加按钮 =====
   &__fab {
     position: fixed;
     right: 32rpx;
-    bottom: 120rpx;
+    bottom: 200rpx;
     width: 56px;
     height: 56px;
     border-radius: 50%;
@@ -151,7 +223,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4rpx 16rpx rgba(84, 160, 255, 0.4);
+    box-shadow: 0 6rpx 20rpx rgba(84, 160, 255, 0.4);
     z-index: 100;
   }
 
@@ -161,19 +233,50 @@
     line-height: 1;
   }
 
-  // ===== 空状态 =====
-  &__empty {
+  // ===== 空状态卡片（与设计图同款） =====
+  &__empty-wrap {
+    padding: 24rpx 16rpx 0;
+  }
+
+  &__empty-card {
+    display: flex;
+    align-items: center;
+    padding: 32rpx 24rpx;
+    background: #fff;
+    border: 2rpx dashed #c0d8ff;
+    border-radius: 16rpx;
+  }
+
+  &__empty-icon {
+    width: 56rpx;
+    height: 56rpx;
+    border-radius: 50%;
+    background: #e8f1ff;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 200rpx 64rpx;
+    margin-right: 20rpx;
+    flex-shrink: 0;
+
+    text {
+      font-size: 32rpx;
+    }
   }
 
-  &__empty-text {
+  &__empty-text-col {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__empty-title {
     font-size: 28rpx;
+    color: #333;
+  }
+
+  &__empty-sub {
+    font-size: 24rpx;
     color: #999;
-    text-align: center;
-    line-height: 1.6;
+    margin-top: 4rpx;
   }
 
   // ===== 加载中 =====
@@ -211,5 +314,41 @@
     &--disabled {
       opacity: 0.6;
     }
+  }
+
+  // ===== 底部 TabBar =====
+  &__tabbar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    background: #fff;
+    border-top: 1rpx solid #eee;
+    padding-bottom: env(safe-area-inset-bottom);
+    z-index: 50;
+  }
+
+  &__tab {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16rpx 0;
+    color: #999;
+
+    &--active {
+      color: #54a0ff;
+    }
+  }
+
+  &__tab-icon {
+    font-size: 40rpx;
+    line-height: 1;
+  }
+
+  &__tab-label {
+    font-size: 22rpx;
+    margin-top: 6rpx;
   }
 }
