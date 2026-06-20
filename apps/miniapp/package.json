@@ -1,0 +1,50 @@
+{
+  "name": "miniapp",
+  "version": "1.0.0",
+  "private": true,
+  "description": "足迹手帐",
+  "templateInfo": {
+    "name": "default",
+    "typescript": true,
+    "css": "sass",
+    "framework": "React"
+  },
+  "scripts": {
+    "build:weapp": "taro build --type weapp",
+    "dev:weapp": "npm run build:weapp -- --watch"
+  },
+  "browserslist": [
+    "last 3 versions",
+    "Android >= 4.1",
+    "iOS >= 8"
+  ],
+  "dependencies": {
+    "@babel/runtime": "^7.21.5",
+    "@nutui/nutui-react-taro": "^3.0.20",
+    "@tarojs/components": "4.x",
+    "@tarojs/helper": "4.x",
+    "@tarojs/plugin-framework-react": "4.x",
+    "@tarojs/plugin-platform-weapp": "4.x",
+    "@tarojs/react": "4.x",
+    "@tarojs/runtime": "4.x",
+    "@tarojs/shared": "4.x",
+    "@tarojs/taro": "4.x",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "zustand": "^5.0.14"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.24.0",
+    "@babel/preset-react": "^8.0.1",
+    "@tarojs/cli": "4.x",
+    "@tarojs/taro-loader": "4.x",
+    "@tarojs/webpack5-runner": "4.x",
+    "@types/react": "^18.0.0",
+    "@types/webpack-env": "^1.13.6",
+    "babel-plugin-import": "^1.13.8",
+    "babel-preset-taro": "4.x",
+    "react-refresh": "^0.11.0",
+    "typescript": "^5.4.0",
+    "webpack": "5.91.0"
+  }
+}

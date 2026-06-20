@@ -1,0 +1,10 @@
+# 构建产物
+dist/
+
+# Taro 缓存
+.taro/
+.taro4.0/
+.swc/
+
+# 依赖
+node_modules/
