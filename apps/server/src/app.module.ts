@@ -10,6 +10,10 @@ import { PlaceModule } from './modules/place/place.module';
 import { CheckInModule } from './modules/checkin/checkin.module';
 import { CollectionModule } from './modules/collection/collection.module';
 import { ShareModule } from './modules/share/share.module';
+import { AdminAuthModule } from './modules/admin-auth/admin-auth.module';
+import { AdminAssetModule } from './modules/admin-asset/admin-asset.module';
+import { AdminThemeModule } from './modules/admin-theme/admin-theme.module';
+import { ConfigModule as PublicConfigModule } from './modules/config/config.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
@@ -26,6 +30,10 @@ import { AppService } from './app.service';
     CheckInModule,
     CollectionModule,
     ShareModule,
+    AdminAuthModule,
+    AdminAssetModule,
+    AdminThemeModule,
+    PublicConfigModule,
   ],
   controllers: [AppController],
   providers: [AppService],

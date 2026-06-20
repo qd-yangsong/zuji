@@ -11,13 +11,18 @@ datasource db {
 }
 
 model User {
-  id          String   @id @default(cuid())
-  openid      String   @unique
-  unionid     String?  @unique
-  nickname    String?
-  avatarUrl   String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id           String   @id @default(cuid())
+  openid       String   @unique
+  unionid      String?  @unique
+  nickname     String?
+  avatarUrl    String?
+  role         String   @default("user") // user | admin
+  status       String   @default("active") // active | banned
+  bannedAt     DateTime?
+  bannedReason String?
+  password     String?  // 仅 admin 账号有密码（bcrypt 哈希）
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
   @@map("users")
 }
@@ -70,6 +75,8 @@ model Place {
   coverImage      String?  // 封面图 URL
   checkinCount    Int      @default(0) // 打卡次数（计算字段，由 CheckIn 触发更新）
   collectedAt     DateTime @default(now()) // 收藏时间
+  reviewStatus    String   @default("passed") // passed | pending | rejected
+  reviewReason    String?  // 审核拒绝原因
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
   tags            PlaceTag[]
@@ -104,6 +111,8 @@ model CheckIn {
   images      String[] // 图片 URL 列表（PostgreSQL 数组）
   isFirst     Boolean  @default(false) // 是否首次收藏时的记录
   checkinAt   DateTime @default(now()) // 打卡时间
+  reviewStatus String  @default("passed") // passed | pending | rejected
+  reviewReason String? // 审核拒绝原因
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   place       Place    @relation(fields: [placeId], references: [id], onDelete: Cascade)
@@ -156,4 +165,94 @@ model CollectionPlace {
   @@unique([collectionId, placeId])
   @@index([placeId])
   @@map("collection_places")
+}
+
+// ========== 后台管理相关模型 ==========
+
+// 素材资源 —— 主题插画、装饰图标、空状态插画等
+model Asset {
+  id         String   @id @default(cuid())
+  category   String   // theme_illust | theme_deco | empty_state | tag_icon | logo
+  key        String   // 资源标识，如 "night.illustUrl"
+  name       String   // 资源名称
+  url        String   // COS URL
+  mimeType   String   // image/png | image/svg+xml
+  fileSize   Int      // 文件大小（字节）
+  status     String   @default("active") // active | inactive
+  uploadedBy String   // 上传管理员 ID
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([category, status])
+  @@map("assets")
+}
+
+// 主题配置版本 —— 远程下发给小程序的主题配置
+model ThemeConfig {
+  id        String   @id @default(cuid())
+  version   String   @unique // 版本号
+  config    Json     // 完整的 ThemeResource[] JSON
+  isActive  Boolean  @default(false) // 当前生效版本
+  updatedBy String   // 更新管理员 ID
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("theme_configs")
+}
+
+// 用户反馈 —— 小程序用户提交的反馈
+model Feedback {
+  id         String   @id @default(cuid())
+  userId     String?  // 反馈用户 ID
+  openid     String?  // 用户 openid
+  type       String   // bug | suggestion | complaint | other
+  content    String   // 反馈内容
+  images     String[] // 截图 URL 列表
+  contact    String?  // 联系方式
+  appVersion String?  // 小程序版本号
+  platform   String?  // 设备信息
+  status     String   @default("pending") // pending | processing | resolved | closed
+  reply      String?  // 管理员回复
+  repliedBy  String?  // 回复管理员 ID
+  repliedAt  DateTime?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([status, createdAt])
+  @@index([userId])
+  @@map("feedbacks")
+}
+
+// 公告 —— 管理员发布给小程序用户的通知
+model Announcement {
+  id           String    @id @default(cuid())
+  title        String    // 公告标题
+  content      String    // 公告内容（支持纯文本）
+  type         String    @default("popup") // popup | banner | update_tip
+  isActive     Boolean   @default(false) // 是否生效
+  minVersion   String?   // 最低版本要求（低于此版本不展示）
+  linkUrl      String?   // 「了解更多」跳转链接
+  startAt      DateTime? // 生效开始时间
+  endAt        DateTime? // 生效结束时间
+  publishedBy  String?   // 发布管理员 ID
+  publishedAt  DateTime? // 发布时间
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@index([isActive, type])
+  @@map("announcements")
+}
+
+// 管理员操作日志
+model AdminLog {
+  id        String   @id @default(cuid())
+  adminId   String   // 操作管理员 ID
+  action    String   // 操作类型
+  target    String?  // 操作目标 ID
+  detail    String?  // 操作详情（JSON 字符串）
+  ip        String?  // 操作 IP
+  createdAt DateTime @default(now())
+
+  @@index([adminId, createdAt])
+  @@map("admin_logs")
 }
