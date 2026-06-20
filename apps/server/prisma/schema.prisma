@@ -21,3 +21,37 @@ model User {
 
   @@map("users")
 }
+
+// 标签组 —— 用于场景标签的编组（如"陪伴场景""社交场景"）
+model TagGroup {
+  id        String   @id @default(cuid())
+  userId    String?  // null = 系统预设，所有用户共享
+  name      String   // 组名，如"陪伴场景"
+  color     String?  // 组颜色（十六进制），如"#FF6B6B"
+  icon      String?  // 组图标（emoji 或图标名）
+  tagType   String   // 该组允许的标签类型，目前仅 "scene"
+  isSystem  Boolean  @default(false) // 是否系统预设
+  tags      Tag[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@map("tag_groups")
+}
+
+// 标签 —— 三层体系：attribute（属性）/ scene（场景）/ event（事件）
+model Tag {
+  id          String    @id @default(cuid())
+  userId      String?   // null = 系统预设，所有用户共享
+  name        String    // 标签名称
+  type        String    // attribute | scene | event
+  groupId     String?   // 所属标签组（仅 scene 类型可归组）
+  isSystem    Boolean   @default(false) // 是否系统预设
+  usageCount  Int       @default(0) // 使用次数，用于热门排序
+  group       TagGroup? @relation(fields: [groupId], references: [id], onDelete: SetNull)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([userId, type])
+  @@map("tags")
+}
