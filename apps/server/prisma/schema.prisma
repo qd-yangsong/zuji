@@ -49,9 +49,45 @@ model Tag {
   isSystem    Boolean   @default(false) // 是否系统预设
   usageCount  Int       @default(0) // 使用次数，用于热门排序
   group       TagGroup? @relation(fields: [groupId], references: [id], onDelete: SetNull)
+  placeTags   PlaceTag[]
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 
   @@index([userId, type])
   @@map("tags")
+}
+
+// 地点 —— 用户收藏的地点，关联属性标签和场景标签
+model Place {
+  id              String   @id @default(cuid())
+  userId          String   // 所属用户
+  realName        String   // 地点真实名称（如"海底捞火锅（南门店）"）
+  customName      String   // 用户自定义昵称（如"我家楼下深夜小馆"）
+  latitude        Float    // 纬度
+  longitude       Float    // 经度
+  address         String?  // 详细地址
+  coverImage      String?  // 封面图 URL
+  checkinCount    Int      @default(0) // 打卡次数（计算字段，由 CheckIn 触发更新）
+  collectedAt     DateTime @default(now()) // 收藏时间
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  tags            PlaceTag[]
+
+  @@index([userId])
+  @@index([userId, collectedAt])
+  @@map("places")
+}
+
+// 地点-标签中间表（多对多）
+model PlaceTag {
+  id        String   @id @default(cuid())
+  placeId   String
+  tagId     String
+  place     Place    @relation(fields: [placeId], references: [id], onDelete: Cascade)
+  tag       Tag      @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([placeId, tagId])
+  @@index([tagId])
+  @@map("place_tags")
 }
