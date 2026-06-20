@@ -1,0 +1,119 @@
+.share-place {
+  min-height: 100vh;
+  background: #f8f9fa;
+  padding-bottom: 140rpx;
+
+  &__loading, &__error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 200rpx;
+    font-size: 30rpx;
+    color: #999;
+  }
+
+  &__cover {
+    height: 360rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24rpx;
+  }
+
+  &__cover-badge {
+    width: 96rpx;
+    height: 96rpx;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40rpx;
+    font-weight: bold;
+  }
+
+  &__cover-emoji {
+    font-size: 64rpx;
+  }
+
+  &__body {
+    margin-top: -32rpx;
+    background: #fff;
+    border-radius: 32rpx 32rpx 0 0;
+    padding: 40rpx 32rpx;
+  }
+
+  &__name {
+    font-size: 36rpx;
+    font-weight: bold;
+    color: #333;
+  }
+
+  &__meta {
+    display: flex;
+    align-items: center;
+    margin-top: 12rpx;
+  }
+
+  &__pin { font-size: 24rpx; }
+  &__real-name { font-size: 26rpx; color: #666; }
+  &__address { font-size: 26rpx; color: #999; }
+
+  &__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12rpx;
+    margin-top: 24rpx;
+  }
+
+  &__tag {
+    font-size: 24rpx;
+    padding: 6rpx 20rpx;
+    border-radius: 20rpx;
+
+    &--attr { color: #54a0ff; background: #ebf5ff; }
+    &--scene { color: #00b894; background: #e6fffa; }
+  }
+
+  &__stats {
+    margin-top: 24rpx;
+    font-size: 26rpx;
+    color: #999;
+  }
+
+  &__map {
+    width: 100%;
+    height: 300rpx;
+    border-radius: 16rpx;
+    margin-top: 24rpx;
+  }
+
+  &__tip {
+    display: block;
+    text-align: center;
+    font-size: 24rpx;
+    color: #ccc;
+    margin-top: 32rpx;
+  }
+
+  &__footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20rpx 32rpx;
+    background: #fff;
+    box-shadow: 0 -2rpx 10rpx rgba(0,0,0,0.05);
+  }
+
+  &__nav-btn {
+    height: 88rpx;
+    background: #54a0ff;
+    border-radius: 44rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 32rpx;
+    font-weight: bold;
+  }
+}

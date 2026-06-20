@@ -51,8 +51,22 @@ export default function PlaceDetail() {
     Taro.navigateTo({ url: '/pages/checkin/index?placeId=' + place.id });
   };
 
+  // 微信原生分享：定义分享卡片内容
+  Taro.useShareAppMessage(() => {
+    if (!place) return { title: '足迹手帐' };
+    return {
+      title: `来看看这个地点：${place.customName}`,
+      path: `/pages/share-place/index?id=${place.id}`,
+    };
+  });
+
   const handleShare = () => {
-    Taro.showToast({ title: '分享功能即将上线', icon: 'none' });
+    // 触发微信原生分享（showShareMenu 已在页面配置中启用）
+    Taro.showShareMenu({
+      withShareTicket: true,
+      menus: ['shareAppMessage', 'shareTimeline'],
+    });
+    Taro.showToast({ title: '点击右上角分享给好友', icon: 'none' });
   };
 
   const handleBack = () => {

@@ -9,6 +9,7 @@ export default defineAppConfig({
     'pages/collections/index',
     'pages/collection-detail/index',
     'pages/collection-create/index',
+    'pages/share-place/index',
   ],
   window: {
     backgroundTextStyle: 'light',
