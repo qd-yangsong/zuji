@@ -5,6 +5,8 @@ export default defineAppConfig({
     'pages/place-create/index',
     'pages/place-detail/index',
     'pages/checkin/index',
+    'pages/journey/index',
+    'pages/collections/index',
   ],
   window: {
     backgroundTextStyle: 'light',

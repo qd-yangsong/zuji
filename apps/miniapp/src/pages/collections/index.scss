@@ -1,0 +1,98 @@
+.collections {
+  min-height: 100vh;
+  background: #f8f9fa;
+  padding: 24rpx;
+
+  &__loading, &__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 200rpx;
+  }
+
+  &__empty {
+    &-icon { font-size: 80rpx; margin-bottom: 24rpx; }
+    &-title { font-size: 32rpx; font-weight: bold; color: #333; margin-bottom: 12rpx; }
+    &-sub { font-size: 26rpx; color: #999; text-align: center; }
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24rpx;
+  }
+
+  &__title {
+    font-size: 36rpx;
+    font-weight: bold;
+    color: #333;
+  }
+
+  &__add {
+    padding: 12rpx 28rpx;
+    background: #54a0ff;
+    color: #fff;
+    border-radius: 24rpx;
+    font-size: 26rpx;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 24rpx;
+  }
+
+  &__item {
+    background: #fff;
+    border-radius: 20rpx;
+    overflow: hidden;
+    box-shadow: 0 2rpx 10rpx rgba(0,0,0,0.05);
+  }
+
+  &__item-cover {
+    height: 200rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  &__item-img {
+    width: 100%;
+    height: 100%;
+  }
+
+  &__item-emoji {
+    font-size: 64rpx;
+  }
+
+  &__item-count {
+    position: absolute;
+    bottom: 16rpx;
+    right: 16rpx;
+    background: rgba(0,0,0,0.4);
+    color: #fff;
+    font-size: 22rpx;
+    padding: 4rpx 16rpx;
+    border-radius: 16rpx;
+  }
+
+  &__item-info {
+    padding: 24rpx;
+  }
+
+  &__item-name {
+    font-size: 30rpx;
+    font-weight: bold;
+    color: #333;
+  }
+
+  &__item-desc {
+    display: block;
+    font-size: 26rpx;
+    color: #999;
+    margin-top: 8rpx;
+  }
+}
