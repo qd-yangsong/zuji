@@ -1,11 +1,27 @@
 /**
  * 主题配置 —— 本地默认主题池
  *
- * 当前阶段用 emoji 作为装饰占位。
- * 后续替换为图片资源时，只需在 ThemeResource.illustUrl / decoUrl 填入路径，
- * 前端 ThemeImage 组件会自动优先使用图片，emoji 作为降级。
+ * 已接入本地插画图片素材，ThemeImage 组件会优先使用 illustUrl / decoUrl，
+ * emoji 作为降级兜底。
+ * 后续切换为远程配置时，只需在后台管理发布主题版本，
+ * ResourceService.setSource('remote') 即可自动拉取，无需改调用方代码。
  */
 import type { ThemeResource } from '@zuji/shared-types';
+
+// 本地图片资源（Taro/webpack 通过 require 处理本地图片）
+import nightIllust from '../assets/theme-illust/night.png';
+import coffeeIllust from '../assets/theme-illust/coffee.png';
+import parkIllust from '../assets/theme-illust/park.png';
+import gatherIllust from '../assets/theme-illust/gather.png';
+import stayIllust from '../assets/theme-illust/stay.png';
+import exhibitIllust from '../assets/theme-illust/exhibit.png';
+
+import nightDeco from '../assets/theme-deco/night.png';
+import coffeeDeco from '../assets/theme-deco/coffee.png';
+import parkDeco from '../assets/theme-deco/park.png';
+import gatherDeco from '../assets/theme-deco/gather.png';
+import stayDeco from '../assets/theme-deco/stay.png';
+import exhibitDeco from '../assets/theme-deco/exhibit.png';
 
 export const LOCAL_THEME_POOL: ThemeResource[] = [
   // 夜 - 深蓝星空
@@ -17,6 +33,8 @@ export const LOCAL_THEME_POOL: ThemeResource[] = [
     iconColor: '#3B4B7A',
     emoji: '🌙',
     deco: '✨',
+    illustUrl: nightIllust,
+    decoUrl: nightDeco,
   },
   // 咖 - 浅米色
   {
@@ -27,6 +45,8 @@ export const LOCAL_THEME_POOL: ThemeResource[] = [
     iconColor: '#FFFFFF',
     emoji: '☕',
     deco: '☁️',
+    illustUrl: coffeeIllust,
+    decoUrl: coffeeDeco,
   },
   // 园 - 浅绿色
   {
@@ -37,6 +57,8 @@ export const LOCAL_THEME_POOL: ThemeResource[] = [
     iconColor: '#FFFFFF',
     emoji: '🌳',
     deco: '⭐️',
+    illustUrl: parkIllust,
+    decoUrl: parkDeco,
   },
   // 聚 - 紫色
   {
@@ -47,6 +69,8 @@ export const LOCAL_THEME_POOL: ThemeResource[] = [
     iconColor: '#FFFFFF',
     emoji: '🥰',
     deco: '💕',
+    illustUrl: gatherIllust,
+    decoUrl: gatherDeco,
   },
   // 宿 - 橘色
   {
@@ -57,6 +81,8 @@ export const LOCAL_THEME_POOL: ThemeResource[] = [
     iconColor: '#FFFFFF',
     emoji: '🧳',
     deco: '🟠',
+    illustUrl: stayIllust,
+    decoUrl: stayDeco,
   },
   // 展 - 浅蓝
   {
@@ -67,6 +93,8 @@ export const LOCAL_THEME_POOL: ThemeResource[] = [
     iconColor: '#FFFFFF',
     emoji: '🖼️',
     deco: '💎',
+    illustUrl: exhibitIllust,
+    decoUrl: exhibitDeco,
   },
 ];
 

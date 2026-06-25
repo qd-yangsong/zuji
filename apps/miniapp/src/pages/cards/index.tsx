@@ -6,6 +6,7 @@ import { loginWithWx } from '../../services/auth';
 import { useUserStore } from '../../stores/userStore';
 import { resourceService } from '../../services/resource';
 import AnnouncementModal from '../../components/AnnouncementModal';
+import ThemeImage from '../../components/ThemeImage';
 import type { PlaceDto, ThemeResource } from '@zuji/shared-types';
 import './index.scss';
 
@@ -158,13 +159,15 @@ export default function Cards() {
                   style={{ background: theme.bg }}
                   onClick={() => handleCardClick(place)}
                 >
-                  {/* 角落装饰（与设计图同款：星/钻/爱心） */}
-                  <Text className='cards__card-deco'>{theme.deco}</Text>
+                  {/* 角落装饰图片 */}
+                  <View className='cards__card-deco'>
+                    <ThemeImage src={theme.decoUrl} emoji={theme.deco} className='cards__card-deco-img' mode='aspectFit' />
+                  </View>
                   <Text className='cards__card-heart'>♡</Text>
 
-                  {/* 中央 3D 插画占位（emoji） */}
+                  {/* 中央主题插画 */}
                   <View className='cards__card-illu'>
-                    <Text className='cards__card-emoji'>{theme.emoji}</Text>
+                    <ThemeImage src={theme.illustUrl} emoji={theme.emoji} className='cards__card-emoji' mode='aspectFit' />
                   </View>
 
                   {/* 左上首字圆形图标 */}

@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import Taro from '@tarojs/taro';
 import { fetchCollectionDetail } from '../../services/collection';
 import { resourceService } from '../../services/resource';
+import ThemeImage from '../../components/ThemeImage';
 import type { CollectionDto, PlaceDto } from '@zuji/shared-types';
 import './index.scss';
 
@@ -78,7 +79,7 @@ export default function CollectionDetail() {
           <Image className='collection-detail__cover-img' src={collection.coverImage} mode='aspectFill' />
         ) : (
           <View className='collection-detail__cover-emoji'>
-            <Text>{theme.emoji}</Text>
+            <ThemeImage src={theme.illustUrl} emoji={theme.emoji} className='collection-detail__cover-emoji-img' mode='aspectFit' />
           </View>
         )}
         <View className='collection-detail__edit' onClick={handleEdit}>

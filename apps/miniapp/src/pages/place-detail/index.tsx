@@ -4,6 +4,7 @@ import Taro from '@tarojs/taro';
 import { fetchPlaceDetail } from '../../services/place';
 import { fetchCheckins } from '../../services/checkin';
 import { resourceService } from '../../services/resource';
+import ThemeImage from '../../components/ThemeImage';
 import type { PlaceDto, TagDto, TagType, CheckInDto } from '@zuji/shared-types';
 import './index.scss';
 
@@ -168,7 +169,9 @@ export default function PlaceDetail() {
               {place.customName.charAt(0)}
             </Text>
           </View>
-          <Text className='place-detail__cover-emoji'>{theme.emoji}</Text>
+          <View className='place-detail__cover-emoji'>
+            <ThemeImage src={theme.illustUrl} emoji={theme.emoji} className='place-detail__cover-emoji-img' mode='aspectFit' />
+          </View>
         </View>
 
         {/* 右侧封面图（有则用实景图，无则用 emoji 占位） */}
@@ -181,12 +184,12 @@ export default function PlaceDetail() {
             />
           ) : (
             <View className='place-detail__cover-img-fake'>
-              <Text className='place-detail__cover-img-emoji'>{theme.emoji}</Text>
+              <ThemeImage src={theme.illustUrl} emoji={theme.emoji} className='place-detail__cover-img-emoji' mode='aspectFit' />
             </View>
           )}
           {/* 角落小图片装饰（设计图中的"小食"图） */}
           <View className='place-detail__cover-corner'>
-            <Text className='place-detail__cover-corner-emoji'>{theme.deco}</Text>
+            <ThemeImage src={theme.decoUrl} emoji={theme.deco} className='place-detail__cover-corner-img' mode='aspectFit' />
           </View>
         </View>
       </View>

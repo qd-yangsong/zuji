@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import Taro, { usePullDownRefresh } from '@tarojs/taro';
 import { fetchCollections } from '../../services/collection';
 import { resourceService } from '../../services/resource';
+import ThemeImage from '../../components/ThemeImage';
 import type { CollectionDto } from '@zuji/shared-types';
 import './index.scss';
 
@@ -81,7 +82,9 @@ export default function Collections() {
                   {collection.coverImage ? (
                     <Image className='collections__item-img' src={collection.coverImage} mode='aspectFill' />
                   ) : (
-                    <Text className='collections__item-emoji'>{theme.emoji}</Text>
+                    <View className='collections__item-emoji'>
+                      <ThemeImage src={theme.illustUrl} emoji={theme.emoji} className='collections__item-emoji-img' mode='aspectFit' />
+                    </View>
                   )}
                   <View className='collections__item-count'>
                     <Text>{collection.places.length} 个地点</Text>
