@@ -1,6 +1,9 @@
 import Taro from '@tarojs/taro';
 
-// 后端 API 基础地址，开发环境指向本地
+// 后端 API 基础地址
+// - 开发环境：process.env.TARO_APP_API_BASE 未定义，fallback 到 localhost
+// - 生产环境：config/prod.ts 中 defineConstants 注入真实域名
+// - 部署时只需修改 config/prod.ts 中的 defineConstants，无需改动此文件
 const BASE_URL = process.env.TARO_APP_API_BASE || 'http://localhost:3000/api';
 
 interface ApiResponse<T> {

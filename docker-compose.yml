@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  # PostgreSQL 数据库
+  postgres:
+    image: postgres:16-alpine
+    container_name: zuji-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER:-zuji}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: zuji
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - '127.0.0.1:5432:5432'
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U zuji']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis 缓存
+  redis:
+    image: redis:7-alpine
+    container_name: zuji-redis
+    restart: always
+    volumes:
+      - redis_data:/data
+    ports:
+      - '127.0.0.1:6379:6379'
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # NestJS 后端
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: zuji-server
+    restart: always
+    env_file:
+      - .env.production
+    ports:
+      - '127.0.0.1:3000:3000'
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+volumes:
+  pgdata:
+  redis_data:
