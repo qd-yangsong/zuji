@@ -24,3 +24,6 @@ npm-debug.log*
 # taro
 apps/miniapp/dist/
 apps/miniapp/.swc/
+
+# worktrees
+.worktrees/
