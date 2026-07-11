@@ -1,0 +1,69 @@
+/* 足迹手帐 · 单页面网站自定义样式 */
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* 杂志式全屏章节 */
+.magazine-page {
+  min-height: 100vh;
+  scroll-snap-align: start;
+}
+
+/* 纸张颗粒纹理 */
+.grain {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+}
+
+/* 手写感金句 */
+.handwritten {
+  font-family: 'Noto Serif SC', serif;
+  font-style: italic;
+}
+
+/* 卡片阴影 */
+.mockup-shadow {
+  box-shadow: 0 25px 80px -20px rgba(0, 0, 0, 0.25);
+}
+
+/* 漂浮动画 */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+.float {
+  animation: float 5s ease-in-out infinite;
+}
+
+.float-delay {
+  animation: float 6s ease-in-out infinite 1s;
+}
+
+/* 章节小标签 */
+.section-label {
+  letter-spacing: 0.25em;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  font-weight: 500;
+  opacity: 0.7;
+}
+
+@media (min-width: 768px) {
+  .section-label {
+    font-size: 0.875rem;
+  }
+}
+
+/* 移动端菜单默认隐藏 */
+.mobile-menu {
+  display: none;
+}
+
+.mobile-menu.is-open {
+  display: flex;
+}
