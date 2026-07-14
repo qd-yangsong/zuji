@@ -4,7 +4,7 @@ import Taro from '@tarojs/taro';
 import { fetchPlaceDetail } from '../../services/place';
 import { fetchCheckins } from '../../services/checkin';
 import { resourceService } from '../../services/resource';
-import ThemeImage from '../../components/ThemeImage';
+import ThemeShape from '../../components/ThemeShape';
 import type { PlaceDto, TagDto, TagType, CheckInDto } from '@zuji/shared-types';
 import './index.scss';
 
@@ -136,7 +136,7 @@ export default function PlaceDetail() {
       {/* 审核状态提示条 */}
       {place.reviewStatus === 'rejected' && (
         <View className='place-detail__review-tip place-detail__review-tip--rejected'>
-          <Text className='place-detail__review-tip-icon'>⚠</Text>
+          <View className='place-detail__review-tip-dot' />
           <Text className='place-detail__review-tip-text'>
             该内容已被审核下架{place.reviewReason ? `，原因：${place.reviewReason}` : ''}
           </Text>
@@ -144,53 +144,25 @@ export default function PlaceDetail() {
       )}
       {place.reviewStatus === 'pending' && (
         <View className='place-detail__review-tip place-detail__review-tip--pending'>
-          <Text className='place-detail__review-tip-icon'>⏳</Text>
+          <View className='place-detail__review-tip-dot' />
           <Text className='place-detail__review-tip-text'>该内容正在审核中</Text>
         </View>
       )}
 
-      {/* 封面区：渐变背景 + 首字装饰 + 角落装饰 */}
+      {/* 封面区：纯 CSS 渐变背景 + 居中首字徽章 + ThemeShape 图形 */}
       <View className='place-detail__cover' style={{ background: theme.gradient }}>
-        <Text className='place-detail__cover-deco place-detail__cover-deco--tl'>✦</Text>
-        <Text className='place-detail__cover-deco place-detail__cover-deco--tr'>✧</Text>
-        <Text className='place-detail__cover-deco place-detail__cover-deco--bl'>✦</Text>
-        <Text className='place-detail__cover-deco place-detail__cover-deco--br'>✧</Text>
-
-        {/* 左侧大号首字 + emoji 装饰 */}
-        <View className='place-detail__cover-left'>
-          <View
-            className='place-detail__cover-badge'
-            style={{ background: theme.iconBg }}
+        {/* 首字徽章：80rpx 白色圆形 */}
+        <View className='place-detail__cover-badge'>
+          <Text
+            className='place-detail__cover-letter'
+            style={{ color: theme.accent }}
           >
-            <Text
-              className='place-detail__cover-letter'
-              style={{ color: theme.iconColor }}
-            >
-              {place.customName.charAt(0)}
-            </Text>
-          </View>
-          <View className='place-detail__cover-emoji'>
-            <ThemeImage src={theme.illustUrl} emoji={theme.emoji} className='place-detail__cover-emoji-img' mode='aspectFit' />
-          </View>
+            {place.customName.charAt(0)}
+          </Text>
         </View>
-
-        {/* 右侧封面图（有则用实景图，无则用 emoji 占位） */}
-        <View className='place-detail__cover-right'>
-          {place.coverImage ? (
-            <Image
-              className='place-detail__cover-img'
-              src={place.coverImage}
-              mode='aspectFill'
-            />
-          ) : (
-            <View className='place-detail__cover-img-fake'>
-              <ThemeImage src={theme.illustUrl} emoji={theme.emoji} className='place-detail__cover-img-emoji' mode='aspectFit' />
-            </View>
-          )}
-          {/* 角落小图片装饰（设计图中的"小食"图） */}
-          <View className='place-detail__cover-corner'>
-            <ThemeImage src={theme.decoUrl} emoji={theme.deco} className='place-detail__cover-corner-img' mode='aspectFit' />
-          </View>
+        {/* 主题几何图形（放大 1.3 倍） */}
+        <View className='place-detail__cover-shape'>
+          <ThemeShape geoType={theme.geoType as any} className='place-detail__cover-shape-inner' />
         </View>
       </View>
 
@@ -198,7 +170,7 @@ export default function PlaceDetail() {
       <View className='place-detail__body'>
         <Text className='place-detail__custom-name'>{place.customName}</Text>
         <View className='place-detail__meta'>
-          <Text className='place-detail__pin'>📍</Text>
+          <View className='place-detail__pin-dot' />
           <Text className='place-detail__real-name'>{place.realName}</Text>
           {place.address && <Text className='place-detail__address'> · {place.address}</Text>}
         </View>
@@ -213,7 +185,8 @@ export default function PlaceDetail() {
                   {attributeTags.map((tag) => (
                     <Text
                       key={tag.id}
-                      className='place-detail__tag place-detail__tag--attribute'
+                      className='place-detail__tag'
+                      style={{ background: theme.light, color: theme.accent }}
                     >
                       {tag.name}
                     </Text>
@@ -228,7 +201,8 @@ export default function PlaceDetail() {
                   {sceneTags.map((tag) => (
                     <Text
                       key={tag.id}
-                      className='place-detail__tag place-detail__tag--scene'
+                      className='place-detail__tag'
+                      style={{ background: theme.light, color: theme.accent }}
                     >
                       适合{tag.name}
                     </Text>
@@ -260,7 +234,10 @@ export default function PlaceDetail() {
             {checkins.map((checkin, idx) => (
               <View key={checkin.id} className='place-detail__timeline-item'>
                 {/* 时间轴线 */}
-                <View className='place-detail__timeline-dot' />
+                <View
+                  className='place-detail__timeline-dot'
+                  style={{ background: theme.accent }}
+                />
                 {idx < checkins.length - 1 && <View className='place-detail__timeline-line' />}
 
                 <View className='place-detail__timeline-content'>
@@ -279,7 +256,11 @@ export default function PlaceDetail() {
                       {checkin.tags.length > 0 && (
                         <View className='place-detail__timeline-tags'>
                           {checkin.tags.map((tag) => (
-                            <Text key={tag.id} className='place-detail__timeline-tag'>
+                            <Text
+                              key={tag.id}
+                              className='place-detail__timeline-tag'
+                              style={{ background: theme.light, color: theme.accent }}
+                            >
                               #{tag.name}
                             </Text>
                           ))}
@@ -311,10 +292,10 @@ export default function PlaceDetail() {
           </View>
         )}
 
-        {/* 小地图缩略（只读，显示该地点 marker + 路标装饰） */}
+        {/* 小地图缩略（只读，显示该地点 marker） */}
         <View className='place-detail__map-block'>
           <View className='place-detail__map-title'>
-            <Text className='place-detail__map-icon'>📍</Text>
+            <View className='place-detail__map-pin-dot' />
             <Text className='place-detail__map-label'>位置</Text>
           </View>
           <View className='place-detail__map-wrapper'>
@@ -325,9 +306,9 @@ export default function PlaceDetail() {
               markers={markers}
               scale={16}
             />
-            {/* 右下角路标装饰（设计图中的小细节） */}
+            {/* 右下角主题装饰图形 */}
             <View className='place-detail__map-sign'>
-              <Text className='place-detail__map-sign-icon'>➤</Text>
+              <ThemeShape geoType={theme.geoType as any} />
             </View>
           </View>
         </View>
@@ -336,15 +317,14 @@ export default function PlaceDetail() {
       {/* 底部操作按钮 */}
       <View className='place-detail__footer'>
         <View className='place-detail__btn place-detail__btn--primary' onClick={handleCheckin}>
-          <Text className='place-detail__btn-icon'>👤</Text>
           <Text className='place-detail__btn-text'>打卡</Text>
         </View>
         <View
           className='place-detail__btn place-detail__btn--outline'
           onClick={handleShare}
         >
-          <Text className='place-detail__btn-icon'>↑</Text>
           <Text className='place-detail__btn-text'>分享</Text>
+          <Text className='place-detail__btn-sub'>即将上线</Text>
         </View>
       </View>
     </View>

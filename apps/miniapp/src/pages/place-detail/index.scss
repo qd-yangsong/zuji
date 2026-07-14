@@ -2,7 +2,7 @@
 
 .place-detail {
   min-height: 100vh;
-  background: #fff8f0;
+  background: #faf6f1;
   // 底部按钮区留出空间
   padding-bottom: 180rpx;
 
@@ -18,21 +18,27 @@
   }
 
   &__nav-btn {
-    width: 64rpx;
-    height: 64rpx;
+    width: 72rpx;
+    height: 72rpx;
     border-radius: 50%;
-    background: #fff;
+    background: rgba(255, 255, 255, 0.9);
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.08);
   }
 
   &__nav-icon {
-    font-size: 44rpx;
+    font-size: 48rpx;
     color: #333;
     line-height: 1;
     font-weight: 300;
+  }
+
+  &__nav-icon--more {
+    font-size: 44rpx;
+    font-weight: 600;
+    letter-spacing: 2rpx;
   }
 
   &__nav-title {
@@ -61,8 +67,13 @@
     color: #d48806;
   }
 
-  &__review-tip-icon {
-    font-size: 32rpx;
+  // 审核状态前缀小圆点（替代 emoji）
+  &__review-tip-dot {
+    width: 16rpx;
+    height: 16rpx;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background: currentColor;
   }
 
   &__review-tip-text {
@@ -71,114 +82,82 @@
     flex: 1;
   }
 
-  // ===== 封面区（渐变背景 + 双栏：左字右图） =====
+  // ===== 封面区（纯 CSS 渐变 + 居中布局） =====
   &__cover {
     position: relative;
     margin: 0 24rpx;
-    height: 360rpx;
-    border-radius: 32rpx;
+    height: 420rpx;
+    border-radius: 36rpx;
     overflow: hidden;
-    display: flex;
-    align-items: center;
-    padding: 32rpx;
-    box-sizing: border-box;
-    box-shadow: 0 6rpx 20rpx rgba(0, 0, 0, 0.08);
-  }
-
-  // 封面四角小装饰
-  &__cover-deco {
-    position: absolute;
-    color: rgba(255, 255, 255, 0.85);
-    font-size: 24rpx;
-    pointer-events: none;
-  }
-  &__cover-deco--tl { top: 16rpx;  left: 16rpx;  }
-  &__cover-deco--tr { top: 24rpx;  right: 200rpx; }
-  &__cover-deco--bl { bottom: 80rpx; left: 200rpx; }
-  &__cover-deco--br { bottom: 200rpx; right: 24rpx; }
-
-  &__cover-left {
-    flex: 0 0 auto;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-right: 24rpx;
+    justify-content: center;
+    gap: 24rpx;
+    box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.1);
+
+    // 色块叠加：左上浅色光斑
+    &::before {
+      content: '';
+      position: absolute;
+      top: -60rpx;
+      left: -60rpx;
+      width: 240rpx;
+      height: 240rpx;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.18);
+      pointer-events: none;
+    }
+
+    // 色块叠加：右下浅色光斑
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -40rpx;
+      right: -40rpx;
+      width: 180rpx;
+      height: 180rpx;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.12);
+      pointer-events: none;
+    }
   }
 
+  // 首字徽章：80rpx 白色圆形
   &__cover-badge {
-    width: 120rpx;
-    height: 120rpx;
+    width: 80rpx;
+    height: 80rpx;
     border-radius: 50%;
+    background: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8rpx 20rpx rgba(0, 0, 0, 0.15);
+    border: 3rpx solid rgba(255, 255, 255, 0.6);
+    z-index: 2;
   }
 
   &__cover-letter {
-    font-size: 64rpx;
+    font-size: 40rpx;
     font-weight: bold;
     line-height: 1;
   }
 
-  &__cover-emoji {
-    font-size: 60rpx;
-    margin-top: 12rpx;
-    line-height: 1;
+  // 主题几何图形容器（放大 1.3 倍）
+  &__cover-shape {
+    z-index: 2;
   }
 
-  &__cover-right {
-    flex: 1;
-    position: relative;
-    height: 100%;
-  }
-
-  &__cover-img {
-    width: 100%;
-    height: 100%;
-    border-radius: 24rpx;
-  }
-
-  &__cover-img-fake {
-    width: 100%;
-    height: 100%;
-    border-radius: 24rpx;
-    background: rgba(255, 255, 255, 0.4);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  &__cover-img-emoji {
-    font-size: 100rpx;
-    line-height: 1;
-  }
-
-  // 封面右下角小图片（设计图中的"小食"装饰）
-  &__cover-corner {
-    position: absolute;
-    bottom: -16rpx;
-    right: -8rpx;
-    width: 72rpx;
-    height: 72rpx;
-    background: #fff;
-    border-radius: 16rpx;
-    box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.15);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  &__cover-corner-emoji {
-    font-size: 36rpx;
-    line-height: 1;
+  &__cover-shape-inner {
+    transform: scale(1.3);
+    transform-origin: center;
   }
 
   // ===== 信息卡片（圆角向上覆盖封面底部） =====
   &__body {
     background: #fff;
-    border-radius: 32rpx 32rpx 0 0;
-    margin-top: -32rpx;
+    border-radius: 24rpx 24rpx 0 0;
+    margin-top: 24rpx;
     position: relative;
     z-index: 1;
     padding: 40rpx 32rpx 24rpx;
@@ -197,9 +176,14 @@
     margin-top: 12rpx;
   }
 
-  &__pin {
-    font-size: 24rpx;
-    margin-right: 6rpx;
+  // 位置前缀小圆点（替代 emoji）
+  &__pin-dot {
+    width: 12rpx;
+    height: 12rpx;
+    border-radius: 50%;
+    background: #999;
+    margin-right: 8rpx;
+    flex-shrink: 0;
   }
 
   &__real-name {
@@ -237,24 +221,13 @@
     flex: 1;
   }
 
+  // 标签颜色通过内联 style 传递，此处只保留通用样式
   &__tag {
     font-size: 24rpx;
     padding: 6rpx 20rpx;
     border-radius: 24rpx;
     margin-right: 12rpx;
     margin-bottom: 8rpx;
-
-    // 属性标签 - 蓝色系
-    &--attribute {
-      color: #54a0ff;
-      background: #e8f1ff;
-    }
-
-    // 场景标签 - 绿色系
-    &--scene {
-      color: #4caf50;
-      background: #e8f5e9;
-    }
   }
 
   // ===== 分割线 =====
@@ -299,10 +272,14 @@
     margin-bottom: 12rpx;
   }
 
-  &__map-icon {
-    font-size: 28rpx;
-    color: #54a0ff;
+  // 地图标题前缀小圆点（替代 emoji）
+  &__map-pin-dot {
+    width: 12rpx;
+    height: 12rpx;
+    border-radius: 50%;
+    background: #54a0ff;
     margin-right: 8rpx;
+    flex-shrink: 0;
   }
 
   &__map-label {
@@ -322,24 +299,22 @@
     height: 320rpx;
   }
 
-  // 右下角路标装饰
+  // 右下角主题装饰图形
   &__map-sign {
     position: absolute;
-    bottom: 16rpx;
-    right: 16rpx;
-    width: 56rpx;
-    height: 56rpx;
+    bottom: 12rpx;
+    right: 12rpx;
+    width: 80rpx;
+    height: 80rpx;
     background: #fff;
     border-radius: 50%;
-    box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.15);
+    box-shadow: 0 6rpx 16rpx rgba(0, 0, 0, 0.18);
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-
-  &__map-sign-icon {
-    color: #54a0ff;
-    font-size: 28rpx;
+    padding: 10rpx;
+    box-sizing: border-box;
+    border: 3rpx solid rgba(255, 255, 255, 0.8);
   }
 
   // ===== 底部按钮区 =====
@@ -366,26 +341,32 @@
     justify-content: center;
     font-size: 30rpx;
     font-weight: 500;
+    gap: 8rpx;
 
+    // 打卡按钮：渐变紫色
     &--primary {
-      background: #54a0ff;
+      background: linear-gradient(135deg, #6366f1, #818cf8);
       color: #fff;
     }
 
+    // 分享按钮：描边样式
     &--outline {
       background: #fff;
-      color: #54a0ff;
-      border: 2rpx solid #54a0ff;
+      color: #6366f1;
+      border: 2rpx solid #6366f1;
     }
   }
 
-  &__btn-icon {
-    font-size: 32rpx;
-    margin-right: 8rpx;
+  &__btn-text {
     line-height: 1;
+    font-size: 32rpx;
+    font-weight: 600;
   }
 
-  &__btn-text {
+  // 分享按钮副标题
+  &__btn-sub {
+    font-size: 20rpx;
+    color: #aaa;
     line-height: 1;
   }
 
@@ -429,11 +410,11 @@
     position: relative;
   }
 
+  // 圆点颜色通过内联 style 传递
   &-dot {
     width: 20rpx;
     height: 20rpx;
     border-radius: 50%;
-    background: #54a0ff;
     flex-shrink: 0;
     margin-top: 8rpx;
   }
@@ -474,10 +455,9 @@
     margin-top: 12rpx;
   }
 
+  // 时间轴标签颜色通过内联 style 传递
   &-tag {
     font-size: 24rpx;
-    color: #54a0ff;
-    background: #ebf5ff;
     padding: 4rpx 16rpx;
     border-radius: 20rpx;
   }
