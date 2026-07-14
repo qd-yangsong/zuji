@@ -1,102 +1,56 @@
 /**
- * 主题配置 —— 本地默认主题池
+ * 主题配置 -- 本地默认主题池
  *
- * 已接入本地插画图片素材，ThemeImage 组件会优先使用 illustUrl / decoUrl，
- * emoji 作为降级兜底。
- * 后续切换为远程配置时，只需在后台管理发布主题版本，
- * ResourceService.setSource('remote') 即可自动拉取，无需改调用方代码。
+ * 纯 CSS 视觉方案：每主题 = 渐变色 + CSS 几何图形 + accent/light 配色
+ * 零图片依赖，永不失真。
+ * 后续切换为后台管理远程配置时，只需 ResourceService.setSource('remote')。
  */
 import type { ThemeResource } from '@zuji/shared-types';
 
-// 本地图片资源（Taro/webpack 通过 require 处理本地图片）
-import nightIllust from '../assets/theme-illust/night.png';
-import coffeeIllust from '../assets/theme-illust/coffee.png';
-import parkIllust from '../assets/theme-illust/park.png';
-import gatherIllust from '../assets/theme-illust/gather.png';
-import stayIllust from '../assets/theme-illust/stay.png';
-import exhibitIllust from '../assets/theme-illust/exhibit.png';
-
-import nightDeco from '../assets/theme-deco/night.png';
-import coffeeDeco from '../assets/theme-deco/coffee.png';
-import parkDeco from '../assets/theme-deco/park.png';
-import gatherDeco from '../assets/theme-deco/gather.png';
-import stayDeco from '../assets/theme-deco/stay.png';
-import exhibitDeco from '../assets/theme-deco/exhibit.png';
-
 export const LOCAL_THEME_POOL: ThemeResource[] = [
-  // 夜 - 深蓝星空
   {
     id: 'night',
-    bg: '#3B4B7A',
-    gradient: 'linear-gradient(135deg, #ff9a8b 0%, #ff6a88 50%, #ff99ac 100%)',
-    iconBg: '#FFFFFF',
-    iconColor: '#3B4B7A',
-    emoji: '🌙',
-    deco: '✨',
-    illustUrl: nightIllust,
-    decoUrl: nightDeco,
+    gradient: 'linear-gradient(160deg, #a8a8d0 0%, #7c7cb8 100%)',
+    accent: '#5a5a8e',
+    light: '#e8e8f5',
+    geoType: 'night',
   },
-  // 咖 - 浅米色
   {
     id: 'coffee',
-    bg: '#F4E4C1',
-    gradient: 'linear-gradient(135deg, #f6d365 0%, #fda085 100%)',
-    iconBg: '#8B5A2B',
-    iconColor: '#FFFFFF',
-    emoji: '☕',
-    deco: '☁️',
-    illustUrl: coffeeIllust,
-    decoUrl: coffeeDeco,
+    gradient: 'linear-gradient(160deg, #f5deb3 0%, #d4a96a 100%)',
+    accent: '#8b6914',
+    light: '#fdf5e6',
+    geoType: 'coffee',
   },
-  // 园 - 浅绿色
   {
     id: 'park',
-    bg: '#C8E6C9',
-    gradient: 'linear-gradient(135deg, #a8e6cf 0%, #56ab2f 100%)',
-    iconBg: '#4CAF50',
-    iconColor: '#FFFFFF',
-    emoji: '🌳',
-    deco: '⭐️',
-    illustUrl: parkIllust,
-    decoUrl: parkDeco,
+    gradient: 'linear-gradient(160deg, #c8e6c9 0%, #81c784 100%)',
+    accent: '#2e7d32',
+    light: '#e8f5e9',
+    geoType: 'park',
   },
-  // 聚 - 紫色
   {
     id: 'gather',
-    bg: '#E1BEE7',
-    gradient: 'linear-gradient(135deg, #d4a5ff 0%, #b06ab3 100%)',
-    iconBg: '#9C27B0',
-    iconColor: '#FFFFFF',
-    emoji: '🥰',
-    deco: '💕',
-    illustUrl: gatherIllust,
-    decoUrl: gatherDeco,
+    gradient: 'linear-gradient(160deg, #e1bee7 0%, #ce93d8 100%)',
+    accent: '#7b1fa2',
+    light: '#f3e5f5',
+    geoType: 'gather',
   },
-  // 宿 - 橘色
   {
     id: 'stay',
-    bg: '#FFE0B2',
-    gradient: 'linear-gradient(135deg, #ffd194 0%, #ff9a44 100%)',
-    iconBg: '#FF9800',
-    iconColor: '#FFFFFF',
-    emoji: '🧳',
-    deco: '🟠',
-    illustUrl: stayIllust,
-    decoUrl: stayDeco,
+    gradient: 'linear-gradient(160deg, #ffe0b2 0%, #ffb74d 100%)',
+    accent: '#e65100',
+    light: '#fff3e0',
+    geoType: 'stay',
   },
-  // 展 - 浅蓝
   {
     id: 'exhibit',
-    bg: '#B3E5FC',
-    gradient: 'linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%)',
-    iconBg: '#03A9F4',
-    iconColor: '#FFFFFF',
-    emoji: '🖼️',
-    deco: '💎',
-    illustUrl: exhibitIllust,
-    decoUrl: exhibitDeco,
+    gradient: 'linear-gradient(160deg, #b3e5fc 0%, #64b5f6 100%)',
+    accent: '#1565c0',
+    light: '#e3f2fd',
+    geoType: 'exhibit',
   },
 ];
 
 // 当前配置版本号（远程配置更新时递增，用于缓存失效）
-export const THEME_CONFIG_VERSION = '1.0.0';
+export const THEME_CONFIG_VERSION = '2.0.0';

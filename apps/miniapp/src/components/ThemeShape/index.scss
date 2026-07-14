@@ -1,0 +1,101 @@
+.theme-shape {
+  position: relative;
+  z-index: 1;
+
+  // 夜 - 月亮：圆 + 内阴影偏移造月牙
+  &--night {
+    width: 72rpx;
+    height: 72rpx;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.7);
+    box-shadow: inset -18rpx -6rpx 0 rgba(124, 124, 184, 0.4);
+  }
+
+  // 咖 - 咖啡杯环：圆环 + 顶部手柄
+  &--coffee {
+    width: 60rpx;
+    height: 60rpx;
+    border-radius: 50%;
+    border: 7rpx solid rgba(255, 255, 255, 0.55);
+
+    &::after {
+      content: '';
+      position: absolute;
+      width: 44rpx;
+      height: 12rpx;
+      border: 3rpx solid rgba(255, 255, 255, 0.35);
+      border-radius: 50%;
+      top: -20rpx;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+
+  // 园 - 叶子：不对称圆角四边形
+  &--park {
+    width: 66rpx;
+    height: 66rpx;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 0 100% 0 100%;
+    transform: rotate(-15deg);
+  }
+
+  // 聚 - 双圆叠加：两个半透明圆
+  &--gather {
+    width: 76rpx;
+    height: 56rpx;
+
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      width: 46rpx;
+      height: 46rpx;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.4);
+      top: 5rpx;
+    }
+
+    &::before { left: 0; }
+    &::after { right: 0; background: rgba(255, 255, 255, 0.5); }
+  }
+
+  // 宿 - 房屋：三角顶 + 方形身
+  &--stay {
+    width: 0;
+    height: 0;
+    border-left: 38rpx solid transparent;
+    border-right: 38rpx solid transparent;
+    border-bottom: 48rpx solid rgba(255, 255, 255, 0.5);
+
+    &::after {
+      content: '';
+      position: absolute;
+      width: 44rpx;
+      height: 30rpx;
+      background: rgba(255, 255, 255, 0.35);
+      top: 48rpx;
+      left: -22rpx;
+    }
+  }
+
+  // 展 - 相框：方形边框 + 内圆
+  &--exhibit {
+    width: 60rpx;
+    height: 60rpx;
+    border: 5rpx solid rgba(255, 255, 255, 0.5);
+    border-radius: 6rpx;
+
+    &::after {
+      content: '';
+      position: absolute;
+      width: 24rpx;
+      height: 24rpx;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+}

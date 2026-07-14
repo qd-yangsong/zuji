@@ -106,18 +106,14 @@ export interface QueryPlaceDto {
 
 // ========== 资源与主题类型 ==========
 
-// 主题资源：支持 emoji 占位和图片资源双模式
-// 当前阶段用 emoji，后续替换为图片路径时不影响调用方
+// 主题资源：纯 CSS 视觉方案
+// 每主题 = 渐变色 + CSS 几何图形 + accent/light 配色，零图片依赖
 export interface ThemeResource {
-  id: string;              // 主题唯一标识，如 'night'、'coffee'
-  bg: string;              // 卡片底色（卡片墙用）
-  gradient: string;        // 渐变背景（详情页封面用）
-  iconBg: string;          // 首字圆形背景色
-  iconColor: string;       // 首字文字颜色
-  emoji: string;           // 中央装饰 emoji（占位用）
-  deco: string;            // 角落小装饰 emoji
-  illustUrl?: string;      // 插画图片 URL（后续替换 emoji）
-  decoUrl?: string;        // 角落装饰图片 URL（后续替换 deco emoji）
+  id: string;              // 主题唯一标识：night/coffee/park/gather/stay/exhibit
+  gradient: string;        // CSS 渐变背景
+  accent: string;          // 主题强调色（标签文字、首字徽章文字色）
+  light: string;           // 浅色背景（标签底色）
+  geoType: string;         // CSS 几何图形类型：night/coffee/park/gather/stay/exhibit
 }
 
 // 远程主题配置响应（第二阶段：从服务端下发）
@@ -127,11 +123,10 @@ export interface ThemeConfigResponse {
   updatedAt: string;
 }
 
-// Place 预留扩展字段（后续用户可自定义主题/插画）
+// Place 预留扩展字段（后续用户可自定义主题）
 // 在 PlaceDto 中追加可选字段，当前后端不返回，前端按需使用
 export interface PlaceThemeExtension {
   themeId?: string;             // 用户指定的主题 ID（不指定则按名称哈希）
-  customIllustUrl?: string;     // 用户上传的自定义插画
 }
 
 // ========== 打卡记录类型 ==========
