@@ -57,6 +57,8 @@ export default function Checkin() {
         images,
         eventTagIds,
       });
+      // 成功后触觉反馈，增强放入珍珠的仪式感
+      Taro.vibrateShort();
       Taro.showToast({ title: '打卡成功', icon: 'success' });
       setTimeout(() => Taro.navigateBack(), 1500);
     } catch (e) {
@@ -76,8 +78,10 @@ export default function Checkin() {
 
   return (
     <View className='checkin'>
-      {/* 地点信息 */}
-      <View className='checkin__place-info'>
+      {/* 珍珠仪式区 */}
+      <View className='checkin__pearl-zone'>
+        <View className='checkin__pearl' />
+        <Text className='checkin__pearl-title'>给这颗珍珠写句话</Text>
         <Text className='checkin__place-name'>{place.customName}</Text>
         <Text className='checkin__place-sub'>{place.realName}</Text>
       </View>
@@ -131,7 +135,7 @@ export default function Checkin() {
           className={`checkin__submit ${submitting ? 'checkin__submit--disabled' : ''}`}
           onClick={submitting ? undefined : handleSubmit}
         >
-          <Text>{submitting ? '提交中...' : '完成打卡'}</Text>
+          <Text>{submitting ? '提交中...' : '放入珍珠'}</Text>
         </View>
       </View>
     </View>

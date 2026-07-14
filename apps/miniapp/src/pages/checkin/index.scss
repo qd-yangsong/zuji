@@ -1,14 +1,49 @@
 .checkin {
   min-height: 100vh;
-  background: #f8f9fa;
+  background: #faf6f1;
   padding: 24rpx;
   padding-bottom: 140rpx;
 
-  &__place-info {
+  /* 珍珠仪式区 */
+  &__pearl-zone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     background: #fff;
-    border-radius: 20rpx;
-    padding: 28rpx;
+    border-radius: 16rpx;
+    padding: 40rpx 28rpx;
     margin-bottom: 24rpx;
+  }
+
+  /* 珍珠球本体 */
+  &__pearl {
+    position: relative;
+    width: 100rpx;
+    height: 100rpx;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #fff 0%, #f0e6ff 40%, #c8b8e8 100%);
+    box-shadow: 0 8rpx 24rpx rgba(168, 150, 200, 0.3);
+
+    /* 虚线外圈 */
+    &::after {
+      content: '';
+      position: absolute;
+      top: -12rpx;
+      left: -12rpx;
+      right: -12rpx;
+      bottom: -12rpx;
+      border: 2rpx dashed rgba(168, 150, 200, 0.25);
+      border-radius: 50%;
+    }
+  }
+
+  &__pearl-title {
+    display: block;
+    font-size: 30rpx;
+    font-weight: bold;
+    color: #6366f1;
+    margin-top: 24rpx;
+    text-align: center;
   }
 
   &__place-name {
@@ -16,6 +51,8 @@
     font-size: 34rpx;
     font-weight: bold;
     color: #333;
+    margin-top: 16rpx;
+    text-align: center;
   }
 
   &__place-sub {
@@ -23,11 +60,12 @@
     font-size: 26rpx;
     color: #999;
     margin-top: 8rpx;
+    text-align: center;
   }
 
   &__section {
     background: #fff;
-    border-radius: 20rpx;
+    border-radius: 16rpx;
     padding: 28rpx;
     margin-bottom: 24rpx;
   }
@@ -56,8 +94,8 @@
 
   &__image-item {
     position: relative;
-    width: 200rpx;
-    height: 200rpx;
+    width: 160rpx;
+    height: 160rpx;
   }
 
   &__image {
@@ -73,7 +111,7 @@
     width: 40rpx;
     height: 40rpx;
     border-radius: 50%;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0, 0, 0, 0.5);
     color: #fff;
     display: flex;
     align-items: center;
@@ -82,8 +120,8 @@
   }
 
   &__image-add {
-    width: 200rpx;
-    height: 200rpx;
+    width: 160rpx;
+    height: 160rpx;
     border: 2rpx dashed #ddd;
     border-radius: 12rpx;
     display: flex;
@@ -103,12 +141,12 @@
     right: 0;
     padding: 20rpx 32rpx;
     background: #fff;
-    box-shadow: 0 -2rpx 10rpx rgba(0,0,0,0.05);
+    box-shadow: 0 -2rpx 10rpx rgba(0, 0, 0, 0.05);
   }
 
   &__submit {
     height: 88rpx;
-    background: #54a0ff;
+    background: linear-gradient(135deg, #6366f1, #818cf8);
     border-radius: 44rpx;
     display: flex;
     align-items: center;
