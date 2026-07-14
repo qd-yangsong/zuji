@@ -1,0 +1,113 @@
+// 全局自定义底部导航栏，使用 CSS 绘制线性风格图标
+
+.tab-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-top: 1rpx solid #f0f0f0;
+  z-index: 100;
+  box-shadow: 0 -2rpx 12rpx rgba(0, 0, 0, 0.04);
+
+  &__content {
+    display: flex;
+    height: 100rpx;
+  }
+
+  &__item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #bbb;
+
+    &--active {
+      color: #6366f1;
+    }
+  }
+
+  &__icon {
+    width: 52rpx;
+    height: 52rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  // 地点 - 房子图标
+  &__icon-place {
+    width: 40rpx;
+    height: 28rpx;
+    background: currentColor;
+    border-radius: 6rpx;
+    position: relative;
+    margin-top: 14rpx;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: -18rpx;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 22rpx solid transparent;
+      border-right: 22rpx solid transparent;
+      border-bottom: 20rpx solid currentColor;
+    }
+  }
+
+  // 发现 - 2x2 方块网格
+  &__icon-discover {
+    width: 40rpx;
+    height: 40rpx;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: space-between;
+    justify-content: space-between;
+  }
+
+  &__icon-discover-dot {
+    width: 16rpx;
+    height: 16rpx;
+    background: currentColor;
+    border-radius: 4rpx;
+  }
+
+  // 我的 - 人物轮廓
+  &__icon-profile {
+    width: 28rpx;
+    height: 28rpx;
+    background: currentColor;
+    border-radius: 50%;
+    position: relative;
+    margin-top: -8rpx;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -20rpx;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40rpx;
+      height: 20rpx;
+      background: currentColor;
+      border-radius: 20rpx 20rpx 0 0;
+    }
+  }
+
+  &__text {
+    font-size: 22rpx;
+    margin-top: 6rpx;
+    line-height: 1;
+    font-weight: 500;
+  }
+
+  &__safe {
+    height: env(safe-area-inset-bottom);
+    background: #fff;
+  }
+}

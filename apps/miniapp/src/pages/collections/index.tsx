@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import Taro, { usePullDownRefresh } from '@tarojs/taro';
 import { fetchCollections } from '../../services/collection';
 import { resourceService } from '../../services/resource';
-import ThemeImage from '../../components/ThemeImage';
+import ThemeShape from '../../components/ThemeShape';
 import type { CollectionDto } from '@zuji/shared-types';
 import './index.scss';
 
@@ -60,7 +60,7 @@ export default function Collections() {
       {/* 合集列表 */}
       {collections.length === 0 ? (
         <View className='collections__empty'>
-          <Text className='collections__empty-icon'>📦</Text>
+          <View className='collections__empty-circle' />
           <Text className='collections__empty-title'>还没有合集</Text>
           <Text className='collections__empty-sub'>把相关的地点打包成合集，方便分享给朋友</Text>
         </View>
@@ -77,13 +77,13 @@ export default function Collections() {
                 {/* 封面区 */}
                 <View
                   className='collections__item-cover'
-                  style={{ background: collection.coverImage ? '#fff' : theme.bg }}
+                  style={{ background: collection.coverImage ? '#fff' : theme.gradient }}
                 >
                   {collection.coverImage ? (
                     <Image className='collections__item-img' src={collection.coverImage} mode='aspectFill' />
                   ) : (
                     <View className='collections__item-emoji'>
-                      <ThemeImage src={theme.illustUrl} emoji={theme.emoji} className='collections__item-emoji-img' mode='aspectFit' />
+                      <ThemeShape geoType={theme.geoType} className='collections__item-emoji-img' />
                     </View>
                   )}
                   <View className='collections__item-count'>

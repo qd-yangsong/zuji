@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import Taro from '@tarojs/taro';
 import { fetchCollectionDetail } from '../../services/collection';
 import { resourceService } from '../../services/resource';
-import ThemeImage from '../../components/ThemeImage';
+import ThemeShape from '../../components/ThemeShape';
 import type { CollectionDto, PlaceDto } from '@zuji/shared-types';
 import './index.scss';
 
@@ -79,7 +79,7 @@ export default function CollectionDetail() {
           <Image className='collection-detail__cover-img' src={collection.coverImage} mode='aspectFill' />
         ) : (
           <View className='collection-detail__cover-emoji'>
-            <ThemeImage src={theme.illustUrl} emoji={theme.emoji} className='collection-detail__cover-emoji-img' mode='aspectFit' />
+            <ThemeShape geoType={theme.geoType} className='collection-detail__cover-emoji-img' />
           </View>
         )}
         <View className='collection-detail__edit' onClick={handleEdit}>
@@ -114,9 +114,9 @@ export default function CollectionDetail() {
                 >
                   <View
                     className='collection-detail__place-badge'
-                    style={{ background: placeTheme.iconBg }}
+                    style={{ background: '#fff' }}
                   >
-                    <Text style={{ color: placeTheme.iconColor }}>{idx + 1}</Text>
+                    <Text style={{ color: placeTheme.accent }}>{idx + 1}</Text>
                   </View>
                   <View className='collection-detail__place-info'>
                     <Text className='collection-detail__place-name'>{place.customName}</Text>
