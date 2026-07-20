@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>足迹手帐 · 新用户引导方案</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: -apple-system, 'PingFang SC', 'Noto Sans SC', sans-serif;
+    background: #f5f0eb;
+    padding: 32px 24px;
+  }
+  .page-title { text-align:center; font-size:28px; font-weight:700; margin-bottom:8px; color:#1a1a2e; }
+  .page-sub { text-align:center; font-size:14px; color:#888; margin-bottom:40px; }
+
+  .section { max-width:1080px; margin:0 auto 56px; }
+  .section-title { font-size:20px; font-weight:600; margin-bottom:8px; color:#1a1a2e; border-left:4px solid #6366f1; padding-left:12px; }
+  .section-desc { font-size:14px; color:#666; margin-bottom:24px; padding-left:16px; }
+
+  .phone-row { display:flex; gap:24px; justify-content:center; flex-wrap:wrap; }
+  .phone { width:320px; background:#1a1a2e; border-radius:36px; padding:8px; box-shadow:0 20px 60px rgba(0,0,0,0.15); }
+  .phone-screen { background:#faf6f1; border-radius:28px; overflow:hidden; height:640px; position:relative; }
+  .phone-label { text-align:center; font-size:14px; font-weight:600; color:#555; margin-top:12px; }
+
+  /* 共用元素 */
+  .header-bar { padding:20px 20px 12px; display:flex; align-items:center; justify-content:center; position:relative; }
+  .header-title { font-size:20px; font-weight:700; color:#2d3436; }
+
+  /* ===== 方案A：分步卡片式 ===== */
+  .a-welcome { text-align:center; padding:16px 24px 8px; }
+  .a-welcome-title { font-size:22px; font-weight:700; color:#2d3436; }
+  .a-welcome-sub { font-size:14px; color:#888; margin-top:6px; line-height:1.5; }
+
+  .a-steps { padding:16px 20px; }
+  .a-step { display:flex; gap:16px; margin-bottom:16px; align-items:flex-start; }
+  .a-step-num { width:36px; height:36px; border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:16px; font-weight:700; color:#fff; }
+  .a-step-num--1 { background:linear-gradient(135deg,#a8a8d0,#7c7cb8); }
+  .a-step-num--2 { background:linear-gradient(135deg,#f5deb3,#d4a96a); }
+  .a-step-num--3 { background:linear-gradient(135deg,#c8e6c9,#81c784); }
+  .a-step-content { flex:1; }
+  .a-step-title { font-size:15px; font-weight:600; color:#2d3436; margin-bottom:2px; }
+  .a-step-desc { font-size:13px; color:#888; line-height:1.5; }
+  .a-step-arrow { width:20px; height:20px; border-top:2px solid #ccc; border-right:2px solid #ccc; transform:rotate(45deg); margin-top:8px; flex-shrink:0; }
+
+  .a-achievement { margin:16px 20px; padding:16px; border-radius:16px; background:linear-gradient(135deg, #f3e5f5, #e1bee7); position:relative; overflow:hidden; }
+  .a-achievement::before { content:''; position:absolute; width:80px; height:80px; border-radius:50%; background:rgba(255,255,255,0.3); top:-20px; right:-20px; }
+  .a-achievement-label { font-size:12px; color:#7b1fa2; font-weight:600; margin-bottom:8px; }
+  .a-achievement-items { display:flex; gap:8px; }
+  .a-badge-item { flex:1; text-align:center; }
+  .a-badge-circle { width:44px; height:44px; border-radius:50%; margin:0 auto 4px; display:flex; align-items:center; justify-content:center; font-size:18px; font-weight:700; }
+  .a-badge-circle--bronze { background:linear-gradient(135deg,#d4a574,#b8845e); color:#fff; }
+  .a-badge-circle--silver { background:linear-gradient(135deg,#c0c0c0,#a8a8a8); color:#fff; }
+  .a-badge-circle--gold { background:linear-gradient(135deg,#ffd700,#e6b800); color:#fff; }
+  .a-badge-name { font-size:10px; color:#666; }
+  .a-badge-req { font-size:9px; color:#aaa; }
+
+  .a-cta { position:absolute; bottom:80px; left:20px; right:20px; }
+  .a-cta-btn { height:48px; border-radius:100px; background:linear-gradient(135deg,#6366f1,#818cf8); display:flex; align-items:center; justify-content:center; color:#fff; font-size:16px; font-weight:600; box-shadow:0 8rpx 24px rgba(99,102,241,0.3); }
+
+  /* ===== 方案B：功能介绍+时间线 ===== */
+  .b-hero { padding:24px 20px 16px; text-align:center; }
+  .b-hero-circle { width:80px; height:80px; border-radius:50%; margin:0 auto 12px; background:radial-gradient(circle at 35% 35%, #fff 0%, #f0e6ff 40%, #c8b8e8 100%); box-shadow:0 8px 24px rgba(168,150,200,0.3); position:relative; }
+  .b-hero-circle::after { content:''; position:absolute; inset:-8px; border-radius:50%; border:2px dashed rgba(168,150,200,0.25); }
+  .b-hero-title { font-size:20px; font-weight:700; color:#2d3436; }
+  .b-hero-sub { font-size:14px; color:#888; margin-top:4px; }
+
+  .b-features { display:flex; gap:8px; padding:0 16px 16px; }
+  .b-feature { flex:1; background:#fff; border-radius:14px; padding:12px 8px; text-align:center; box-shadow:0 1px 4px rgba(0,0,0,0.04); }
+  .b-feature-icon { width:40px; height:40px; border-radius:12px; margin:0 auto 6px; display:flex; align-items:center; justify-content:center; }
+  .b-feature-icon--1 { background:linear-gradient(135deg,#a8a8d0,#7c7cb8); }
+  .b-feature-icon--2 { background:linear-gradient(135deg,#f5deb3,#d4a96a); }
+  .b-feature-icon--3 { background:linear-gradient(135deg,#c8e6c9,#81c784); }
+  .b-feature-icon-inner { width:20px; height:20px; border-radius:50%; background:rgba(255,255,255,0.7); }
+  .b-feature-name { font-size:11px; font-weight:600; color:#2d3436; }
+  .b-feature-desc { font-size:9px; color:#aaa; margin-top:2px; }
+
+  .b-timeline { padding:8px 20px; }
+  .b-timeline-item { display:flex; gap:12px; margin-bottom:12px; position:relative; }
+  .b-timeline-dot { width:12px; height:12px; border-radius:50%; flex-shrink:0; margin-top:4px; position:relative; z-index:1; }
+  .b-timeline-dot--1 { background:#7c7cb8; }
+  .b-timeline-dot--2 { background:#d4a96a; }
+  .b-timeline-dot--3 { background:#81c784; }
+  .b-timeline-line { position:absolute; left:5px; top:16px; bottom:-12px; width:2px; background:#eee; }
+  .b-timeline-item:last-child .b-timeline-line { display:none; }
+  .b-timeline-content { flex:1; }
+  .b-timeline-title { font-size:14px; font-weight:600; color:#2d3436; }
+  .b-timeline-desc { font-size:12px; color:#888; margin-top:2px; line-height:1.4; }
+
+  .b-achievement { margin:8px 20px; padding:14px; border-radius:16px; background:linear-gradient(135deg,#e8f5e9,#c8e6c9); position:relative; overflow:hidden; }
+  .b-achievement::before { content:''; position:absolute; width:60px; height:60px; border-radius:50%; background:rgba(255,255,255,0.3); top:-15px; right:-15px; }
+  .b-achievement-label { font-size:12px; color:#2e7d32; font-weight:600; margin-bottom:6px; }
+  .b-achievement-text { font-size:12px; color:#555; line-height:1.5; }
+  .b-achievement-text strong { color:#2e7d32; }
+
+  .b-cta { position:absolute; bottom:80px; left:20px; right:20px; display:flex; gap:12px; }
+  .b-cta-btn { flex:1; height:48px; border-radius:100px; display:flex; align-items:center; justify-content:center; font-size:15px; font-weight:600; }
+  .b-cta-btn--primary { background:linear-gradient(135deg,#6366f1,#818cf8); color:#fff; }
+  .b-cta-btn--secondary { background:#fff; color:#6366f1; border:2px solid #e0e0ff; }
+
+  /* ===== 方案C：沉浸故事式 ===== */
+  .c-hero { padding:32px 24px 16px; text-align:center; }
+  .c-hero-illust { width:120px; height:120px; margin:0 auto 16px; position:relative; }
+  .c-hero-illust-bg { width:100%; height:100%; border-radius:50%; background:linear-gradient(135deg,#a8a8d0,#7c7cb8); position:relative; overflow:hidden; }
+  .c-hero-illust-bg::before { content:''; position:absolute; width:60px; height:60px; border-radius:50%; background:rgba(255,255,255,0.2); top:-15px; right:-15px; }
+  .c-hero-illust-bg::after { content:''; position:absolute; width:30px; height:30px; border-radius:50%; background:rgba(255,255,255,0.12); bottom:10px; left:-5px; }
+  .c-hero-illust-shape { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:48px; height:48px; border-radius:50%; background:rgba(255,255,255,0.7); box-shadow:inset -12px -4px 0 rgba(124,124,184,0.4); }
+  .c-hero-title { font-size:22px; font-weight:700; color:#2d3436; }
+  .c-hero-sub { font-size:14px; color:#888; margin-top:6px; line-height:1.5; }
+
+  .c-cards { padding:16px 20px; }
+  .c-card { background:#fff; border-radius:16px; padding:16px; margin-bottom:12px; box-shadow:0 1px 4px rgba(0,0,0,0.04); display:flex; gap:14px; align-items:center; }
+  .c-card-visual { width:52px; height:52px; border-radius:14px; flex-shrink:0; display:flex; align-items:center; justify-content:center; }
+  .c-card-visual--1 { background:linear-gradient(135deg,#a8a8d0,#7c7cb8); }
+  .c-card-visual--2 { background:linear-gradient(135deg,#f5deb3,#d4a96a); }
+  .c-card-visual--3 { background:linear-gradient(135deg,#c8e6c9,#81c784); }
+  .c-card-visual-shape { width:24px; height:24px; border-radius:50%; background:rgba(255,255,255,0.6); }
+  .c-card-text { flex:1; }
+  .c-card-title { font-size:14px; font-weight:600; color:#2d3436; }
+  .c-card-desc { font-size:12px; color:#888; margin-top:2px; line-height:1.4; }
+  .c-card-num { font-size:28px; font-weight:800; color:#f0f0f0; flex-shrink:0; }
+
+  .c-goal { margin:8px 20px; padding:16px; border-radius:16px; background:linear-gradient(135deg,#fff8e1,#ffe0b2); position:relative; overflow:hidden; }
+  .c-goal::before { content:''; position:absolute; width:70px; height:70px; border-radius:50%; background:rgba(255,255,255,0.3); top:-20px; right:-10px; }
+  .c-goal-label { font-size:12px; color:#e65100; font-weight:600; margin-bottom:8px; }
+  .c-goal-row { display:flex; gap:12px; }
+  .c-goal-item { text-align:center; flex:1; }
+  .c-goal-medal { width:36px; height:36px; border-radius:50%; margin:0 auto 4px; display:flex; align-items:center; justify-content:center; }
+  .c-goal-medal--1 { background:linear-gradient(135deg,#d4a574,#b8845e); }
+  .c-goal-medal--2 { background:linear-gradient(135deg,#c0c0c0,#a8a8a8); }
+  .c-goal-medal--3 { background:linear-gradient(135deg,#ffd700,#e6b800); }
+  .c-goal-medal-inner { width:14px; height:14px; border-radius:50%; background:rgba(255,255,255,0.5); }
+  .c-goal-name { font-size:10px; color:#666; }
+  .c-goal-req { font-size:9px; color:#aaa; }
+
+  .c-cta { position:absolute; bottom:80px; left:20px; right:20px; }
+  .c-cta-btn { height:52px; border-radius:100px; background:linear-gradient(135deg,#6366f1,#818cf8); display:flex; align-items:center; justify-content:center; color:#fff; font-size:16px; font-weight:600; box-shadow:0 8px 24px rgba(99,102,241,0.35); }
+
+  /* TabBar */
+  .tabbar { position:absolute; bottom:0; left:0; right:0; height:60px; background:#fff; display:flex; border-top:1px solid #f0f0f0; }
+  .tabbar-item { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; }
+  .tabbar-icon { width:22px; height:22px; border-radius:6px; background:#ccc; }
+  .tabbar-icon--1 { clip-path:polygon(50% 0%, 0% 60%, 20% 60%, 20% 100%, 80% 100%, 80% 60%, 100% 60%); }
+  .tabbar-icon--2 { border-radius:4px; }
+  .tabbar-icon--3 { clip-path:circle(40% at 50% 35%); }
+  .tabbar-item.active .tabbar-icon { background:#6366f1; }
+  .tabbar-text { font-size:10px; color:#ccc; }
+  .tabbar-item.active .tabbar-text { color:#6366f1; font-weight:600; }
+
+  /* 优缺点 */
+  .pros-cons { display:flex; gap:16px; margin-top:16px; font-size:12px; }
+  .pros, .cons { flex:1; padding:10px 14px; border-radius:10px; }
+  .pros { background:#d1fae5; }
+  .cons { background:#fee2e2; }
+  .pros strong { color:#065f46; }
+  .cons strong { color:#991b1b; }
+  .pros ul, .cons ul { list-style:none; margin-top:4px; }
+  .pros li, .cons li { padding:2px 0; color:#555; }
+</style>
+</head>
+<body>
+
+<h1 class="page-title">新用户引导方案对比</h1>
+<p class="page-sub">3 种空状态增强方案 · 登录后空状态时出现 · 含分步指引 + 成就预告</p>
+
+<!-- ===== 方案A ===== -->
+<div class="section">
+  <h2 class="section-title">方案 A · 分步卡片式（推荐）</h2>
+  <p class="section-desc">欢迎语 + 3 步引导（编号圆+标题+描述+箭头）+ 成就勋章预告 + 主按钮</p>
+  <div style="display:flex;justify-content:center;">
+    <div>
+      <div class="phone">
+        <div class="phone-screen">
+          <div class="header-bar"><div class="header-title">我的地点</div></div>
+          <div class="a-welcome">
+            <div class="a-welcome-title">欢迎使用足迹手帐</div>
+            <div class="a-welcome-sub">收藏每一个对你重要的地方，<br>用打卡记录你与它的故事</div>
+          </div>
+          <div class="a-steps">
+            <div class="a-step">
+              <div class="a-step-num a-step-num--1">1</div>
+              <div class="a-step-content">
+                <div class="a-step-title">收藏第一个地点</div>
+                <div class="a-step-desc">点击右下角 + 号，标记一个对你重要的地方</div>
+              </div>
+              <div class="a-step-arrow"></div>
+            </div>
+            <div class="a-step">
+              <div class="a-step-num a-step-num--2">2</div>
+              <div class="a-step-content">
+                <div class="a-step-title">给它打个卡</div>
+                <div class="a-step-desc">写下此刻的心情，附上照片，留下珍珠般的记忆</div>
+              </div>
+              <div class="a-step-arrow"></div>
+            </div>
+            <div class="a-step">
+              <div class="a-step-num a-step-num--3">3</div>
+              <div class="a-step-content">
+                <div class="a-step-title">查看你的旅程地图</div>
+                <div class="a-step-desc">在"发现"页看到所有足迹连成的旅程</div>
+              </div>
+            </div>
+          </div>
+          <div class="a-achievement">
+            <div class="a-achievement-label">成就目标</div>
+            <div class="a-achievement-items">
+              <div class="a-badge-item">
+                <div class="a-badge-circle a-badge-circle--bronze">3</div>
+                <div class="a-badge-name">初识</div>
+                <div class="a-badge-req">收藏3个地点</div>
+              </div>
+              <div class="a-badge-item">
+                <div class="a-badge-circle a-badge-circle--silver">5</div>
+                <div class="a-badge-name">足迹</div>
+                <div class="a-badge-req">收藏5个地点</div>
+              </div>
+              <div class="a-badge-item">
+                <div class="a-badge-circle a-badge-circle--gold">10</div>
+                <div class="a-badge-name">漫游者</div>
+                <div class="a-badge-req">收藏10个地点</div>
+              </div>
+            </div>
+          </div>
+          <div class="a-cta">
+            <div class="a-cta-btn">收藏第一个地点</div>
+          </div>
+          <div class="tabbar">
+            <div class="tabbar-item active"><div class="tabbar-icon tabbar-icon--1"></div><span class="tabbar-text">地点</span></div>
+            <div class="tabbar-item"><div class="tabbar-icon tabbar-icon--2"></div><span class="tabbar-text">发现</span></div>
+            <div class="tabbar-item"><div class="tabbar-icon tabbar-icon--3"></div><span class="tabbar-text">我的</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-label">方案A · 分步卡片式</div>
+    </div>
+  </div>
+  <div class="pros-cons">
+    <div class="pros"><strong>优点</strong><ul><li>操作步骤最清晰</li><li>编号引导一目了然</li><li>成就预告激发动力</li><li>主按钮直接行动</li></ul></div>
+    <div class="cons"><strong>缺点</strong><ul><li>信息量适中偏多</li><li>竖向空间利用率高</li></ul></div>
+  </div>
+</div>
+
+<!-- ===== 方案B ===== -->
+<div class="section">
+  <h2 class="section-title">方案 B · 功能介绍 + 时间线</h2>
+  <p class="section-desc">珍珠球 hero + 3 功能小卡片横排 + 时间线指引 + 成就目标 + 双按钮</p>
+  <div style="display:flex;justify-content:center;">
+    <div>
+      <div class="phone">
+        <div class="phone-screen">
+          <div class="header-bar"><div class="header-title">我的地点</div></div>
+          <div class="b-hero">
+            <div class="b-hero-circle"></div>
+            <div class="b-hero-title">开始你的足迹之旅</div>
+            <div class="b-hero-sub">每打卡一次，就多一颗珍珠</div>
+          </div>
+          <div class="b-features">
+            <div class="b-feature">
+              <div class="b-feature-icon b-feature-icon--1"><div class="b-feature-icon-inner"></div></div>
+              <div class="b-feature-name">收藏地点</div>
+              <div class="b-feature-desc">标记重要地方</div>
+            </div>
+            <div class="b-feature">
+              <div class="b-feature-icon b-feature-icon--2"><div class="b-feature-icon-inner"></div></div>
+              <div class="b-feature-name">打卡记录</div>
+              <div class="b-feature-desc">写下心情故事</div>
+            </div>
+            <div class="b-feature">
+              <div class="b-feature-icon b-feature-icon--3"><div class="b-feature-icon-inner"></div></div>
+              <div class="b-feature-name">旅程地图</div>
+              <div class="b-feature-desc">足迹连成线</div>
+            </div>
+          </div>
+          <div class="b-timeline">
+            <div class="b-timeline-item">
+              <div class="b-timeline-dot b-timeline-dot--1"></div>
+              <div class="b-timeline-line"></div>
+              <div class="b-timeline-content">
+                <div class="b-timeline-title">Step 1 · 点击 + 号收藏地点</div>
+                <div class="b-timeline-desc">填入地点名称、选个主题色</div>
+              </div>
+            </div>
+            <div class="b-timeline-item">
+              <div class="b-timeline-dot b-timeline-dot--2"></div>
+              <div class="b-timeline-line"></div>
+              <div class="b-timeline-content">
+                <div class="b-timeline-title">Step 2 · 打卡写下此刻感受</div>
+                <div class="b-timeline-desc">可以附照片和心情标签</div>
+              </div>
+            </div>
+            <div class="b-timeline-item">
+              <div class="b-timeline-dot b-timeline-dot--3"></div>
+              <div class="b-timeline-content">
+                <div class="b-timeline-title">Step 3 · 去"发现"看旅程</div>
+                <div class="b-timeline-desc">所有地点在地图上连成线</div>
+              </div>
+            </div>
+          </div>
+          <div class="b-achievement">
+            <div class="b-achievement-label">成就预告</div>
+            <div class="b-achievement-text">收藏 <strong>3 个地点</strong>解锁「初识」勋章<br>打卡 <strong>10 次</strong>解锁「故事大王」</div>
+          </div>
+          <div class="b-cta">
+            <div class="b-cta-btn b-cta-btn--primary">开始收藏</div>
+            <div class="b-cta-btn b-cta-btn--secondary">看看地图</div>
+          </div>
+          <div class="tabbar">
+            <div class="tabbar-item active"><div class="tabbar-icon tabbar-icon--1"></div><span class="tabbar-text">地点</span></div>
+            <div class="tabbar-item"><div class="tabbar-icon tabbar-icon--2"></div><span class="tabbar-text">发现</span></div>
+            <div class="tabbar-item"><div class="tabbar-icon tabbar-icon--3"></div><span class="tabbar-text">我的</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-label">方案B · 功能+时间线</div>
+    </div>
+  </div>
+  <div class="pros-cons">
+    <div class="pros"><strong>优点</strong><ul><li>功能介绍 + 步骤双覆盖</li><li>珍珠球呼应打卡仪式</li><li>双按钮给用户选择</li></ul></div>
+    <div class="cons"><strong>缺点</strong><ul><li>元素偏多可能拥挤</li><li>功能卡片信息重复</li></ul></div>
+  </div>
+</div>
+
+<!-- ===== 方案C ===== -->
+<div class="section">
+  <h2 class="section-title">方案 C · 沉浸故事式</h2>
+  <p class="section-desc">大号主题 hero 插画 + 编号功能卡片 + 成就勋章 + 单按钮</p>
+  <div style="display:flex;justify-content:center;">
+    <div>
+      <div class="phone">
+        <div class="phone-screen">
+          <div class="header-bar"><div class="header-title">我的地点</div></div>
+          <div class="c-hero">
+            <div class="c-hero-illust">
+              <div class="c-hero-illust-bg">
+                <div class="c-hero-illust-shape"></div>
+              </div>
+            </div>
+            <div class="c-hero-title">你的足迹，值得被珍藏</div>
+            <div class="c-hero-sub">收藏地点、打卡记录、绘制旅程<br>三步开启你的手帐世界</div>
+          </div>
+          <div class="c-cards">
+            <div class="c-card">
+              <div class="c-card-visual c-card-visual--1"><div class="c-card-visual-shape"></div></div>
+              <div class="c-card-text">
+                <div class="c-card-title">收藏地点</div>
+                <div class="c-card-desc">标记每一个对你有意义的地方</div>
+              </div>
+              <div class="c-card-num">01</div>
+            </div>
+            <div class="c-card">
+              <div class="c-card-visual c-card-visual--2"><div class="c-card-visual-shape"></div></div>
+              <div class="c-card-text">
+                <div class="c-card-title">打卡记录</div>
+                <div class="c-card-desc">用文字和照片留下每次到访的故事</div>
+              </div>
+              <div class="c-card-num">02</div>
+            </div>
+            <div class="c-card">
+              <div class="c-card-visual c-card-visual--3"><div class="c-card-visual-shape"></div></div>
+              <div class="c-card-text">
+                <div class="c-card-title">旅程地图</div>
+                <div class="c-card-desc">在地图上看到所有足迹连成的旅程线</div>
+              </div>
+              <div class="c-card-num">03</div>
+            </div>
+          </div>
+          <div class="c-goal">
+            <div class="c-goal-label">成就预告</div>
+            <div class="c-goal-row">
+              <div class="c-goal-item">
+                <div class="c-goal-medal c-goal-medal--1"><div class="c-goal-medal-inner"></div></div>
+                <div class="c-goal-name">初识</div>
+                <div class="c-goal-req">3个地点</div>
+              </div>
+              <div class="c-goal-item">
+                <div class="c-goal-medal c-goal-medal--2"><div class="c-goal-medal-inner"></div></div>
+                <div class="c-goal-name">足迹</div>
+                <div class="c-goal-req">5个地点</div>
+              </div>
+              <div class="c-goal-item">
+                <div class="c-goal-medal c-goal-medal--3"><div class="c-goal-medal-inner"></div></div>
+                <div class="c-goal-name">漫游者</div>
+                <div class="c-goal-req">10个地点</div>
+              </div>
+            </div>
+          </div>
+          <div class="c-cta">
+            <div class="c-cta-btn">收藏第一个地点</div>
+          </div>
+          <div class="tabbar">
+            <div class="tabbar-item active"><div class="tabbar-icon tabbar-icon--1"></div><span class="tabbar-text">地点</span></div>
+            <div class="tabbar-item"><div class="tabbar-icon tabbar-icon--2"></div><span class="tabbar-text">发现</span></div>
+            <div class="tabbar-item"><div class="tabbar-icon tabbar-icon--3"></div><span class="tabbar-text">我的</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-label">方案C · 沉浸故事式</div>
+    </div>
+  </div>
+  <div class="pros-cons">
+    <div class="pros"><strong>优点</strong><ul><li>视觉最震撼</li><li>主题 hero 插画有沉浸感</li><li>功能卡片信息清晰</li><li>大编号有设计感</li></ul></div>
+    <div class="cons"><strong>缺点</strong><ul><li>hero 插画占空间大</li><li>底部可能被挤压</li></ul></div>
+  </div>
+</div>
+
+<div style="text-align:center; padding:32px;">
+  <p style="font-size:16px; color:#555; margin-bottom:8px;">你更喜欢哪种方案？</p>
+  <p style="font-size:13px; color:#999;">A 分步卡片式 / B 功能+时间线 / C 沉浸故事式</p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,99 @@
+<h2>🔥 附加议题：是否需要全局搜索？</h2>
+<p class="subtitle">创始人提出一个问题：除了场景化筛选，是否需要全局模糊搜索？</p>
+
+<div style="padding: 16px; background: #fff3e0; border-radius: 12px; border-left: 4px solid #ff9800; margin-bottom: 16px;">
+  <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+    <span style="font-size: 20px;">📊</span>
+    <span style="font-weight: 700; color: #e65100;">产品经理</span>
+    <span style="font-size: 11px; color: #999; margin-left: auto;">权衡利弊</span>
+  </div>
+  <p style="font-size: 14px; color: #333; line-height: 1.7; margin: 0;">
+    搜索和筛选解决的是不同问题，两者都需要，但粒度不同。<br><br>
+    <strong>筛选：</strong>用户模糊记得类型/感觉 → 「我收藏过的咖啡店有哪些」<br>
+    <strong>搜索：</strong>用户精确记得名字/关键词 → 「那家叫什么的串串店」<br><br>
+    但我们要问：<strong>足迹手帐的用户体量需要全局搜索吗？</strong><br>
+    如果只有 30-50 个地点，翻翻卡片就能找到，搜索反而是过度设计。<br>
+    如果用户有 200+ 个地点，筛选也不够了，必须有搜索。<br><br>
+    我建议<strong>现在就加，但要轻量</strong>。不是独立搜索页，而是首页顶部一个搜索图标，点击展开搜索框。
+  </p>
+</div>
+
+<div style="padding: 16px; background: #e3f2fd; border-radius: 12px; border-left: 4px solid #2196f3; margin-bottom: 16px;">
+  <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+    <span style="font-size: 20px;">🧑‍💻</span>
+    <span style="font-weight: 700; color: #1565c0;">用户代表</span>
+    <span style="font-size: 11px; color: #999; margin-left: auto;">强烈需要</span>
+  </div>
+  <p style="font-size: 14px; color: #333; line-height: 1.7; margin: 0;">
+    ​<strong>绝对需要。</strong><br><br>
+    我的地点不多，大概四十几个。但我经常遇到这个场景：<br>
+    「上次和朋友去的那家店，名字里有个什么茶...什么山...记不清了」<br><br>
+    我可以搜「茶」或者「山」，模糊匹配。<br>
+    而不是把四十多张卡片一张一张翻。<br><br>
+    <strong>搜索解决的是「我知道一点、但不全知道」的问题。</strong><br>
+    这是筛选做不到的。
+  </p>
+</div>
+
+<div style="padding: 16px; background: #e8f5e9; border-radius: 12px; border-left: 4px solid #4caf50; margin-bottom: 16px;">
+  <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+    <span style="font-size: 20px;">🎨</span>
+    <span style="font-weight: 700; color: #2e7d32;">设计师</span>
+    <span style="font-size: 11px; color: #999; margin-left: auto;">交互方案</span>
+  </div>
+  <p style="font-size: 14px; color: #333; line-height: 1.7; margin: 1px;">
+    不建议独立搜索页。那太重了，而且和「手帐」的感觉不符。<br><br>
+    建议：<strong>轻量内嵌搜索</strong>。<br>
+    · 首页顶部筛选栏右侧，一个搜索图标<br>
+    · 点击后筛选栏收起，搜索框展开<br>
+    · 输入时实时过滤下方卡片<br>
+    · 搜索范围：地点名称 + 标签名 → 模糊匹配<br>
+    · 取消搜索 / 清空 → 恢复原始列表<br><br>
+    交互轻，不跳页，不破坏浏览体验。
+  </p>
+</div>
+
+<div style="padding: 16px; background: #fce4ec; border-radius: 12px; border-left: 4px solid #e91e63; margin-bottom: 16px;">
+  <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+    <span style="font-size: 20px;">⚙️</span>
+    <span style="font-weight: 700; color: #c62828;">工程师</span>
+    <span style="font-size: 11px; color: #999; margin-left: auto;">技术评估</span>
+  </div>
+  <p style="font-size: 14px; color: #333; line-height: 1.7; margin: 0;">
+    很简单。<br><br>
+    后端接口按名称模糊搜索 → 已有或新增，一行 SQL LIKE 的事。<br>
+    前端实时过滤 → 如果数据量小，可以直接前端过滤，都不用请求后端。<br>
+    <strong>难度：极低。半小时能做好。</strong><br><br>
+    唯一需要决策的：搜索范围要不要扩展到「打卡内容」？<br>
+    比如用户在打卡里写了「这家店的拿铁很好喝」，搜「拿铁」能不能搜到？<br>
+    现在只搜地点名和标签就够了，打卡内容搜索可以后续迭代。
+  </p>
+</div>
+
+<div style="padding: 16px; background: #f3e5f5; border-radius: 12px; border-left: 4px solid #9c27b0; margin-bottom: 16px;">
+  <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+    <span style="font-size: 20px;">🚀</span>
+    <span style="font-weight: 700; color: #6a1b9a;">运营增长</span>
+    <span style="font-size: 11px; color: #999; margin-left: auto;">不反对</span>
+  </div>
+  <p style="font-size: 14px; color: #333; line-height: 1.7; margin: 0;">
+    搜索对增长不是核心杠杆，但不反对。<br><br>
+    唯一提醒：<strong>别让搜索入口太抢视觉</strong>。首页的主路径是浏览和筛选，搜索是辅助。一个搜索图标就够了，不要大搜索框占位置。
+  </p>
+</div>
+
+<div class="section">
+  <h3>🔑 结论</h3>
+  <div style="padding: 16px; background: #faf6f1; border-radius: 12px;">
+    <p style="font-size: 14px; color: #333; line-height: 2; margin: 0;">
+      <strong>结论：需要，但做轻量内嵌搜索，不做独立搜索页。</strong><br><br>
+      · 位置：首页筛选栏右侧，搜索图标<br>
+      · 交互：点击展开搜索框，实时过滤卡片，不跳页<br>
+      · 范围：地点名称 + 标签 → 模糊匹配<br>
+      · 技术：极低难度<br>
+      · 后续扩展：可扩展到打卡内容搜索
+    </p>
+  </div>
+</div>
+
+<p class="subtitle" style="text-align: center;">轻量内嵌搜索 — 需要，但别太重。你认可吗？</p>

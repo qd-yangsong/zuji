@@ -1,0 +1,130 @@
+<h2>🔥 第六轮：首页该怎么筛选和查找？</h2>
+<p class="subtitle">问题 ⑦ — 按年/日期筛选价值有限，用户更习惯按喜好、用途、场景查找</p>
+
+<div class="section">
+  <h3>💥 创始人对现状的判断</h3>
+  <div style="padding: 16px; background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%); border-radius: 12px; margin-bottom: 20px;">
+    <p style="font-size: 14px; color: #8b6914; line-height: 1.8; margin: 0;">
+      首页按年、按日期的标签，当用户收藏地点越来越多后，这种筛选价值有限。<br>
+      用户更习惯<strong>按喜好、用途、场景</strong>去查找。
+    </p>
+  </div>
+</div>
+
+<div style="padding: 16px; background: #e3f2fd; border-radius: 12px; border-left: 4px solid #2196f3; margin-bottom: 16px;">
+  <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+    <span style="font-size: 20px;">🧑‍💻</span>
+    <span style="font-weight: 700; color: #1565c0;">用户代表</span>
+    <span style="font-size: 11px; color: #999; margin-left: auto;">真实使用场景</span>
+  </div>
+  <p style="font-size: 14px; color: #333; line-height: 1.7; margin: 0;">
+    来说说我真实需要查的场景：<br><br>
+    <strong>场景一：</strong>朋友问我「有什么好吃的推荐？」→ 我想快速找到我有标记「好吃」的店<br>
+    <strong>场景二：</strong>这周末想带女朋友去个有氛围的地方 → 我想找「约会」、「氛围感」的地点<br>
+    <strong>场景三：</strong>想找一个安静的地方看书 → 我想找「安静」、「适合独处」的地儿<br>
+    <strong>场景四：</strong>上次去成都的那家串串店叫什么来着？→ 我想找「成都」相关的<br><br>
+    你看，我什么时候会说「我想找2024年3月收藏的地点」？<strong>几乎不会。</strong><br><br>
+    用户找东西是<strong>按场景、按用途、按感觉</strong>，很少按时间。时间排序是数据库的逻辑，不是人的逻辑。
+  </p>
+</div>
+
+<div style="padding: 16px; background: #fff3e0; border-radius: 12px; border-left: 4px solid #ff9800; margin-bottom: 16px;">
+  <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+    <span style="font-size: 20px;">📊</span>
+    <span style="font-weight: 700; color: #e65100;">产品经理</span>
+    <span style="font-size: 11px; color: #999; margin-left: auto;">拆解问题</span>
+  </div>
+  <p style="font-size: 14px; color: #333; line-height: 1.7; margin: 0;">
+    用户代表说得对。但我需要拆一下：<strong>「筛选」和「搜索」是两回事。</strong><br><br>
+    <strong>筛选 = 选一个维度，看到符合条件的卡片</strong><br>
+    <strong>搜索 = 输入关键词，精确匹配</strong><br><br>
+    用户代表的四个场景里，场景一/二/三是筛选，场景四（成都的串串店）更接近搜索。<br><br>
+    现在的标签系统本身就是按「喜好」来筛选的 — 咖啡店、餐厅、书店...<br>
+    但问题出在<strong>标签不够「表达力」</strong>。<br><br>
+    现在的标签是：咖啡店、餐厅、公园...（客观分类）<br>
+    用户需要的是：「氛围超好」、「适合约会」、「我反复去的」...（主观感受）<br><br>
+    我建议两层筛选维度：<br>
+    <strong>顶层 — 快捷筛选：</strong>「全部」「我爱去的」「想再去」「有推荐的」— 情感化分类<br>
+    <strong>展开层 — 标签筛选：</strong>现在的标签系统，但增加「情感标签」（氛围好 / 适合约会 / 性价比高...）
+  </p>
+</div>
+
+<div style="padding: 16px; background: #e8f5e9; border-radius: 12px; border-left: 4px solid #4caf50; margin-bottom: 16px;">
+  <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+    <span style="font-size: 20px;">🎨</span>
+    <span style="font-weight: 700; color: #2e7d32;">设计师</span>
+    <span style="font-size: 11px; color: #999; margin-left: auto;">交互方案</span>
+  </div>
+  <p style="font-size: 14px; color: #333; line-height: 1.7; margin: 1px;">
+    我来画一下首页的筛选栏设计：<br><br>
+    <strong>顶部一排横向滚动的筛选词：</strong><br>
+    「全部」「常去的」「想再去」「餐厅」「咖啡店」「出去玩」「探店」<br><br>
+    这不是死板的分类，而是用户会说的话。每个词像一个「小标签」，点击就过滤。<br><br>
+    <strong>关键交互：</strong><br>
+    · 默认选中「全部」，展示所有卡片<br>
+    · 卡片按<strong>最近打卡时间倒序</strong>展示（用户最常用这种行为）<br>
+    · 用户可以通过筛选词快速缩小范围<br>
+    · 不展开时只有一行，不占屏幕空间<br><br>
+    另外，如果用户数量多，可以考虑加一个<strong>轻微的搜索图标</strong>，点击可以输入地点名精确搜索。<br><br>
+    <strong>时间相关的排序怎么办？</strong>保留，但不作为主要入口。可以放在一个「排序」按钮里 — 默认最近使用，可以切换到「按收藏时间」「按区域」等。
+  </p>
+</div>
+
+<div style="padding: 16px; background: #f3e5f5; border-radius: 12px; border-left: 4px solid #9c27b0; margin-bottom: 16px;">
+  <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+    <span style="font-size: 20px;">🚀</span>
+    <span style="font-weight: 700; color: #6a1b9a;">运营增长</span>
+    <span style="font-size: 11px; color: #999; margin-left: auto;">从听到的思考</span>
+  </div>
+  <p style="font-size: 14px; color: #333; line-height: 1.7; margin: 0;">
+    我有个更大胆的想法：<strong>标签筛选词应该是智能生成的。</strong><br><br>
+    不是我们预设的固定分类，而是<strong>根据用户实际收藏的地点类型，动态生成</strong>。<br><br>
+    如果用户收藏了很多咖啡店 → 「咖啡店」标签排在前面<br>
+    如果用户最近常去餐厅 → 「餐厅」标签自动升到前面<br>
+    如果用户去了一个城市旅游 → 自动出现城市标签<br><br>
+    这样筛选栏是<strong>为用户定制的、会变化的、有生命力的</strong>。<br><br>
+    但我知道工程师会告诉我这个实现成本高。那就分两步走：<br>
+    <strong>第一步：</strong>固定一组筛选词，覆盖主流场景<br>
+    <strong>第二步：</strong>用户收藏多了以后，智能调整排序和出现哪些词
+  </p>
+</div>
+
+<div style="padding: 16px; background: #fce4ec; border-radius: 12px; border-left: 4px solid #e91e63; margin-bottom: 16px;">
+  <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+    <span style="font-size: 20px;">⚙️</span>
+    <span style="font-weight: 700; color: #c62828;">工程师</span>
+    <span style="font-size: 11px; color: #999; margin-left: auto;">评估</span>
+  </div>
+  <p style="font-size: 14px; color: #333; line-height: 1.7; margin: 0;">
+    运营你想得太远了，但我不反对这个方向。<br><br>
+    <strong>标签筛选（固定词）：</strong><br>
+    · 后端按标签字段过滤 → 已有接口，加 query 参数即可<br>
+    · 前端横向滚动标签栏 → 小程序标准组件，无技术难度<br>
+    <strong>难度：极低。</strong><br><br>
+    <strong>搜索：</strong><br>
+    · 后端按名称模糊搜索 → 已有或容易加<br>
+    · 前端搜索框 → 标准交互<br>
+    <strong>难度：低。</strong><br><br>
+    <strong>智能排序/动态标签：</strong><br>
+    · 需要统计用户的标签使用频率 → 新接口<br>
+    · 排序逻辑在前端即可完成<br>
+    <strong>难度：中。可以做，但不建议第一版就上。</strong><br><br>
+    另外，我注意到现在首页还有<strong>「按年筛选」</strong>。我的建议是：<strong>别删</strong>。把它从顶部的横向标签移到排序选项里，用户偶尔也会用到的，只是不作为主入口。
+  </p>
+</div>
+
+<div class="section">
+  <h3>🔑 本轮共识</h3>
+  <div style="padding: 16px; background: #faf6f1; border-radius: 12px;">
+    <p style="font-size: 14px; color: #333; line-height: 2; margin: 0;">
+      <strong>筛选栏改版：</strong>从「按年份横向标签」→「按场景/类型的横向筛选词」<br>
+      <strong>筛选词建议：</strong>「全部」「常去的」「想再去」「餐厅」「咖啡店」「出去玩」「探店」等用户语言的词<br>
+      <strong>默认排序：</strong>最近打卡/收藏时间倒序（用户最常用）<br>
+      <strong>保留时间筛选：</strong>移到排序选项里，作为可用但非默认的维度<br>
+      <strong>搜索：</strong>增加搜索入口，支持模糊搜索地点名<br>
+      <strong>远期方向：</strong>标签词根据用户数据智能排序和生成
+    </p>
+  </div>
+</div>
+
+<p class="subtitle" style="text-align: center;">「筛选词用场景化语言，时间筛选退到排序里」这个方向，你认可吗？</p>

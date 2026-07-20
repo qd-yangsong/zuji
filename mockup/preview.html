@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>足迹手帐 - UI Mockup</title>
+  <style>
+    /* ===== 全局重置 ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+        "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      background: #E9ECEF;
+      padding: 40px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+    }
+
+    .page-label {
+      font-size: 14px;
+      color: #868E96;
+      font-weight: 600;
+      margin-bottom: 12px;
+      letter-spacing: 0.5px;
+    }
+
+    .page-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ===== 手机外框 ===== */
+    .phone-frame {
+      width: 375px;
+      background: #fff8f0;
+      border-radius: 40px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18), 0 0 0 10px #1a1a1a, 0 0 0 12px #333;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* 状态栏 */
+    .status-bar {
+      height: 44px;
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #333;
+      position: relative;
+      z-index: 20;
+    }
+    .status-bar .time { font-size: 15px; }
+    .status-bar .icons { display: flex; gap: 5px; align-items: center; font-size: 12px; }
+
+    /* ========================================= */
+    /* ========== 页面 1：卡片墙首页 ============ */
+    /* ========================================= */
+
+    .cards-page {
+      min-height: 812px;
+      position: relative;
+      padding-bottom: 100px;
+    }
+
+    /* 顶部标题栏（带四角小装饰） */
+    .cards-header {
+      position: relative;
+      padding: 12px 16px 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .cards-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #333;
+      letter-spacing: 2px;
+    }
+    .cards-deco {
+      position: absolute;
+      color: #f5a3a3;
+      font-size: 12px;
+    }
+    .cards-deco--tl { top: 8px;  left: 40px; }
+    .cards-deco--tr { top: 8px;  right: 50px; }
+    .cards-deco--bl { top: 28px; left: 28px; }
+    .cards-deco--br { top: 28px; right: 38px; }
+    .cards-search {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .cards-search svg { width: 20px; height: 20px; stroke: #333; stroke-width: 2; fill: none; }
+
+    /* 排序栏 */
+    .sort-bar {
+      display: flex;
+      background: transparent;
+      padding: 8px 8px 4px;
+    }
+    .sort-tab {
+      flex: 1;
+      text-align: center;
+      padding: 8px 0;
+      font-size: 14px;
+      color: #666;
+      position: relative;
+    }
+    .sort-tab.active {
+      color: #333;
+      font-weight: 600;
+    }
+    .sort-tab.active::after {
+      content: '';
+      position: absolute;
+      bottom: 2px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 28px;
+      height: 3px;
+      background: #54A0FF;
+      border-radius: 2px;
+    }
+
+    /* 整齐双列网格（与设计图一致） */
+    .cards-grid {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 8px;
+    }
+    .cards-cell {
+      width: 50%;
+      padding: 5px;
+      box-sizing: border-box;
+    }
+
+    .place-card {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      height: 210px;
+      padding: 10px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* 左上首字圆形 */
+    .card-badge {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      z-index: 2;
+    }
+    .card-badge-text {
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    /* 角落装饰 + 收藏 */
+    .card-deco {
+      position: absolute;
+      top: 10px;
+      right: 36px;
+      font-size: 16px;
+      z-index: 1;
+    }
+    .card-heart {
+      position: absolute;
+      top: 11px;
+      right: 12px;
+      font-size: 18px;
+      color: #ff8a8a;
+      z-index: 2;
+    }
+
+    /* 中央 emoji 插画 */
+    .card-illu {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .card-emoji {
+      font-size: 60px;
+      line-height: 1;
+    }
+
+    /* 底部信息 */
+    .card-info { margin-top: 4px; }
+    .card-name {
+      display: block;
+      font-size: 15px;
+      font-weight: 600;
+      color: #333;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .card-sub {
+      display: block;
+      font-size: 11px;
+      color: #888;
+      margin-top: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .card-meta {
+      display: flex;
+      align-items: center;
+      margin-top: 4px;
+    }
+    .card-checkin {
+      font-size: 11px;
+      color: #666;
+    }
+    .card-attrtag {
+      margin-left: 8px;
+      font-size: 11px;
+      color: #333;
+      background: rgba(255, 255, 255, 0.55);
+      padding: 1px 7px;
+      border-radius: 10px;
+    }
+    .card-scenetag {
+      margin-top: 4px;
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.55);
+      border-radius: 10px;
+      padding: 1px 7px;
+    }
+    .card-scenetag span { font-size: 11px; color: #333; }
+
+    /* 浮动添加按钮 */
+    .fab {
+      position: absolute;
+      right: 16px;
+      bottom: 100px;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: #54A0FF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 3px 10px rgba(84, 160, 255, 0.4);
+      z-index: 100;
+    }
+    .fab-plus {
+      font-size: 28px;
+      color: #fff;
+      line-height: 1;
+      font-weight: 300;
+    }
+
+    /* 空状态卡片 */
+    .empty-card {
+      display: flex;
+      align-items: center;
+      padding: 16px 12px;
+      background: #fff;
+      border: 1px dashed #c0d8ff;
+      border-radius: 8px;
+      margin: 12px 8px 0;
+    }
+    .empty-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #e8f1ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 10px;
+      flex-shrink: 0;
+    }
+    .empty-icon-text { font-size: 16px; }
+    .empty-title { font-size: 14px; color: #333; }
+    .empty-sub { font-size: 12px; color: #999; margin-top: 2px; }
+
+    /* 底部 Tab 栏 */
+    .tab-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 83px;
+      background: #fff;
+      border-top: 1px solid #eee;
+      display: flex;
+      padding-bottom: 20px;
+    }
+    .tab-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      font-size: 10px;
+      color: #999;
+    }
+    .tab-item.active { color: #54A0FF; }
+    .tab-icon {
+      width: 22px;
+      height: 22px;
+      fill: currentColor;
+    }
+
+
+    /* ========================================= */
+    /* ========== 页面 2：地点详情页 ============ */
+    /* ========================================= */
+
+    .detail-page {
+      min-height: 812px;
+      position: relative;
+      padding-bottom: 100px;
+    }
+
+    /* 详情页顶部导航 */
+    .detail-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 8px;
+      height: 44px;
+      position: relative;
+      z-index: 10;
+    }
+    .detail-nav-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+    }
+    .detail-nav-btn svg {
+      width: 18px;
+      height: 18px;
+      stroke: #333;
+      stroke-width: 2;
+      fill: none;
+    }
+    .detail-nav-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    /* 封面区（渐变 + 双栏：左字右图） */
+    .detail-cover {
+      position: relative;
+      margin: 0 12px;
+      height: 180px;
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      padding: 16px;
+      box-sizing: border-box;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+    }
+    .cover-deco {
+      position: absolute;
+      color: rgba(255, 255, 255, 0.85);
+      font-size: 12px;
+    }
+    .cover-deco--tl { top: 8px;  left: 8px;  }
+    .cover-deco--tr { top: 12px; right: 100px; }
+    .cover-deco--bl { bottom: 40px; left: 100px; }
+    .cover-deco--br { bottom: 100px; right: 12px; }
+
+    .cover-left {
+      flex: 0 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-right: 12px;
+    }
+    .cover-badge {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+    .cover-letter {
+      font-size: 32px;
+      font-weight: bold;
+      line-height: 1;
+    }
+    .cover-emoji {
+      font-size: 30px;
+      margin-top: 6px;
+      line-height: 1;
+    }
+
+    .cover-right {
+      flex: 1;
+      position: relative;
+      height: 100%;
+    }
+    .cover-img-fake {
+      width: 100%;
+      height: 100%;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .cover-img-emoji { font-size: 50px; line-height: 1; }
+
+    /* 封面右下角小图片装饰 */
+    .cover-corner {
+      position: absolute;
+      bottom: -8px;
+      right: -4px;
+      width: 36px;
+      height: 36px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .cover-corner-emoji { font-size: 18px; line-height: 1; }
+
+    /* 信息卡片（圆角向上覆盖封面底部） */
+    .detail-body {
+      background: #fff;
+      border-radius: 16px 16px 0 0;
+      margin-top: -16px;
+      position: relative;
+      z-index: 2;
+      padding: 20px 16px 16px;
+    }
+    .detail-custom-name {
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+    }
+    .detail-meta {
+      display: flex;
+      align-items: center;
+      margin-top: 6px;
+      font-size: 12px;
+      color: #888;
+    }
+    .detail-pin { font-size: 12px; margin-right: 3px; }
+
+    /* 标签区域 */
+    .tag-block { margin-top: 12px; }
+    .tag-row {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 8px;
+    }
+    .tag-row-label {
+      font-size: 12px;
+      color: #999;
+      width: 32px;
+      flex-shrink: 0;
+      line-height: 20px;
+    }
+    .tag-row-items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      flex: 1;
+    }
+    .tag-pill {
+      display: inline-block;
+      font-size: 12px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      white-space: nowrap;
+    }
+    .tag-pill.attribute {
+      color: #54A0FF;
+      background: #E8F1FF;
+    }
+    .tag-pill.scene {
+      color: #4CAF50;
+      background: #E8F5E9;
+    }
+
+    /* 分割线 */
+    .detail-divider {
+      height: 1px;
+      background: #f0f0f0;
+      margin: 8px 0;
+    }
+
+    /* 统计信息 */
+    .detail-stats {
+      display: flex;
+      align-items: center;
+      font-size: 12px;
+      color: #888;
+    }
+    .stats-icon { color: #FFB84D; font-size: 12px; margin-right: 2px; }
+    .stats-dot { margin: 0 6px; color: #ccc; }
+
+    /* 小地图区 */
+    .map-section { margin-top: 12px; }
+    .map-section-title {
+      display: flex;
+      align-items: center;
+      font-size: 13px;
+      font-weight: 500;
+      color: #333;
+      margin-bottom: 6px;
+    }
+    .map-section-icon { color: #54A0FF; font-size: 14px; margin-right: 4px; }
+    .map-wrapper {
+      position: relative;
+      width: 100%;
+      height: 160px;
+      background: #EEF0F2;
+      border-radius: 8px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-image:
+        linear-gradient(rgba(84,160,255,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(84,160,255,0.06) 1px, transparent 1px);
+      background-size: 28px 28px;
+    }
+    .map-pin {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .map-pin-icon {
+      width: 36px;
+      height: 36px;
+      background: #54A0FF;
+      border-radius: 50% 50% 50% 0;
+      transform: rotate(-45deg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(84, 160, 255, 0.4);
+    }
+    .map-pin-dot {
+      width: 12px;
+      height: 12px;
+      background: #fff;
+      border-radius: 50%;
+    }
+    .map-pin-shadow {
+      width: 14px;
+      height: 5px;
+      background: rgba(0, 0, 0, 0.12);
+      border-radius: 50%;
+      margin-top: 4px;
+    }
+    .map-sign {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      width: 28px;
+      height: 28px;
+      background: #fff;
+      border-radius: 50%;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .map-sign-icon { color: #54A0FF; font-size: 14px; }
+
+    /* 底部按钮栏 */
+    .detail-footer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      padding: 10px 16px;
+      padding-bottom: 32px;
+      background: #fff;
+      box-shadow: 0 -1px 6px rgba(0, 0, 0, 0.05);
+      gap: 12px;
+    }
+    .detail-btn {
+      flex: 1;
+      height: 44px;
+      border-radius: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      font-weight: 500;
+    }
+    .detail-btn.primary {
+      background: #54A0FF;
+      color: #fff;
+    }
+    .detail-btn.outline {
+      background: #fff;
+      color: #54A0FF;
+      border: 1.5px solid #54A0FF;
+    }
+    .btn-icon { margin-right: 4px; }
+  </style>
+</head>
+<body>
+
+  <!-- ====================================================== -->
+  <!--                  页面 1：卡片墙首页                      -->
+  <!-- ====================================================== -->
+  <div class="page-wrapper">
+    <div class="page-label">页面 1：卡片墙首页</div>
+    <div class="phone-frame">
+      <div class="cards-page">
+
+        <!-- 状态栏 -->
+        <div class="status-bar">
+          <span class="time">9:41</span>
+          <span class="icons">
+            <span>●●●●</span>
+            <span>📶</span>
+            <span>🔋</span>
+          </span>
+        </div>
+
+        <!-- 顶部标题栏（带四角小装饰） -->
+        <div class="cards-header">
+          <span class="cards-deco cards-deco--tl">✦</span>
+          <span class="cards-deco cards-deco--tr">✦</span>
+          <span class="cards-deco cards-deco--bl">✧</span>
+          <span class="cards-deco cards-deco--br">✧</span>
+          <span class="cards-title">我的地点</span>
+          <div class="cards-search">
+            <svg viewBox="0 0 24 24">
+              <circle cx="11" cy="11" r="7"></circle>
+              <line x1="16.5" y1="16.5" x2="21" y2="21"></line>
+            </svg>
+          </div>
+        </div>
+
+        <!-- 排序标签栏 -->
+        <div class="sort-bar">
+          <div class="sort-tab active">最近添加</div>
+          <div class="sort-tab">按年</div>
+          <div class="sort-tab">按日期</div>
+          <div class="sort-tab">打卡次数</div>
+        </div>
+
+        <!-- 卡片双列网格（整齐等高） -->
+        <div class="cards-grid">
+          <!-- 卡片 1：夜 - 深蓝 -->
+          <div class="cards-cell">
+            <div class="place-card" style="background: #3B4B7A;">
+              <span class="card-deco">✨</span>
+              <span class="card-heart">♡</span>
+              <div class="card-badge" style="background: #FFFFFF;">
+                <span class="card-badge-text" style="color: #3B4B7A;">夜</span>
+              </div>
+              <div class="card-illu"><span class="card-emoji">🌙</span></div>
+              <div class="card-info">
+                <span class="card-name">我家楼下深夜小馆</span>
+                <span class="card-sub">老张烧烤</span>
+                <div class="card-meta">
+                  <span class="card-checkin">打卡 3 次</span>
+                  <span class="card-attrtag">美食</span>
+                </div>
+                <div class="card-scenetag"><span>适合深夜</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 卡片 2：咖 - 浅米 -->
+          <div class="cards-cell">
+            <div class="place-card" style="background: #F4E4C1;">
+              <span class="card-deco">☁️</span>
+              <span class="card-heart">♡</span>
+              <div class="card-badge" style="background: #8B5A2B;">
+                <span class="card-badge-text" style="color: #FFFFFF;">咖</span>
+              </div>
+              <div class="card-illu"><span class="card-emoji">☕</span></div>
+              <div class="card-info">
+                <span class="card-name">周末秘密基地</span>
+                <span class="card-sub">Manner Coffee</span>
+                <div class="card-meta">
+                  <span class="card-checkin">打卡 8 次</span>
+                  <span class="card-attrtag">咖啡</span>
+                </div>
+                <div class="card-scenetag"><span>适合周末</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 卡片 3：园 - 浅绿 -->
+          <div class="cards-cell">
+            <div class="place-card" style="background: #C8E6C9;">
+              <span class="card-deco">⭐️</span>
+              <span class="card-heart">♡</span>
+              <div class="card-badge" style="background: #4CAF50;">
+                <span class="card-badge-text" style="color: #FFFFFF;">园</span>
+              </div>
+              <div class="card-illu"><span class="card-emoji">🌳</span></div>
+              <div class="card-info">
+                <span class="card-name">带娃好去处</span>
+                <span class="card-sub">中山公园</span>
+                <div class="card-meta">
+                  <span class="card-checkin">打卡 5 次</span>
+                  <span class="card-attrtag">公园</span>
+                </div>
+                <div class="card-scenetag"><span>适合带孩子</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 卡片 4：聚 - 紫 -->
+          <div class="cards-cell">
+            <div class="place-card" style="background: #E1BEE7;">
+              <span class="card-deco">💕</span>
+              <span class="card-heart">♡</span>
+              <div class="card-badge" style="background: #9C27B0;">
+                <span class="card-badge-text" style="color: #FFFFFF;">聚</span>
+              </div>
+              <div class="card-illu"><span class="card-emoji">🥰</span></div>
+              <div class="card-info">
+                <span class="card-name">闺蜜聚餐据点</span>
+                <span class="card-sub">海底捞（南门）</span>
+                <div class="card-meta">
+                  <span class="card-checkin">打卡 12 次</span>
+                  <span class="card-attrtag">美食</span>
+                </div>
+                <div class="card-scenetag"><span>适合朋友小聚</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 卡片 5：宿 - 橘 -->
+          <div class="cards-cell">
+            <div class="place-card" style="background: #FFE0B2;">
+              <span class="card-deco">🟠</span>
+              <span class="card-heart">♡</span>
+              <div class="card-badge" style="background: #FF9800;">
+                <span class="card-badge-text" style="color: #FFFFFF;">宿</span>
+              </div>
+              <div class="card-illu"><span class="card-emoji">🧳</span></div>
+              <div class="card-info">
+                <span class="card-name">出差落脚点</span>
+                <span class="card-sub">全季酒店</span>
+                <div class="card-meta">
+                  <span class="card-checkin">打卡 2 次</span>
+                  <span class="card-attrtag">酒店</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 卡片 6：展 - 浅蓝 -->
+          <div class="cards-cell">
+            <div class="place-card" style="background: #B3E5FC;">
+              <span class="card-deco">💎</span>
+              <span class="card-heart">♡</span>
+              <div class="card-badge" style="background: #03A9F4;">
+                <span class="card-badge-text" style="color: #FFFFFF;">展</span>
+              </div>
+              <div class="card-illu"><span class="card-emoji">🖼️</span></div>
+              <div class="card-info">
+                <span class="card-name">看展常去</span>
+                <span class="card-sub">上海当代艺术博物馆</span>
+                <div class="card-meta">
+                  <span class="card-checkin">打卡 4 次</span>
+                  <span class="card-attrtag">博物馆</span>
+                </div>
+                <div class="card-scenetag"><span>适合周末</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 空状态卡片（设计图同款） -->
+        <div class="empty-card">
+          <div class="empty-icon"><span class="empty-icon-text">📍</span></div>
+          <div>
+            <div class="empty-title">还没有收藏任何地点</div>
+            <div class="empty-sub">去标记第一个对你重要的地方吧</div>
+          </div>
+        </div>
+
+        <!-- 浮动添加按钮 -->
+        <div class="fab">
+          <span class="fab-plus">+</span>
+        </div>
+
+        <!-- 底部 Tab 栏 -->
+        <div class="tab-bar">
+          <div class="tab-item active">
+            <svg class="tab-icon" viewBox="0 0 24 24">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+            </svg>
+            <span>地点</span>
+          </div>
+          <div class="tab-item">
+            <svg class="tab-icon" viewBox="0 0 24 24">
+              <rect x="3" y="3" width="7" height="7" rx="1"/>
+              <rect x="14" y="3" width="7" height="7" rx="1"/>
+              <rect x="3" y="14" width="7" height="7" rx="1"/>
+              <rect x="14" y="14" width="7" height="7" rx="1"/>
+            </svg>
+            <span>发现</span>
+          </div>
+          <div class="tab-item">
+            <svg class="tab-icon" viewBox="0 0 24 24">
+              <circle cx="12" cy="8" r="4"/>
+              <path d="M4 21v-1a8 8 0 0 1 16 0v1"/>
+            </svg>
+            <span>我的</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ====================================================== -->
+  <!--                  页面 2：地点详情页                      -->
+  <!-- ====================================================== -->
+  <div class="page-wrapper">
+    <div class="page-label">页面 2：地点详情页</div>
+    <div class="phone-frame">
+      <div class="detail-page">
+
+        <!-- 状态栏 -->
+        <div class="status-bar">
+          <span class="time">9:41</span>
+          <span class="icons">
+            <span>●●●●</span>
+            <span>📶</span>
+            <span>🔋</span>
+          </span>
+        </div>
+
+        <!-- 顶部导航 -->
+        <div class="detail-nav">
+          <div class="detail-nav-btn">
+            <svg viewBox="0 0 24 24">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </div>
+          <span class="detail-nav-title">地点详情</span>
+          <div class="detail-nav-btn">
+            <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="1"></circle>
+              <circle cx="19" cy="12" r="1"></circle>
+              <circle cx="5" cy="12" r="1"></circle>
+            </svg>
+          </div>
+        </div>
+
+        <!-- 封面区（渐变 + 双栏：左字右图） -->
+        <div class="detail-cover" style="background: linear-gradient(135deg, #ff9a8b 0%, #ff6a88 50%, #ff99ac 100%);">
+          <span class="cover-deco cover-deco--tl">✦</span>
+          <span class="cover-deco cover-deco--tr">✧</span>
+          <span class="cover-deco cover-deco--bl">✦</span>
+          <span class="cover-deco cover-deco--br">✧</span>
+
+          <div class="cover-left">
+            <div class="cover-badge" style="background: #FFFFFF;">
+              <span class="cover-letter" style="color: #ff6a88;">夜</span>
+            </div>
+            <span class="cover-emoji">🌙</span>
+          </div>
+
+          <div class="cover-right">
+            <div class="cover-img-fake">
+              <span class="cover-img-emoji">🏮</span>
+            </div>
+            <div class="cover-corner"><span class="cover-corner-emoji">🍡</span></div>
+          </div>
+        </div>
+
+        <!-- 信息卡片 -->
+        <div class="detail-body">
+          <div class="detail-custom-name">我家楼下深夜小馆</div>
+          <div class="detail-meta">
+            <span class="detail-pin">📍</span>
+            <span>老张烧烤 · 南京路 123 号</span>
+          </div>
+
+          <!-- 标签区域 -->
+          <div class="tag-block">
+            <div class="tag-row">
+              <span class="tag-row-label">属性</span>
+              <div class="tag-row-items">
+                <span class="tag-pill attribute">美食</span>
+              </div>
+            </div>
+            <div class="tag-row">
+              <span class="tag-row-label">场景</span>
+              <div class="tag-row-items">
+                <span class="tag-pill scene">适合朋友小聚</span>
+                <span class="tag-pill scene">适合深夜</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 分割线 -->
+          <div class="detail-divider"></div>
+
+          <!-- 统计信息 -->
+          <div class="detail-stats">
+            <span><span class="stats-icon">★</span> 打卡 3 次</span>
+            <span class="stats-dot">·</span>
+            <span>收藏于 2024.03.15</span>
+          </div>
+
+          <!-- 小地图区 -->
+          <div class="map-section">
+            <div class="map-section-title">
+              <span class="map-section-icon">📍</span>
+              <span>位置</span>
+            </div>
+            <div class="map-wrapper">
+              <div class="map-pin">
+                <div class="map-pin-icon">
+                  <div class="map-pin-dot"></div>
+                </div>
+                <div class="map-pin-shadow"></div>
+              </div>
+              <div class="map-sign"><span class="map-sign-icon">➤</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 底部按钮栏 -->
+        <div class="detail-footer">
+          <div class="detail-btn primary">
+            <span class="btn-icon">👤</span>打卡
+          </div>
+          <div class="detail-btn outline">
+            <span class="btn-icon">↑</span>分享
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

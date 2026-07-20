@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>足迹手帐 · 无Emoji视觉方案</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: -apple-system, 'PingFang SC', 'Noto Sans SC', sans-serif;
+    background: #f5f0eb;
+    color: #2d2d2d;
+    padding: 32px 24px;
+  }
+  .page-title {
+    text-align: center;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #1a1a2e;
+  }
+  .page-sub {
+    text-align: center;
+    font-size: 14px;
+    color: #888;
+    margin-bottom: 40px;
+  }
+  .section {
+    max-width: 960px;
+    margin: 0 auto 56px;
+  }
+  .section-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #1a1a2e;
+    border-left: 4px solid #6366f1;
+    padding-left: 12px;
+  }
+  .section-desc {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 24px;
+    padding-left: 16px;
+  }
+
+  /* 方案对比行 */
+  .compare-row {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .compare-col {
+    width: 280px;
+  }
+  .compare-label {
+    text-align: center;
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 12px;
+  }
+  .compare-desc {
+    text-align: center;
+    font-size: 12px;
+    color: #999;
+    margin-top: 12px;
+    line-height: 1.5;
+  }
+
+  /* 卡片基础 */
+  .card {
+    width: 100%;
+    height: 200px;
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  .card-visual {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .card-info {
+    background: #fff;
+    padding: 10px 12px;
+  }
+  .card-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #2d3436;
+    margin-bottom: 2px;
+  }
+  .card-meta {
+    font-size: 11px;
+    color: #999;
+  }
+
+  /* 首字徽章 */
+  .badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 700;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    z-index: 2;
+  }
+  .heart {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 32px;
+    height: 32px;
+    background: rgba(255,255,255,0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    z-index: 2;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
+
+  /* ========== 方案A：纯渐变 + 大号首字 ========== */
+  .grad-night { background: linear-gradient(160deg, #a8a8d0 0%, #7c7cb8 100%); }
+  .grad-coffee { background: linear-gradient(160deg, #f5deb3 0%, #d4a96a 100%); }
+  .grad-park { background: linear-gradient(160deg, #c8e6c9 0%, #81c784 100%); }
+  .grad-gather { background: linear-gradient(160deg, #e1bee7 0%, #ce93d8 100%); }
+
+  .big-char {
+    font-size: 72px;
+    font-weight: 800;
+    color: rgba(255,255,255,0.5);
+    text-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+
+  /* ========== 方案B：渐变 + CSS几何图形 ========== */
+  /* 夜 - 月亮 */
+  .geo-night .geo-shape {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.7);
+    box-shadow: inset -20px -8px 0 rgba(124,124,184,0.5);
+  }
+  /* 咖 - 圆环 */
+  .geo-coffee .geo-shape {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: 8px solid rgba(255,255,255,0.6);
+    position: relative;
+  }
+  .geo-coffee .geo-shape::after {
+    content: '';
+    position: absolute;
+    width: 50px;
+    height: 16px;
+    border: 4px solid rgba(255,255,255,0.4);
+    border-radius: 50%;
+    top: -22px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  /* 园 - 叶子 */
+  .geo-park .geo-shape {
+    width: 70px;
+    height: 70px;
+    background: rgba(255,255,255,0.5);
+    border-radius: 0 100% 0 100%;
+    transform: rotate(-15deg);
+  }
+  /* 聚 - 双圆叠加 */
+  .geo-gather .geo-shape {
+    position: relative;
+    width: 80px;
+    height: 60px;
+  }
+  .geo-gather .geo-shape::before,
+  .geo-gather .geo-shape::after {
+    content: '';
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.4);
+  }
+  .geo-gather .geo-shape::before { left: 0; top: 5px; }
+  .geo-gather .geo-shape::after { right: 0; top: 5px; background: rgba(255,255,255,0.55); }
+
+  /* ========== 方案C：渐变 + CSS图案纹理 ========== */
+  /* 波点 */
+  .pat-dot {
+    background-image:
+      radial-gradient(circle, rgba(255,255,255,0.25) 4px, transparent 4px);
+    background-size: 24px 24px;
+  }
+  /* 条纹 */
+  .pat-stripe {
+    background-image:
+      repeating-linear-gradient(45deg, rgba(255,255,255,0.12) 0, rgba(255,255,255,0.12) 8px, transparent 8px, transparent 20px);
+  }
+  /* 网格 */
+  .pat-grid {
+    background-image:
+      linear-gradient(rgba(255,255,255,0.15) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.15) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+  /* 同心圆 */
+  .pat-ring {
+    background-image:
+      radial-gradient(circle, transparent 30px, rgba(255,255,255,0.12) 32px, rgba(255,255,255,0.12) 34px, transparent 36px),
+      radial-gradient(circle, transparent 60px, rgba(255,255,255,0.1) 62px, rgba(255,255,255,0.1) 64px, transparent 66px);
+  }
+  .pat-label {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    font-size: 11px;
+    color: rgba(255,255,255,0.7);
+    font-weight: 500;
+    z-index: 1;
+  }
+
+  /* ========== 方案D：渐变 + 多层色块叠加 ========== */
+  .layer-bg {
+    position: relative;
+  }
+  .layer-bg::before {
+    content: '';
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    top: -30px;
+    right: -30px;
+  }
+  .layer-bg::after {
+    content: '';
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.12);
+    bottom: 10px;
+    left: -10px;
+  }
+  .layer-bg .layer-char {
+    font-size: 48px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.85);
+    text-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    z-index: 1;
+  }
+
+  /* ========== 手机框架完整对比 ========== */
+  .phone {
+    width: 300px;
+    background: #1a1a2e;
+    border-radius: 36px;
+    padding: 8px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+  }
+  .phone-screen {
+    background: #faf6f1;
+    border-radius: 28px;
+    overflow: hidden;
+    height: 600px;
+  }
+  .phone-label {
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: #555;
+    margin-top: 12px;
+  }
+  .mini-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 16px 12px;
+  }
+  .mini-title { font-size: 20px; font-weight: 700; color: #2d3436; }
+  .mini-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    padding: 0 16px;
+  }
+
+  .pros-cons {
+    display: flex;
+    gap: 16px;
+    margin-top: 16px;
+    font-size: 12px;
+  }
+  .pros, .cons {
+    flex: 1;
+    padding: 10px 14px;
+    border-radius: 10px;
+  }
+  .pros { background: #d1fae5; }
+  .cons { background: #fee2e2; }
+  .pros strong { color: #065f46; }
+  .cons strong { color: #991b1b; }
+  .pros ul, .cons ul { list-style: none; margin-top: 4px; }
+  .pros li, .cons li { padding: 2px 0; color: #555; }
+
+  .option-box {
+    cursor: pointer;
+    border: 3px solid transparent;
+    border-radius: 24px;
+    padding: 4px;
+    transition: border-color 0.2s;
+  }
+  .option-box:hover { border-color: #c7d2fe; }
+  .option-box.selected { border-color: #6366f1; }
+</style>
+</head>
+<body>
+
+<h1 class="page-title">无 Emoji 视觉方案对比</h1>
+<p class="page-sub">4 种纯 CSS 视觉方案 · 永不失真 · 零网络请求 · 统一可控</p>
+
+<!-- ===== 方案A ===== -->
+<div class="section">
+  <h2 class="section-title">方案 A · 纯渐变 + 大号首字</h2>
+  <p class="section-desc">最简洁。渐变背景上放半透明大号首字，干净优雅</p>
+  <div class="compare-row">
+    <div class="compare-col">
+      <div class="compare-label">夜</div>
+      <div class="card">
+        <div class="card-visual grad-night">
+          <div class="badge" style="color:#5a5a8e;">夜</div>
+          <div class="heart">💜</div>
+          <div class="big-char">夜</div>
+        </div>
+        <div class="card-info">
+          <div class="card-name">深夜食堂</div>
+          <div class="card-meta">打卡 5 次</div>
+        </div>
+      </div>
+    </div>
+    <div class="compare-col">
+      <div class="compare-label">咖</div>
+      <div class="card">
+        <div class="card-visual grad-coffee">
+          <div class="badge" style="color:#8b6914;">咖</div>
+          <div class="heart">💛</div>
+          <div class="big-char">咖</div>
+        </div>
+        <div class="card-info">
+          <div class="card-name">街角咖啡</div>
+          <div class="card-meta">打卡 12 次</div>
+        </div>
+      </div>
+    </div>
+    <div class="compare-col">
+      <div class="compare-label">园</div>
+      <div class="card">
+        <div class="card-visual grad-park">
+          <div class="badge" style="color:#2e7d32;">园</div>
+          <div class="heart">💚</div>
+          <div class="big-char">园</div>
+        </div>
+        <div class="card-info">
+          <div class="card-name">樱花公园</div>
+          <div class="card-meta">打卡 3 次</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pros-cons">
+    <div class="pros"><strong>优点</strong><ul><li>极简优雅，视觉干净</li><li>零资源依赖</li><li>首字即品牌</li></ul></div>
+    <div class="cons"><strong>缺点</strong><ul><li>视觉变化少</li><li>区分度依赖颜色</li></ul></div>
+  </div>
+</div>
+
+<!-- ===== 方案B ===== -->
+<div class="section">
+  <h2 class="section-title">方案 B · 渐变 + CSS 几何图形</h2>
+  <p class="section-desc">用 CSS 绘制主题相关抽象图形：月亮、咖啡杯环、叶子、双圆。有辨识度不失真</p>
+  <div class="compare-row">
+    <div class="compare-col">
+      <div class="compare-label">夜 · 月亮</div>
+      <div class="card">
+        <div class="card-visual grad-night geo-night">
+          <div class="badge" style="color:#5a5a8e;">夜</div>
+          <div class="heart">💜</div>
+          <div class="geo-shape"></div>
+        </div>
+        <div class="card-info">
+          <div class="card-name">深夜食堂</div>
+          <div class="card-meta">打卡 5 次</div>
+        </div>
+      </div>
+    </div>
+    <div class="compare-col">
+      <div class="compare-label">咖 · 杯环</div>
+      <div class="card">
+        <div class="card-visual grad-coffee geo-coffee">
+          <div class="badge" style="color:#8b6914;">咖</div>
+          <div class="heart">💛</div>
+          <div class="geo-shape"></div>
+        </div>
+        <div class="card-info">
+          <div class="card-name">街角咖啡</div>
+          <div class="card-meta">打卡 12 次</div>
+        </div>
+      </div>
+    </div>
+    <div class="compare-col">
+      <div class="compare-label">园 · 叶</div>
+      <div class="card">
+        <div class="card-visual grad-park geo-park">
+          <div class="badge" style="color:#2e7d32;">园</div>
+          <div class="heart">💚</div>
+          <div class="geo-shape"></div>
+        </div>
+        <div class="card-info">
+          <div class="card-name">樱花公园</div>
+          <div class="card-meta">打卡 3 次</div>
+        </div>
+      </div>
+    </div>
+    <div class="compare-col">
+      <div class="compare-label">聚 · 双圆</div>
+      <div class="card">
+        <div class="card-visual grad-gather geo-gather">
+          <div class="badge" style="color:#7b1fa2;">聚</div>
+          <div class="heart">🩷</div>
+          <div class="geo-shape"></div>
+        </div>
+        <div class="card-info">
+          <div class="card-name">老地方火锅</div>
+          <div class="card-meta">打卡 8 次</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pros-cons">
+    <div class="pros"><strong>优点</strong><ul><li>每主题有独特图形</li><li>抽象艺术感</li><li>纯CSS零资源</li></ul></div>
+    <div class="cons"><strong>缺点</strong><ul><li>图形与主题关联需解读</li><li>CSS 较复杂</li></ul></div>
+  </div>
+</div>
+
+<!-- ===== 方案C ===== -->
+<div class="section">
+  <h2 class="section-title">方案 C · 渐变 + CSS 图案纹理</h2>
+  <p class="section-desc">在渐变上叠加波点/条纹/网格/同心圆图案，手账纸张质感</p>
+  <div class="compare-row">
+    <div class="compare-col">
+      <div class="compare-label">波点</div>
+      <div class="card">
+        <div class="card-visual grad-night pat-dot">
+          <div class="badge" style="color:#5a5a8e;">夜</div>
+          <div class="heart">💜</div>
+          <div class="big-char" style="font-size:56px;">夜</div>
+        </div>
+        <div class="card-info">
+          <div class="card-name">深夜食堂</div>
+          <div class="card-meta">打卡 5 次</div>
+        </div>
+      </div>
+    </div>
+    <div class="compare-col">
+      <div class="compare-label">斜条纹</div>
+      <div class="card">
+        <div class="card-visual grad-coffee pat-stripe">
+          <div class="badge" style="color:#8b6914;">咖</div>
+          <div class="heart">💛</div>
+          <div class="big-char" style="font-size:56px;">咖</div>
+        </div>
+        <div class="card-info">
+          <div class="card-name">街角咖啡</div>
+          <div class="card-meta">打卡 12 次</div>
+        </div>
+      </div>
+    </div>
+    <div class="compare-col">
+      <div class="compare-label">网格</div>
+      <div class="card">
+        <div class="card-visual grad-park pat-grid">
+          <div class="badge" style="color:#2e7d32;">园</div>
+          <div class="heart">💚</div>
+          <div class="big-char" style="font-size:56px;">园</div>
+        </div>
+        <div class="card-info">
+          <div class="card-name">樱花公园</div>
+          <div class="card-meta">打卡 3 次</div>
+        </div>
+      </div>
+    </div>
+    <div class="compare-col">
+      <div class="compare-label">同心圆</div>
+      <div class="card">
+        <div class="card-visual grad-gather pat-ring">
+          <div class="badge" style="color:#7b1fa2;">聚</div>
+          <div class="heart">🩷</div>
+          <div class="big-char" style="font-size:56px;">聚</div>
+        </div>
+        <div class="card-info">
+          <div class="card-name">老地方火锅</div>
+          <div class="card-meta">打卡 8 次</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pros-cons">
+    <div class="pros"><strong>优点</strong><ul><li>手账纸张质感</li><li>图案+颜色双重区分</li><li>纹理丰富有层次</li></ul></div>
+    <div class="cons"><strong>缺点</strong><ul><li>图案选择需设计</li><li>纹理过于密集可能杂乱</li></ul></div>
+  </div>
+</div>
+
+<!-- ===== 方案D ===== -->
+<div class="section">
+  <h2 class="section-title">方案 D · 渐变 + 多层色块叠加（推荐）</h2>
+  <p class="section-desc">渐变背景 + 半透明装饰圆 + 首字。柔和、层次丰富、优雅。综合最优</p>
+  <div class="compare-row">
+    <div class="compare-col">
+      <div class="compare-label">夜</div>
+      <div class="card">
+        <div class="card-visual grad-night layer-bg">
+          <div class="badge" style="color:#5a5a8e;">夜</div>
+          <div class="heart">💜</div>
+          <div class="layer-char">夜</div>
+        </div>
+        <div class="card-info">
+          <div class="card-name">深夜食堂</div>
+          <div class="card-meta">打卡 5 次</div>
+        </div>
+      </div>
+    </div>
+    <div class="compare-col">
+      <div class="compare-label">咖</div>
+      <div class="card">
+        <div class="card-visual grad-coffee layer-bg">
+          <div class="badge" style="color:#8b6914;">咖</div>
+          <div class="heart">💛</div>
+          <div class="layer-char">咖</div>
+        </div>
+        <div class="card-info">
+          <div class="card-name">街角咖啡</div>
+          <div class="card-meta">打卡 12 次</div>
+        </div>
+      </div>
+    </div>
+    <div class="compare-col">
+      <div class="compare-label">园</div>
+      <div class="card">
+        <div class="card-visual grad-park layer-bg">
+          <div class="badge" style="color:#2e7d32;">园</div>
+          <div class="heart">💚</div>
+          <div class="layer-char">园</div>
+        </div>
+        <div class="card-info">
+          <div class="card-name">樱花公园</div>
+          <div class="card-meta">打卡 3 次</div>
+        </div>
+      </div>
+    </div>
+    <div class="compare-col">
+      <div class="compare-label">聚</div>
+      <div class="card">
+        <div class="card-visual grad-gather layer-bg">
+          <div class="badge" style="color:#7b1fa2;">聚</div>
+          <div class="heart">🩷</div>
+          <div class="layer-char">聚</div>
+        </div>
+        <div class="card-info">
+          <div class="card-name">老地方火锅</div>
+          <div class="card-meta">打卡 8 次</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pros-cons">
+    <div class="pros"><strong>优点</strong><ul><li>层次丰富但不杂乱</li><li>装饰圆+首字构图完整</li><li>柔和优雅</li><li>纯CSS零资源</li><li>主题色区分度强</li></ul></div>
+    <div class="cons"><strong>缺点</strong><ul><li>不如图形有主题关联</li></ul></div>
+  </div>
+</div>
+
+<!-- ===== 完整卡片墙预览（方案D） ===== -->
+<div class="section">
+  <h2 class="section-title">方案 D 完整预览 · 卡片墙</h2>
+  <p class="section-desc">方案D应用到完整卡片墙的效果</p>
+  <div style="display:flex;justify-content:center;">
+    <div>
+      <div class="phone">
+        <div class="phone-screen">
+          <div class="mini-header">
+            <div class="mini-title">我的地点</div>
+            <div style="width:44px;height:44px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">🔍</div>
+          </div>
+          <div class="mini-grid">
+            <div class="card" style="height:180px;">
+              <div class="card-visual grad-night layer-bg">
+                <div class="badge" style="color:#5a5a8e;">夜</div>
+                <div class="heart">💜</div>
+                <div class="layer-char" style="font-size:40px;">夜</div>
+              </div>
+              <div class="card-info">
+                <div class="card-name">深夜食堂</div>
+                <div class="card-meta">打卡 5 次</div>
+              </div>
+            </div>
+            <div class="card" style="height:180px;">
+              <div class="card-visual grad-coffee layer-bg">
+                <div class="badge" style="color:#8b6914;">咖</div>
+                <div class="heart">💛</div>
+                <div class="layer-char" style="font-size:40px;">咖</div>
+              </div>
+              <div class="card-info">
+                <div class="card-name">街角咖啡</div>
+                <div class="card-meta">打卡 12 次</div>
+              </div>
+            </div>
+            <div class="card" style="height:180px;">
+              <div class="card-visual grad-park layer-bg">
+                <div class="badge" style="color:#2e7d32;">园</div>
+                <div class="heart">💚</div>
+                <div class="layer-char" style="font-size:40px;">园</div>
+              </div>
+              <div class="card-info">
+                <div class="card-name">樱花公园</div>
+                <div class="card-meta">打卡 3 次</div>
+              </div>
+            </div>
+            <div class="card" style="height:180px;">
+              <div class="card-visual grad-gather layer-bg">
+                <div class="badge" style="color:#7b1fa2;">聚</div>
+                <div class="heart">🩷</div>
+                <div class="layer-char" style="font-size:40px;">聚</div>
+              </div>
+              <div class="card-info">
+                <div class="card-name">老地方火锅</div>
+                <div class="card-meta">打卡 8 次</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-label">方案D · 卡片墙完整预览</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 也可以组合 ===== -->
+<div class="section">
+  <h2 class="section-title">组合方案 · B + D</h2>
+  <p class="section-desc">几何图形 + 色块叠加 = 既有主题辨识度又有层次感</p>
+  <div class="compare-row">
+    <div class="compare-col">
+      <div class="compare-label">夜 · 月亮+色块</div>
+      <div class="card">
+        <div class="card-visual grad-night layer-bg geo-night">
+          <div class="badge" style="color:#5a5a8e;">夜</div>
+          <div class="heart">💜</div>
+          <div class="geo-shape" style="position:relative;z-index:1;"></div>
+        </div>
+        <div class="card-info">
+          <div class="card-name">深夜食堂</div>
+          <div class="card-meta">打卡 5 次</div>
+        </div>
+      </div>
+    </div>
+    <div class="compare-col">
+      <div class="compare-label">咖 · 杯环+色块</div>
+      <div class="card">
+        <div class="card-visual grad-coffee layer-bg geo-coffee">
+          <div class="badge" style="color:#8b6914;">咖</div>
+          <div class="heart">💛</div>
+          <div class="geo-shape" style="position:relative;z-index:1;"></div>
+        </div>
+        <div class="card-info">
+          <div class="card-name">街角咖啡</div>
+          <div class="card-meta">打卡 12 次</div>
+        </div>
+      </div>
+    </div>
+    <div class="compare-col">
+      <div class="compare-label">园 · 叶+色块</div>
+      <div class="card">
+        <div class="card-visual grad-park layer-bg geo-park">
+          <div class="badge" style="color:#2e7d32;">园</div>
+          <div class="heart">💚</div>
+          <div class="geo-shape" style="position:relative;z-index:1;"></div>
+        </div>
+        <div class="card-info">
+          <div class="card-name">樱花公园</div>
+          <div class="card-meta">打卡 3 次</div>
+        </div>
+      </div>
+    </div>
+    <div class="compare-col">
+      <div class="compare-label">聚 · 双圆+色块</div>
+      <div class="card">
+        <div class="card-visual grad-gather layer-bg geo-gather">
+          <div class="badge" style="color:#7b1fa2;">聚</div>
+          <div class="heart">🩷</div>
+          <div class="geo-shape" style="position:relative;z-index:1;"></div>
+        </div>
+        <div class="card-info">
+          <div class="card-name">老地方火锅</div>
+          <div class="card-meta">打卡 8 次</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pros-cons">
+    <div class="pros"><strong>优点</strong><ul><li>主题辨识度最强</li><li>层次最丰富</li><li>既有图形又有色块</li></ul></div>
+    <div class="cons"><strong>缺点</strong><ul><li>CSS 最复杂</li><li>小卡片上可能元素过多</li></ul></div>
+  </div>
+</div>
+
+<div style="text-align:center; padding:32px;">
+  <p style="font-size:16px; color:#555; margin-bottom:8px;">你更喜欢哪种方案？</p>
+  <p style="font-size:13px; color:#999;">A 纯渐变+大字 / B 几何图形 / C 图案纹理 / D 色块叠加 / B+D 组合</p>
+  <p style="font-size:13px; color:#999; margin-top:4px;">在终端告诉我你的选择，或提出其他想法</p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>足迹手帐 · 推广配图</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background: #f0f0f0;
+      padding: 40px 20px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+    }
+    .page-title {
+      text-align: center;
+      font-size: 28px;
+      color: #333;
+      margin-bottom: 12px;
+    }
+    .page-subtitle {
+      text-align: center;
+      font-size: 14px;
+      color: #888;
+      margin-bottom: 40px;
+    }
+    .poster-section {
+      margin-bottom: 60px;
+    }
+    .poster-label {
+      text-align: center;
+      font-size: 16px;
+      color: #666;
+      margin-bottom: 16px;
+      font-weight: 500;
+    }
+    .poster-wrapper {
+      display: flex;
+      justify-content: center;
+    }
+
+    /* 通用海报容器 */
+    .poster {
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    }
+
+    /* ========== 1. 治愈系方图 ========== */
+    .poster-healing {
+      width: 540px;
+      height: 540px;
+      background: #faf6f1;
+    }
+    .poster-healing .tape-1 {
+      position: absolute;
+      top: 24px;
+      left: -10px;
+      width: 120px;
+      height: 32px;
+      background: rgba(212, 169, 106, 0.35);
+      transform: rotate(-6deg);
+      border-radius: 2px;
+    }
+    .poster-healing .tape-2 {
+      position: absolute;
+      top: 16px;
+      right: -8px;
+      width: 100px;
+      height: 28px;
+      background: rgba(168, 168, 208, 0.35);
+      transform: rotate(8deg);
+      border-radius: 2px;
+    }
+    .poster-healing .dashed-line {
+      position: absolute;
+      top: 70px;
+      right: 40px;
+      width: 3px;
+      height: 120px;
+      background: repeating-linear-gradient(to bottom, #d4a96a 0px, #d4a96a 4px, transparent 4px, transparent 8px);
+      transform: rotate(15deg);
+      opacity: 0.5;
+    }
+    .poster-healing .sticker {
+      position: absolute;
+      top: 90px;
+      left: 50px;
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: linear-gradient(160deg, #f5deb3 0%, #d4a96a 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(139, 105, 20, 0.2);
+    }
+    .poster-healing .sticker span {
+      color: white;
+      font-size: 32px;
+      font-weight: 600;
+    }
+    .poster-healing .main-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      width: 420px;
+    }
+    .poster-healing .main-icon {
+      font-size: 64px;
+      margin-bottom: 24px;
+    }
+    .poster-healing .main-title {
+      font-size: 36px;
+      color: #333;
+      font-weight: 600;
+      margin-bottom: 16px;
+      letter-spacing: 2px;
+    }
+    .poster-healing .main-subtitle {
+      font-size: 18px;
+      color: #666;
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+    .poster-healing .divider {
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #d4a96a, transparent);
+      margin: 0 auto 20px;
+    }
+    .poster-healing .slogan {
+      font-size: 16px;
+      color: #8b6914;
+      letter-spacing: 4px;
+    }
+    .poster-healing .sparkle-1 {
+      position: absolute;
+      bottom: 100px;
+      left: 60px;
+      font-size: 24px;
+      opacity: 0.7;
+    }
+    .poster-healing .sparkle-2 {
+      position: absolute;
+      bottom: 120px;
+      right: 80px;
+      font-size: 20px;
+      opacity: 0.6;
+      transform: rotate(15deg);
+    }
+    .poster-healing .pin {
+      position: absolute;
+      bottom: 80px;
+      right: 50px;
+      font-size: 28px;
+      transform: rotate(-10deg);
+    }
+    .poster-healing .logo-area {
+      position: absolute;
+      top: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .poster-healing .logo-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(160deg, #a8a8d0 0%, #7c7cb8 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .poster-healing .logo-icon span {
+      color: white;
+      font-size: 18px;
+      font-weight: 600;
+    }
+    .poster-healing .logo-text {
+      font-size: 18px;
+      color: #333;
+      font-weight: 600;
+      letter-spacing: 2px;
+    }
+    .poster-healing .qr-area {
+      position: absolute;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+    }
+    .poster-healing .qr-box {
+      width: 80px;
+      height: 80px;
+      background: white;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .poster-healing .qr-box span {
+      font-size: 32px;
+    }
+    .poster-healing .qr-text {
+      font-size: 12px;
+      color: #999;
+    }
+
+    /* ========== 2. 效率系方图 ========== */
+    .poster-efficient {
+      width: 540px;
+      height: 540px;
+      background: #f5f5f5;
+    }
+    .poster-efficient .geo-circle-1 {
+      position: absolute;
+      top: -60px;
+      right: -60px;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: linear-gradient(160deg, #a8a8d0 0%, #7c7cb8 100%);
+      opacity: 0.15;
+    }
+    .poster-efficient .geo-circle-2 {
+      position: absolute;
+      bottom: -40px;
+      left: -40px;
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      background: linear-gradient(160deg, #b3e5fc 0%, #64b5f6 100%);
+      opacity: 0.2;
+    }
+    .poster-efficient .geo-square {
+      position: absolute;
+      top: 80px;
+      left: 60px;
+      width: 70px;
+      height: 70px;
+      border-radius: 16px;
+      background: linear-gradient(160deg, #f5deb3 0%, #d4a96a 100%);
+      transform: rotate(-8deg);
+      opacity: 0.8;
+    }
+    .poster-efficient .geo-triangle {
+      position: absolute;
+      bottom: 120px;
+      right: 80px;
+      width: 0;
+      height: 0;
+      border-left: 35px solid transparent;
+      border-right: 35px solid transparent;
+      border-bottom: 60px solid #81c784;
+      opacity: 0.3;
+      transform: rotate(15deg);
+    }
+    .poster-efficient .main-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -55%);
+      text-align: center;
+      width: 440px;
+    }
+    .poster-efficient .pain-point {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .poster-efficient .app-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .poster-efficient .arrow {
+      font-size: 20px;
+      color: #bbb;
+    }
+    .poster-efficient .search-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #ffe0b2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+    }
+    .poster-efficient .main-title {
+      font-size: 32px;
+      color: #333;
+      font-weight: 700;
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+    .poster-efficient .main-title .highlight {
+      background: linear-gradient(180deg, transparent 60%, #ffe0b2 60%);
+      padding: 0 4px;
+    }
+    .poster-efficient .main-subtitle {
+      font-size: 16px;
+      color: #666;
+      line-height: 1.7;
+      margin-bottom: 28px;
+    }
+    .poster-efficient .features {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-bottom: 28px;
+    }
+    .poster-efficient .feature-item {
+      text-align: center;
+    }
+    .poster-efficient .feature-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      margin: 0 auto 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+    }
+    .poster-efficient .feature-1 .feature-icon { background: #e8f5e9; }
+    .poster-efficient .feature-2 .feature-icon { background: #e3f2fd; }
+    .poster-efficient .feature-3 .feature-icon { background: #f3e5f5; }
+    .poster-efficient .feature-text {
+      font-size: 13px;
+      color: #555;
+      font-weight: 500;
+    }
+    .poster-efficient .slogan {
+      font-size: 15px;
+      color: #5a5a8e;
+      letter-spacing: 3px;
+      font-weight: 500;
+    }
+    .poster-efficient .logo-area {
+      position: absolute;
+      top: 24px;
+      left: 24px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .poster-efficient .logo-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(160deg, #5a5a8e 0%, #7c7cb8 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .poster-efficient .logo-icon span {
+      color: white;
+      font-size: 16px;
+      font-weight: 600;
+    }
+    .poster-efficient .logo-text {
+      font-size: 16px;
+      color: #333;
+      font-weight: 600;
+    }
+    .poster-efficient .qr-area {
+      position: absolute;
+      bottom: 24px;
+      right: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .poster-efficient .qr-box {
+      width: 72px;
+      height: 72px;
+      background: white;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .poster-efficient .qr-box span {
+      font-size: 28px;
+    }
+    .poster-efficient .qr-info {
+      text-align: right;
+    }
+    .poster-efficient .qr-title {
+      font-size: 13px;
+      color: #333;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+    .poster-efficient .qr-sub {
+      font-size: 11px;
+      color: #999;
+    }
+
+    /* ========== 3. 成就系方图 ========== */
+    .poster-achievement {
+      width: 540px;
+      height: 540px;
+      background: linear-gradient(160deg, #e8f5e9 0%, #c8e6c9 100%);
+    }
+    .poster-achievement .glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 70%);
+    }
+    .poster-achievement .star-1 {
+      position: absolute;
+      top: 60px;
+      left: 80px;
+      font-size: 20px;
+      opacity: 0.7;
+    }
+    .poster-achievement .star-2 {
+      position: absolute;
+      top: 100px;
+      right: 100px;
+      font-size: 16px;
+      opacity: 0.6;
+    }
+    .poster-achievement .star-3 {
+      position: absolute;
+      bottom: 140px;
+      left: 60px;
+      font-size: 18px;
+      opacity: 0.5;
+    }
+    .poster-achievement .main-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -52%);
+      text-align: center;
+      width: 440px;
+    }
+    .poster-achievement .trophy {
+      font-size: 72px;
+      margin-bottom: 20px;
+      filter: drop-shadow(0 4px 8px rgba(46, 125, 50, 0.2));
+    }
+    .poster-achievement .main-title {
+      font-size: 38px;
+      color: #2e7d32;
+      font-weight: 700;
+      margin-bottom: 8px;
+      letter-spacing: 2px;
+    }
+    .poster-achievement .main-subtitle {
+      font-size: 18px;
+      color: #388e3c;
+      margin-bottom: 32px;
+    }
+    .poster-achievement .stats {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      margin-bottom: 32px;
+    }
+    .poster-achievement .stat-item {
+      text-align: center;
+      background: rgba(255,255,255,0.6);
+      padding: 16px 20px;
+      border-radius: 16px;
+      backdrop-filter: blur(10px);
+    }
+    .poster-achievement .stat-num {
+      font-size: 36px;
+      font-weight: 700;
+      color: #2e7d32;
+      margin-bottom: 4px;
+    }
+    .poster-achievement .stat-label {
+      font-size: 14px;
+      color: #558b2f;
+    }
+    .poster-achievement .map-preview {
+      width: 300px;
+      height: 120px;
+      background: rgba(255,255,255,0.5);
+      border-radius: 16px;
+      margin: 0 auto 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .poster-achievement .map-dot {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #4caf50;
+      box-shadow: 0 0 8px rgba(76, 175, 80, 0.6);
+    }
+    .poster-achievement .dot-1 { top: 30px; left: 40px; }
+    .poster-achievement .dot-2 { top: 50px; left: 80px; }
+    .poster-achievement .dot-3 { top: 25px; left: 130px; }
+    .poster-achievement .dot-4 { top: 60px; left: 160px; }
+    .poster-achievement .dot-5 { top: 40px; left: 200px; }
+    .poster-achievement .dot-6 { top: 70px; left: 240px; }
+    .poster-achievement .dot-7 { top: 50px; left: 270px; }
+    .poster-achievement .slogan {
+      font-size: 16px;
+      color: #33691e;
+      letter-spacing: 3px;
+      font-weight: 500;
+    }
+    .poster-achievement .logo-area {
+      position: absolute;
+      top: 24px;
+      left: 24px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .poster-achievement .logo-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(160deg, #66bb6a 0%, #2e7d32 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .poster-achievement .logo-icon span {
+      color: white;
+      font-size: 16px;
+      font-weight: 600;
+    }
+    .poster-achievement .logo-text {
+      font-size: 16px;
+      color: #1b5e20;
+      font-weight: 600;
+    }
+    .poster-achievement .qr-area {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(255,255,255,0.7);
+      padding: 12px 20px;
+      border-radius: 16px;
+      backdrop-filter: blur(10px);
+    }
+    .poster-achievement .qr-box {
+      width: 64px;
+      height: 64px;
+      background: white;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .poster-achievement .qr-box span {
+      font-size: 24px;
+    }
+    .poster-achievement .qr-info {
+      text-align: left;
+    }
+    .poster-achievement .qr-title {
+      font-size: 13px;
+      color: #2e7d32;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .poster-achievement .qr-sub {
+      font-size: 11px;
+      color: #66bb6a;
+    }
+
+    /* ========== 4. 微信群推广图 ========== */
+    .poster-wechat-group {
+      width: 450px;
+      height: 450px;
+      background: #f5f5f5;
+    }
+    .poster-wechat-group .geo-bg-1 {
+      position: absolute;
+      top: -50px;
+      right: -50px;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: linear-gradient(160deg, #a8a8d0 0%, #7c7cb8 100%);
+      opacity: 0.12;
+    }
+    .poster-wechat-group .geo-bg-2 {
+      position: absolute;
+      bottom: -30px;
+      left: -30px;
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: linear-gradient(160deg, #c8e6c9 0%, #81c784 100%);
+      opacity: 0.15;
+    }
+    .poster-wechat-group .main-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -55%);
+      text-align: center;
+      width: 380px;
+    }
+    .poster-wechat-group .app-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(160deg, #a8a8d0 0%, #7c7cb8 100%);
+      color: white;
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 24px;
+    }
+    .poster-wechat-group .main-title {
+      font-size: 28px;
+      color: #333;
+      font-weight: 700;
+      margin-bottom: 16px;
+      line-height: 1.4;
+    }
+    .poster-wechat-group .main-title .highlight {
+      color: #5a5a8e;
+    }
+    .poster-wechat-group .features {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+    .poster-wechat-group .feature-card {
+      background: white;
+      padding: 14px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    .poster-wechat-group .feature-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+    .poster-wechat-group .fc-1 .feature-icon { background: #fff3e0; }
+    .poster-wechat-group .fc-2 .feature-icon { background: #e8f5e9; }
+    .poster-wechat-group .fc-3 .feature-icon { background: #e3f2fd; }
+    .poster-wechat-group .fc-4 .feature-icon { background: #f3e5f5; }
+    .poster-wechat-group .feature-text {
+      font-size: 13px;
+      color: #333;
+      font-weight: 500;
+      text-align: left;
+      line-height: 1.4;
+    }
+    .poster-wechat-group .feature-desc {
+      font-size: 11px;
+      color: #888;
+      margin-top: 2px;
+    }
+    .poster-wechat-group .slogan {
+      font-size: 14px;
+      color: #5a5a8e;
+      letter-spacing: 2px;
+      font-weight: 500;
+    }
+    .poster-wechat-group .qr-area {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: white;
+      padding: 12px 20px;
+      border-radius: 14px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+    .poster-wechat-group .qr-box {
+      width: 60px;
+      height: 60px;
+      background: #f5f5f5;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .poster-wechat-group .qr-box span {
+      font-size: 24px;
+    }
+    .poster-wechat-group .qr-info {
+      text-align: left;
+    }
+    .poster-wechat-group .qr-title {
+      font-size: 13px;
+      color: #333;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .poster-wechat-group .qr-sub {
+      font-size: 11px;
+      color: #999;
+    }
+
+    /* ========== 5. 小红书封面 ========== */
+    .poster-xhs {
+      width: 450px;
+      height: 600px;
+      background: #faf6f1;
+    }
+    .poster-xhs .tape-top {
+      position: absolute;
+      top: -8px;
+      left: 50%;
+      transform: translateX(-50%) rotate(-2deg);
+      width: 160px;
+      height: 36px;
+      background: rgba(212, 169, 106, 0.4);
+      border-radius: 2px;
+    }
+    .poster-xhs .sticker-1 {
+      position: absolute;
+      top: 50px;
+      right: 30px;
+      font-size: 32px;
+      transform: rotate(15deg);
+    }
+    .poster-xhs .sticker-2 {
+      position: absolute;
+      top: 180px;
+      left: 20px;
+      font-size: 28px;
+      transform: rotate(-10deg);
+    }
+    .poster-xhs .doodle-line {
+      position: absolute;
+      bottom: 180px;
+      right: 40px;
+      width: 80px;
+      height: 3px;
+      background: repeating-linear-gradient(90deg, #d4a96a 0px, #d4a96a 6px, transparent 6px, transparent 10px);
+      transform: rotate(-5deg);
+      opacity: 0.5;
+    }
+    .poster-xhs .main-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -55%);
+      text-align: center;
+      width: 380px;
+    }
+    .poster-xhs .tag-badge {
+      display: inline-block;
+      background: linear-gradient(160deg, #e1bee7 0%, #ce93d8 100%);
+      color: white;
+      padding: 6px 18px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 24px;
+    }
+    .poster-xhs .main-title {
+      font-size: 36px;
+      color: #333;
+      font-weight: 700;
+      line-height: 1.4;
+      margin-bottom: 20px;
+    }
+    .poster-xhs .main-title .highlight {
+      background: linear-gradient(180deg, transparent 65%, #ffe0b2 65%);
+      padding: 0 2px;
+    }
+    .poster-xhs .pain-points {
+      text-align: left;
+      margin-bottom: 28px;
+    }
+    .poster-xhs .pain-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 12px;
+      font-size: 15px;
+      color: #555;
+      line-height: 1.6;
+    }
+    .poster-xhs .pain-mark {
+      color: #e57373;
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+    .poster-xhs .solution {
+      background: linear-gradient(160deg, #fff8e1 0%, #ffecb3 100%);
+      padding: 18px;
+      border-radius: 16px;
+      margin-bottom: 24px;
+      position: relative;
+    }
+    .poster-xhs .solution::before {
+      content: '💡';
+      position: absolute;
+      top: -12px;
+      left: 20px;
+      font-size: 28px;
+    }
+    .poster-xhs .solution-text {
+      font-size: 16px;
+      color: #8b6914;
+      font-weight: 600;
+      line-height: 1.6;
+      margin-top: 8px;
+    }
+    .poster-xhs .app-showcase {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .poster-xhs .showcase-card {
+      width: 100px;
+      height: 100px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .poster-xhs .sc-1 { background: linear-gradient(160deg, #f5deb3 0%, #d4a96a 100%); }
+    .poster-xhs .sc-2 { background: linear-gradient(160deg, #a8a8d0 0%, #7c7cb8 100%); }
+    .poster-xhs .sc-3 { background: linear-gradient(160deg, #c8e6c9 0%, #81c784 100%); }
+    .poster-xhs .cta {
+      font-size: 15px;
+      color: #8b6914;
+      font-weight: 600;
+    }
+    .poster-xhs .qr-area {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: white;
+      padding: 12px 24px;
+      border-radius: 16px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    }
+    .poster-xhs .qr-box {
+      width: 56px;
+      height: 56px;
+      background: #faf6f1;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .poster-xhs .qr-box span {
+      font-size: 22px;
+    }
+    .poster-xhs .qr-info {
+      text-align: left;
+    }
+    .poster-xhs .qr-title {
+      font-size: 13px;
+      color: #333;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .poster-xhs .qr-sub {
+      font-size: 11px;
+      color: #999;
+    }
+  </style>
+</head>
+<body>
+  <h1 class="page-title">足迹手帐 · 推广配图预览</h1>
+  <p class="page-subtitle">点击图片后可放大截图，建议使用 2 倍分辨率导出</p>
+
+  <!-- 1. 治愈系方图 -->
+  <div class="poster-section">
+    <p class="poster-label">① 朋友圈 · 治愈系方图（1080×1080）</p>
+    <div class="poster-wrapper">
+      <div class="poster poster-healing">
+        <div class="tape-1"></div>
+        <div class="tape-2"></div>
+        <div class="dashed-line"></div>
+        <div class="sticker"><span>足</span></div>
+        <div class="sparkle-1">✨</div>
+        <div class="sparkle-2">⭐</div>
+        <div class="pin">📌</div>
+        <div class="main-content">
+          <div class="main-icon">📔✨</div>
+          <div class="main-title">收藏每一次出发</div>
+          <div class="divider"></div>
+          <div class="main-subtitle">
+            那些散落在各处的好去处<br>
+            都收进你的足迹手帐里
+          </div>
+          <div class="slogan">足迹手帐</div>
+        </div>
+        <div class="qr-area">
+          <div class="qr-box"><span>📱</span></div>
+          <div class="qr-text">微信扫一扫 · 开启你的足迹</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. 效率系方图 -->
+  <div class="poster-section">
+    <p class="poster-label">② 朋友圈 · 效率系方图（1080×1080）</p>
+    <div class="poster-wrapper">
+      <div class="poster poster-efficient">
+        <div class="geo-circle-1"></div>
+        <div class="geo-circle-2"></div>
+        <div class="geo-square"></div>
+        <div class="geo-triangle"></div>
+        <div class="logo-area">
+          <div class="logo-icon"><span>足</span></div>
+          <div class="logo-text">足迹手帐</div>
+        </div>
+        <div class="main-content">
+          <div class="pain-point">
+            <div class="app-icon">📕</div>
+            <div class="app-icon">⭐</div>
+            <div class="app-icon">🗺️</div>
+            <div class="arrow">→</div>
+            <div class="search-icon">🔍</div>
+          </div>
+          <div class="main-title">
+            想去的店总找不到？<br>
+            <span class="highlight">一个地方全收好</span>
+          </div>
+          <div class="main-subtitle">
+            小红书收藏、大众点评、地图历史...<br>
+            散落在各个App的好去处，统一收进足迹手帐
+          </div>
+          <div class="features">
+            <div class="feature-item feature-1">
+              <div class="feature-icon">📍</div>
+              <div class="feature-text">收藏地点</div>
+            </div>
+            <div class="feature-item feature-2">
+              <div class="feature-icon">📝</div>
+              <div class="feature-text">打卡记录</div>
+            </div>
+            <div class="feature-item feature-3">
+              <div class="feature-icon">📚</div>
+              <div class="feature-text">合集分享</div>
+            </div>
+          </div>
+          <div class="slogan">再也不用大海捞针</div>
+        </div>
+        <div class="qr-area">
+          <div class="qr-info">
+            <div class="qr-title">微信搜「足迹手帐」</div>
+            <div class="qr-sub">不用下载 · 即开即用</div>
+          </div>
+          <div class="qr-box"><span>📱</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. 成就系方图 -->
+  <div class="poster-section">
+    <p class="poster-label">③ 朋友圈 · 成就系方图（1080×1080）</p>
+    <div class="poster-wrapper">
+      <div class="poster poster-achievement">
+        <div class="glow"></div>
+        <div class="star-1">✨</div>
+        <div class="star-2">⭐</div>
+        <div class="star-3">✨</div>
+        <div class="logo-area">
+          <div class="logo-icon"><span>足</span></div>
+          <div class="logo-text">足迹手帐</div>
+        </div>
+        <div class="main-content">
+          <div class="trophy">🏆</div>
+          <div class="main-title">你的生活地图</div>
+          <div class="main-subtitle">看看你走过多少地方</div>
+          <div class="stats">
+            <div class="stat-item">
+              <div class="stat-num">28</div>
+              <div class="stat-label">地点数</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-num">56</div>
+              <div class="stat-label">打卡数</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-num">8</div>
+              <div class="stat-label">区域数</div>
+            </div>
+          </div>
+          <div class="map-preview">
+            <div class="map-dot dot-1"></div>
+            <div class="map-dot dot-2"></div>
+            <div class="map-dot dot-3"></div>
+            <div class="map-dot dot-4"></div>
+            <div class="map-dot dot-5"></div>
+            <div class="map-dot dot-6"></div>
+            <div class="map-dot dot-7"></div>
+          </div>
+          <div class="slogan">来画出你的足迹吧</div>
+        </div>
+        <div class="qr-area">
+          <div class="qr-box"><span>📱</span></div>
+          <div class="qr-info">
+            <div class="qr-title">微信扫一扫</div>
+            <div class="qr-sub">生成你的旅程地图</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. 微信群推广图 -->
+  <div class="poster-section">
+    <p class="poster-label">④ 微信群推广图（750×750）</p>
+    <div class="poster-wrapper">
+      <div class="poster poster-wechat-group">
+        <div class="geo-bg-1"></div>
+        <div class="geo-bg-2"></div>
+        <div class="main-content">
+          <div class="app-badge">
+            <span>🔍</span>
+            <span>发现一个超实用小程序</span>
+          </div>
+          <div class="main-title">
+            好去处<span class="highlight">统一收藏</span><br>
+            再也不怕找不到
+          </div>
+          <div class="features">
+            <div class="feature-card fc-1">
+              <div class="feature-icon">📍</div>
+              <div class="feature-text">
+                收藏地点
+                <div class="feature-desc">给喜欢的地方起名</div>
+              </div>
+            </div>
+            <div class="feature-card fc-2">
+              <div class="feature-icon">📝</div>
+              <div class="feature-text">
+                打卡记录
+                <div class="feature-desc">每次去都留个念</div>
+              </div>
+            </div>
+            <div class="feature-card fc-3">
+              <div class="feature-icon">🗺️</div>
+              <div class="feature-text">
+                旅程地图
+                <div class="feature-desc">看看你的足迹</div>
+              </div>
+            </div>
+            <div class="feature-card fc-4">
+              <div class="feature-icon">📚</div>
+              <div class="feature-text">
+                合集分享
+                <div class="feature-desc">打包发朋友超方便</div>
+              </div>
+            </div>
+          </div>
+          <div class="slogan">足迹手帐 · 收藏每一次出发</div>
+        </div>
+        <div class="qr-area">
+          <div class="qr-box"><span>📱</span></div>
+          <div class="qr-info">
+            <div class="qr-title">微信搜「足迹手帐」</div>
+            <div class="qr-sub">不用下载 · 即开即用</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. 小红书封面 -->
+  <div class="poster-section">
+    <p class="poster-label">⑤ 小红书封面（1080×1440 · 3:4）</p>
+    <div class="poster-wrapper">
+      <div class="poster poster-xhs">
+        <div class="tape-top"></div>
+        <div class="sticker-1">🎉</div>
+        <div class="sticker-2">✨</div>
+        <div class="doodle-line"></div>
+        <div class="main-content">
+          <div class="tag-badge">姐妹们冲！这个太好用了</div>
+          <div class="main-title">
+            再也不用在<span class="highlight">各个App</span>里找店了！
+          </div>
+          <div class="pain-points">
+            <div class="pain-item">
+              <span class="pain-mark">✗</span>
+              <span>小红书收藏的店，想找时翻半天</span>
+            </div>
+            <div class="pain-item">
+              <span class="pain-mark">✗</span>
+              <span>朋友推荐的好店，转头就忘名字</span>
+            </div>
+            <div class="pain-item">
+              <span class="pain-mark">✗</span>
+              <span>地图导航记录太多，分不清哪个是哪个</span>
+            </div>
+          </div>
+          <div class="solution">
+            <div class="solution-text">
+              用「足迹手帐」统一收藏<br>
+              去过的、喜欢的、想再去的<br>
+              一个地方全搞定！
+            </div>
+          </div>
+          <div class="app-showcase">
+            <div class="showcase-card sc-1">☕</div>
+            <div class="showcase-card sc-2">📚</div>
+            <div class="showcase-card sc-3">🌳</div>
+          </div>
+          <div class="cta">微信搜「足迹手帐」，立刻体验 →</div>
+        </div>
+        <div class="qr-area">
+          <div class="qr-box"><span>📱</span></div>
+          <div class="qr-info">
+            <div class="qr-title">长按识别小程序</div>
+            <div class="qr-sub">不用下载 · 即开即用</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

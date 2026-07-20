@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>足迹手帐 · UI 重设计方案</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: -apple-system, 'PingFang SC', 'Noto Sans SC', sans-serif;
+    background: #f5f0eb;
+    color: #2d2d2d;
+    padding: 32px 24px;
+  }
+  .page-title {
+    text-align: center;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #1a1a2e;
+  }
+  .page-sub {
+    text-align: center;
+    font-size: 14px;
+    color: #888;
+    margin-bottom: 40px;
+  }
+  .section {
+    max-width: 920px;
+    margin: 0 auto 48px;
+  }
+  .section-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #1a1a2e;
+    border-left: 4px solid #6366f1;
+    padding-left: 12px;
+  }
+  .section-desc {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 24px;
+    padding-left: 16px;
+  }
+
+  /* ===== 问题诊断 ===== */
+  .problems {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .problem-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 20px;
+    border: 2px solid #fecaca;
+  }
+  .problem-card h4 {
+    font-size: 15px;
+    color: #dc2626;
+    margin-bottom: 8px;
+  }
+  .problem-card p {
+    font-size: 13px;
+    color: #666;
+    line-height: 1.6;
+  }
+
+  /* ===== 设计原则 ===== */
+  .principles {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 32px;
+  }
+  .principle {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 100px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  /* ===== 手机框架 ===== */
+  .phone-row {
+    display: flex;
+    gap: 32px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .phone {
+    width: 300px;
+    background: #1a1a2e;
+    border-radius: 36px;
+    padding: 8px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+  }
+  .phone-screen {
+    background: #faf6f1;
+    border-radius: 28px;
+    overflow: hidden;
+    height: 600px;
+    position: relative;
+  }
+  .phone-label {
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: #555;
+    margin-top: 12px;
+  }
+
+  /* ===== 卡片墙新设计 ===== */
+  .cw-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 16px 12px;
+  }
+  .cw-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #2d3436;
+  }
+  .cw-search {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .cw-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    padding: 0 16px;
+  }
+  .cw-card {
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+  }
+  .cw-card-bg {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 56px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cw-card-bg::before {
+    content: '';
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.25);
+    top: -30px;
+    right: -30px;
+  }
+  .cw-card-bg::after {
+    content: '';
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+    bottom: 10px;
+    left: -10px;
+  }
+  .cw-card-emoji {
+    z-index: 1;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+  }
+  .cw-card-heart {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 32px;
+    height: 32px;
+    background: rgba(255,255,255,0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    z-index: 2;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
+  .cw-card-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 700;
+    z-index: 2;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
+  .cw-card-info {
+    background: #fff;
+    padding: 10px 12px;
+  }
+  .cw-card-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #2d3436;
+    margin-bottom: 2px;
+  }
+  .cw-card-meta {
+    font-size: 11px;
+    color: #999;
+  }
+  .cw-card-tags {
+    display: flex;
+    gap: 4px;
+    margin-top: 6px;
+  }
+  .cw-tag {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 100px;
+  }
+
+  /* 主题色 */
+  .theme-night { background: linear-gradient(160deg, #a8a8d0 0%, #7c7cb8 100%); }
+  .theme-night .cw-card-badge { color: #5a5a8e; }
+  .theme-night .cw-tag { background: #e8e8f5; color: #5a5a8e; }
+
+  .theme-coffee { background: linear-gradient(160deg, #f5deb3 0%, #d4a96a 100%); }
+  .theme-coffee .cw-card-badge { color: #8b6914; }
+  .theme-coffee .cw-tag { background: #fdf5e6; color: #8b6914; }
+
+  .theme-park { background: linear-gradient(160deg, #c8e6c9 0%, #81c784 100%); }
+  .theme-park .cw-card-badge { color: #2e7d32; }
+  .theme-park .cw-tag { background: #e8f5e9; color: #2e7d32; }
+
+  .theme-gather { background: linear-gradient(160deg, #e1bee7 0%, #ce93d8 100%); }
+  .theme-gather .cw-card-badge { color: #7b1fa2; }
+  .theme-gather .cw-tag { background: #f3e5f5; color: #7b1fa2; }
+
+  /* ===== 详情页新设计 ===== */
+  .dp-cover {
+    height: 240px;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    padding: 20px;
+    overflow: hidden;
+  }
+  .dp-cover::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.15) 100%);
+  }
+  .dp-cover-deco {
+    position: absolute;
+    font-size: 24px;
+    opacity: 0.4;
+  }
+  .dp-cover-badge {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    font-weight: 700;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    position: relative;
+    z-index: 1;
+  }
+  .dp-cover-emoji {
+    position: absolute;
+    right: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 80px;
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.1));
+    z-index: 1;
+  }
+  .dp-body {
+    background: #faf6f1;
+    border-radius: 24px 24px 0 0;
+    margin-top: -20px;
+    position: relative;
+    z-index: 2;
+    padding: 20px;
+  }
+  .dp-name {
+    font-size: 22px;
+    font-weight: 700;
+    color: #2d3436;
+    margin-bottom: 4px;
+  }
+  .dp-address {
+    font-size: 13px;
+    color: #999;
+    margin-bottom: 16px;
+  }
+  .dp-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+  .dp-tag {
+    font-size: 12px;
+    padding: 4px 12px;
+    border-radius: 100px;
+    font-weight: 500;
+  }
+  .dp-stats {
+    display: flex;
+    gap: 16px;
+    padding: 12px 0;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 16px;
+  }
+  .dp-stat {
+    flex: 1;
+    text-align: center;
+  }
+  .dp-stat-num {
+    font-size: 20px;
+    font-weight: 700;
+    color: #2d3436;
+  }
+  .dp-stat-label {
+    font-size: 11px;
+    color: #aaa;
+  }
+  .dp-timeline-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #2d3436;
+    margin-bottom: 12px;
+  }
+  .dp-timeline-item {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .dp-timeline-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-top: 4px;
+    flex-shrink: 0;
+  }
+  .dp-timeline-content {
+    flex: 1;
+    background: #fff;
+    border-radius: 12px;
+    padding: 10px 12px;
+  }
+  .dp-timeline-date {
+    font-size: 12px;
+    font-weight: 600;
+    color: #6366f1;
+    margin-bottom: 2px;
+  }
+  .dp-timeline-text {
+    font-size: 12px;
+    color: #666;
+    line-height: 1.5;
+  }
+
+  /* ===== 打卡新设计 ===== */
+  .ci-header {
+    padding: 20px 16px;
+    text-align: center;
+  }
+  .ci-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #2d3436;
+    margin-bottom: 4px;
+  }
+  .ci-place {
+    font-size: 13px;
+    color: #999;
+  }
+  .ci-pearl {
+    width: 120px;
+    height: 120px;
+    margin: 16px auto;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #fff 0%, #f0e6ff 40%, #c8b8e8 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    box-shadow: 0 8px 24px rgba(168,150,200,0.3);
+    position: relative;
+  }
+  .ci-pearl::after {
+    content: '';
+    position: absolute;
+    inset: -8px;
+    border-radius: 50%;
+    border: 2px dashed rgba(168,150,200,0.3);
+  }
+  .ci-mood {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin: 16px 0;
+  }
+  .ci-mood-item {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    border: 2px solid transparent;
+    cursor: pointer;
+  }
+  .ci-mood-item.active {
+    border-color: #6366f1;
+    transform: scale(1.1);
+  }
+  .ci-input {
+    background: #fff;
+    border-radius: 16px;
+    padding: 16px;
+    margin: 0 16px 16px;
+  }
+  .ci-input-placeholder {
+    font-size: 13px;
+    color: #ccc;
+  }
+  .ci-photos {
+    display: flex;
+    gap: 8px;
+    padding: 0 16px;
+  }
+  .ci-photo {
+    width: 72px;
+    height: 72px;
+    border-radius: 12px;
+    background: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+  }
+  .ci-photo-add {
+    border: 2px dashed #ddd;
+    color: #ccc;
+  }
+  .ci-btn {
+    margin: 16px;
+    height: 48px;
+    border-radius: 100px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  /* ===== 旅程地图新设计 ===== */
+  .jm-stats {
+    display: flex;
+    gap: 8px;
+    padding: 16px;
+  }
+  .jm-stat-card {
+    flex: 1;
+    background: #fff;
+    border-radius: 16px;
+    padding: 12px;
+    text-align: center;
+  }
+  .jm-stat-num {
+    font-size: 24px;
+    font-weight: 700;
+  }
+  .jm-stat-label {
+    font-size: 11px;
+    color: #aaa;
+  }
+  .jm-map {
+    margin: 0 16px;
+    border-radius: 20px;
+    height: 280px;
+    background: linear-gradient(160deg, #e8f4fd 0%, #d1ecf9 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .jm-map::before {
+    content: '';
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    top: -60px;
+    left: -60px;
+  }
+  .jm-pin {
+    position: absolute;
+    font-size: 28px;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
+  }
+  .jm-path {
+    position: absolute;
+    inset: 0;
+  }
+  .jm-bottom-card {
+    margin: 16px;
+    background: #fff;
+    border-radius: 16px;
+    padding: 16px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  }
+
+  /* ===== 实现路径 ===== */
+  .roadmap {
+    max-width: 920px;
+    margin: 0 auto;
+  }
+  .phase {
+    background: #fff;
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 16px;
+    border-left: 6px solid;
+  }
+  .phase-1 { border-color: #6366f1; }
+  .phase-2 { border-color: #f59e0b; }
+  .phase-3 { border-color: #10b981; }
+  .phase-4 { border-color: #ec4899; }
+  .phase h3 {
+    font-size: 18px;
+    margin-bottom: 4px;
+  }
+  .phase-tag {
+    display: inline-block;
+    font-size: 12px;
+    padding: 2px 10px;
+    border-radius: 100px;
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+  .phase-1 .phase-tag { background: #eef2ff; color: #6366f1; }
+  .phase-2 .phase-tag { background: #fef3c7; color: #f59e0b; }
+  .phase-3 .phase-tag { background: #d1fae5; color: #10b981; }
+  .phase-4 .phase-tag { background: #fce7f3; color: #ec4899; }
+  .phase-items {
+    list-style: none;
+  }
+  .phase-items li {
+    padding: 6px 0;
+    font-size: 14px;
+    color: #555;
+    border-bottom: 1px solid #f5f5f5;
+  }
+  .phase-items li:last-child { border: none; }
+  .phase-items li::before {
+    content: '◦';
+    margin-right: 8px;
+    color: #ccc;
+  }
+</style>
+</head>
+<body>
+
+<h1 class="page-title">足迹手帐 · UI 重设计方案</h1>
+<p class="page-sub">可爱 · 优雅 · 视觉美 — 摒弃错乱的插画拼贴，建立统一的视觉语言</p>
+
+<!-- ===== 问题诊断 ===== -->
+<div class="section">
+  <h2 class="section-title">当前 UI 问题诊断</h2>
+  <p class="section-desc">根本原因：COS 横版插画在卡片缩略图和详情封面中被裁剪/压缩，装饰元素跨主题混用，缺乏统一视觉规范</p>
+  <div class="problems">
+    <div class="problem-card">
+      <h4>❶ 插画比例失真</h4>
+      <p>COS 上的主题插画是 1024×768 横版场景图，被塞进卡片 160rpx 小区域和详情页封面后严重裁剪变形</p>
+    </div>
+    <div class="problem-card">
+      <h4>❷ 装饰元素混搭</h4>
+      <p>云朵、星星、月亮、爱心等装饰跨主题通用，与主题色不协调，视觉杂乱无焦点</p>
+    </div>
+    <div class="problem-card">
+      <h4>❸ 构图层次缺失</h4>
+      <p>首字徽章 + 插画 + 装饰 + 角落卡片同时出现在小区域，元素过多互相干扰</p>
+    </div>
+    <div class="problem-card">
+      <h4>❹ 缺乏纸质温度</h4>
+      <p>产品定位是"手帐"，但界面是标准 App 风格，缺少手账特有的纸质质感和贴纸趣味</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 设计原则 ===== -->
+<div class="section">
+  <h2 class="section-title">新设计原则</h2>
+  <div class="principles">
+    <span class="principle">🎨 一主题一渐变一emoji</span>
+    <span class="principle">📖 手账纸质底纹</span>
+    <span class="principle">✨ CSS 绘制装饰</span>
+    <span class="principle">🧸 贴纸风格元素</span>
+    <span class="principle">💜 大量留白</span>
+    <span class="principle">🔄 统一圆角语言</span>
+  </div>
+</div>
+
+<!-- ===== 卡片墙新设计 ===== -->
+<div class="section">
+  <h2 class="section-title">卡片墙 · 新设计</h2>
+  <p class="section-desc">移除 COS 横版插画，改用纯渐变 + 大号 emoji 主题图 + CSS 装饰圆。简洁、统一、可爱</p>
+  <div class="phone-row">
+    <div>
+      <div class="phone">
+        <div class="phone-screen">
+          <!-- 顶部 -->
+          <div class="cw-header">
+            <div class="cw-title">我的地点</div>
+            <div class="cw-search">🔍</div>
+          </div>
+          <!-- 卡片网格 -->
+          <div class="cw-grid">
+            <!-- 卡片1 夜 -->
+            <div class="cw-card theme-night">
+              <div class="cw-card-bg">
+                <div class="cw-card-badge">夜</div>
+                <div class="cw-card-heart">💜</div>
+                <span class="cw-card-emoji">🌙</span>
+              </div>
+              <div class="cw-card-info">
+                <div class="cw-card-name">深夜食堂</div>
+                <div class="cw-card-meta">打卡 5 次</div>
+                <div class="cw-card-tags">
+                  <span class="cw-tag">安静</span>
+                  <span class="cw-tag">夜生活</span>
+                </div>
+              </div>
+            </div>
+            <!-- 卡片2 咖 -->
+            <div class="cw-card theme-coffee">
+              <div class="cw-card-bg">
+                <div class="cw-card-badge">咖</div>
+                <div class="cw-card-heart">💛</div>
+                <span class="cw-card-emoji">☕</span>
+              </div>
+              <div class="cw-card-info">
+                <div class="cw-card-name">街角咖啡</div>
+                <div class="cw-card-meta">打卡 12 次</div>
+                <div class="cw-card-tags">
+                  <span class="cw-tag">独处</span>
+                </div>
+              </div>
+            </div>
+            <!-- 卡片3 园 -->
+            <div class="cw-card theme-park">
+              <div class="cw-card-bg">
+                <div class="cw-card-badge">园</div>
+                <div class="cw-card-heart">💚</div>
+                <span class="cw-card-emoji">🌳</span>
+              </div>
+              <div class="cw-card-info">
+                <div class="cw-card-name">樱花公园</div>
+                <div class="cw-card-meta">打卡 3 次</div>
+                <div class="cw-card-tags">
+                  <span class="cw-tag">散步</span>
+                  <span class="cw-tag">自然</span>
+                </div>
+              </div>
+            </div>
+            <!-- 卡片4 聚 -->
+            <div class="cw-card theme-gather">
+              <div class="cw-card-bg">
+                <div class="cw-card-badge">聚</div>
+                <div class="cw-card-heart">🩷</div>
+                <span class="cw-card-emoji">🥰</span>
+              </div>
+              <div class="cw-card-info">
+                <div class="cw-card-name">老地方火锅</div>
+                <div class="cw-card-meta">打卡 8 次</div>
+                <div class="cw-card-tags">
+                  <span class="cw-tag">聚餐</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-label">卡片墙 — 纯渐变+Emoji</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 详情页新设计 ===== -->
+<div class="section">
+  <h2 class="section-title">地点详情 · 新设计</h2>
+  <p class="section-desc">封面改为纯渐变+大号主题emoji居中，移除杂乱装饰。信息区上浮白色卡片，时间轴贴纸风格</p>
+  <div class="phone-row">
+    <div>
+      <div class="phone">
+        <div class="phone-screen" style="overflow-y:auto;">
+          <!-- 封面 -->
+          <div class="dp-cover theme-night">
+            <div class="dp-cover-deco" style="top:20px;right:30px;">⭐</div>
+            <div class="dp-cover-deco" style="top:60px;left:30px;font-size:18px;">✨</div>
+            <div class="dp-cover-emoji">🌙</div>
+            <div class="dp-cover-badge" style="color:#5a5a8e;">夜</div>
+          </div>
+          <!-- 信息区 -->
+          <div class="dp-body">
+            <div class="dp-name">深夜食堂</div>
+            <div class="dp-address">朝阳区·三里屯北路</div>
+            <div class="dp-tags">
+              <span class="dp-tag" style="background:#e8e8f5;color:#5a5a8e;">安静</span>
+              <span class="dp-tag" style="background:#e8e8f5;color:#5a5a8e;">夜生活</span>
+              <span class="dp-tag" style="background:#d4edda;color:#2e7d32;">独处</span>
+            </div>
+            <div class="dp-stats">
+              <div class="dp-stat">
+                <div class="dp-stat-num">5</div>
+                <div class="dp-stat-label">打卡</div>
+              </div>
+              <div class="dp-stat">
+                <div class="dp-stat-num">2026.3</div>
+                <div class="dp-stat-label">收藏</div>
+              </div>
+              <div class="dp-stat">
+                <div class="dp-stat-num">3</div>
+                <div class="dp-stat-label">标签</div>
+              </div>
+            </div>
+            <div class="dp-timeline-title">📸 记忆时间轴</div>
+            <div class="dp-timeline-item">
+              <div class="dp-timeline-dot" style="background:#a8a8d0;"></div>
+              <div class="dp-timeline-content">
+                <div class="dp-timeline-date">2026.07.10</div>
+                <div class="dp-timeline-text">深夜一碗拉面，治愈了整个加班周 🍜</div>
+              </div>
+            </div>
+            <div class="dp-timeline-item">
+              <div class="dp-timeline-dot" style="background:#81c784;"></div>
+              <div class="dp-timeline-content">
+                <div class="dp-timeline-date">2026.06.15</div>
+                <div class="dp-timeline-text">和朋友聊到凌晨两点，很开心</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-label">详情页 — 渐变封面+贴纸时间轴</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 打卡新设计 ===== -->
+<div class="section">
+  <h2 class="section-title">打卡 · 仪式感</h2>
+  <p class="section-desc">珍珠意象可视化、心情选择器、手账风格输入区</p>
+  <div class="phone-row">
+    <div>
+      <div class="phone">
+        <div class="phone-screen">
+          <div class="ci-header">
+            <div class="ci-title">给这颗珍珠写句话</div>
+            <div class="ci-place">深夜食堂</div>
+          </div>
+          <div class="ci-pearl">🫧</div>
+          <div class="ci-mood">
+            <div class="ci-mood-item">😊</div>
+            <div class="ci-mood-item active">🥰</div>
+            <div class="ci-mood-item">😌</div>
+            <div class="ci-mood-item">🤔</div>
+            <div class="ci-mood-item">😴</div>
+          </div>
+          <div class="ci-input">
+            <div class="ci-input-placeholder">今天发生了什么有趣的事？</div>
+          </div>
+          <div class="ci-photos">
+            <div class="ci-photo">🍜</div>
+            <div class="ci-photo">🌙</div>
+            <div class="ci-photo ci-photo-add">+</div>
+          </div>
+          <div class="ci-btn">放入珍珠 💜</div>
+        </div>
+      </div>
+      <div class="phone-label">打卡 — 珍珠仪式+心情</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 旅程地图新设计 ===== -->
+<div class="section">
+  <h2 class="section-title">旅程地图 · 足迹叙事</h2>
+  <p class="section-desc">统计卡片 + 地图路径连线 + 底部信息卡</p>
+  <div class="phone-row">
+    <div>
+      <div class="phone">
+        <div class="phone-screen">
+          <div class="jm-stats">
+            <div class="jm-stat-card">
+              <div class="jm-stat-num" style="color:#6366f1;">8</div>
+              <div class="jm-stat-label">地点</div>
+            </div>
+            <div class="jm-stat-card">
+              <div class="jm-stat-num" style="color:#f59e0b;">23</div>
+              <div class="jm-stat-label">打卡</div>
+            </div>
+            <div class="jm-stat-card">
+              <div class="jm-stat-num" style="color:#10b981;">5</div>
+              <div class="jm-stat-label">城市</div>
+            </div>
+          </div>
+          <div class="jm-map">
+            <svg class="jm-path" viewBox="0 0 280 280">
+              <path d="M 60 80 Q 120 40 180 120 T 220 200" stroke="rgba(99,102,241,0.4)" stroke-width="2" stroke-dasharray="6 4" fill="none"/>
+            </svg>
+            <div class="jm-pin" style="top:50px;left:40px;">📍</div>
+            <div class="jm-pin" style="top:90px;left:150px;">📍</div>
+            <div class="jm-pin" style="top:170px;left:190px;">📍</div>
+          </div>
+          <div class="jm-bottom-card">
+            <div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#a8a8d0,#7c7cb8);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;color:#fff;flex-shrink:0;">夜</div>
+            <div style="flex:1;">
+              <div style="font-size:15px;font-weight:600;">深夜食堂</div>
+              <div style="font-size:12px;color:#999;">打卡 5 次 · 最近 07.10</div>
+            </div>
+            <div style="font-size:20px;">→</div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-label">旅程地图 — 路径+统计</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 实现路径 ===== -->
+<div class="section">
+  <h2 class="section-title">实现路径 · 4阶段</h2>
+  <p class="section-desc">从 UI 基础重构开始，逐步叠加交互体验</p>
+  <div class="roadmap">
+    <div class="phase phase-1">
+      <span class="phase-tag">阶段一 · UI 基础重构</span>
+      <h3>🎨 视觉系统重建</h3>
+      <ul class="phase-items">
+        <li>主题系统重构：移除 COS 插画引用，每主题 = 渐变色 + emoji + accent色</li>
+        <li>卡片墙重绘：纯渐变背景 + 大号emoji + CSS装饰圆 + 白色信息区</li>
+        <li>详情页重绘：渐变封面 + 居中emoji + 移除杂乱装饰 + 贴纸风时间轴</li>
+        <li>全局纸质底纹：#faf6f1 米白底色 + 微噪点纹理</li>
+        <li>统一圆角语言：卡片20rpx / 按钮100rpx / 标签100rpx</li>
+        <li>搜索按钮放大 + 浮动添加按钮优化</li>
+      </ul>
+    </div>
+    <div class="phase phase-2">
+      <span class="phase-tag">阶段二 · 卡片墙增强</span>
+      <h3>🃏 交互与动效</h3>
+      <ul class="phase-items">
+        <li>卡片入场动画：交错淡入+上移（stagger）</li>
+        <li>长按卡片预览弹窗：放大显示封面+标签+最近打卡</li>
+        <li>收藏爱心触觉反馈（vibrateShort）+ 弹跳动画</li>
+        <li>打卡里程碑角标：3/5/10次显示铜/银/金勋章</li>
+        <li>下拉刷新自定义动画：珍珠弹跳</li>
+      </ul>
+    </div>
+    <div class="phase phase-3">
+      <span class="phase-tag">阶段三 · 打卡仪式感</span>
+      <h3>🫧 珍珠仪式</h3>
+      <ul class="phase-items">
+        <li>打卡页珍珠可视化：大号珍珠球 + 光晕动效</li>
+        <li>心情选择器：5种emoji心情 + 选中放大</li>
+        <li>天气自动获取：通过 wx.getWeatherType 或手动选择</li>
+        <li>提交动效：珍珠落入瓶中 + 粒子散开</li>
+        <li>打卡日签：自动生成可保存的日卡（canvas绘制）</li>
+        <li>连续打卡火焰：详情页显示连续打卡天数+火焰图标</li>
+      </ul>
+    </div>
+    <div class="phase phase-4">
+      <span class="phase-tag">阶段四 · 旅程叙事</span>
+      <h3>🗺️ 足迹地图</h3>
+      <ul class="phase-items">
+        <li>统计卡片：地点数/打卡数/城市数/总天数</li>
+        <li>地图路径连线：相邻打卡点虚线连接 + 绘制动画</li>
+        <li>时间滑块：拖动回放历史打卡轨迹</li>
+        <li>底部信息卡：点击marker弹出地点摘要</li>
+        <li>城市点亮：首次打卡城市显示点亮动效</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div style="text-align:center; padding: 32px; color:#999; font-size:13px;">
+  请在浏览器中查看以上设计方案，然后在终端告诉我你的想法 ✨
+</div>
+
+</body>
+</html>
