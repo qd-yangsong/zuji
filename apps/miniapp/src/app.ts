@@ -1,7 +1,7 @@
-import { Component } from 'react';
+import { Component, PropsWithChildren } from 'react';
 import './app.scss';
 
-class App extends Component {
+class App extends Component<PropsWithChildren> {
   render() {
     return this.props.children;
   }

@@ -10,6 +10,8 @@ import './index.scss';
 
 export default function Checkin() {
   const [place, setPlace] = useState<PlaceDto | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
   const [content, setContent] = useState('');
   const [images, setImages] = useState<string[]>([]);
   const [eventTagIds, setEventTagIds] = useState<string[]>([]);
@@ -18,21 +20,45 @@ export default function Checkin() {
   const placeId = Taro.getCurrentInstance().router?.params?.placeId;
 
   useEffect(() => {
-    if (!placeId) return;
-    fetchPlaceDetail(placeId).then(setPlace).catch(console.error);
+    if (!placeId) {
+      setError('参数错误，无法加载地点信息');
+      setLoading(false);
+      return;
+    }
+    fetchPlaceDetail(placeId)
+      .then((data) => {
+        setPlace(data);
+        setLoading(false);
+      })
+      .catch((e) => {
+        console.error(e);
+        Taro.showToast({ title: '加载失败', icon: 'error' });
+        setLoading(false);
+      });
   }, [placeId]);
 
   // 选择并上传图片
   const handleChooseImage = async () => {
-    const res = await Taro.chooseImage({ count: 9 - images.length });
-    Taro.showLoading({ title: '上传中...' });
     try {
-      const urls = await Promise.all(
-        res.tempFilePaths.map((path) => uploadImage(path))
+      const mediaRes = await Taro.chooseMedia({ count: 9 - images.length, mediaType: ['image'], sourceType: ['album', 'camera'] });
+      const tempFilePaths = mediaRes.tempFiles.map(f => f.tempFilePath);
+      Taro.showLoading({ title: '上传中...' });
+      // 使用 allSettled：单张失败不影响其他成功的上传
+      const results = await Promise.allSettled(
+        tempFilePaths.map((path) => uploadImage(path))
       );
-      setImages([...images, ...urls]);
+      const urls = results
+        .filter((r): r is PromiseFulfilledResult<string> => r.status === 'fulfilled')
+        .map((r) => r.value);
+      const failedCount = results.filter((r) => r.status === 'rejected').length;
+      if (failedCount > 0) {
+        Taro.showToast({ title: `${failedCount}张图片上传失败`, icon: 'none' });
+      }
+      if (urls.length > 0) {
+        setImages([...images, ...urls]);
+      }
     } catch (e) {
-      Taro.showToast({ title: '上传失败', icon: 'error' });
+      // 用户取消选图，静默处理
     } finally {
       Taro.hideLoading();
     }
@@ -68,12 +94,27 @@ export default function Checkin() {
     }
   };
 
-  if (!place) {
+  if (error) {
+    return (
+      <View className='checkin'>
+        <View className='checkin__error'>
+          <Text>{error}</Text>
+          <View onClick={() => Taro.navigateBack()}>返回</View>
+        </View>
+      </View>
+    );
+  }
+
+  if (loading) {
     return (
       <View className='checkin'>
         <Text>加载中...</Text>
       </View>
     );
+  }
+
+  if (!place) {
+    return null;
   }
 
   return (
@@ -127,6 +168,11 @@ export default function Checkin() {
           selectedIds={eventTagIds}
           onChange={setEventTagIds}
         />
+      </View>
+
+      {/* 内容审核提示 */}
+      <View className='checkin__review-notice'>
+        <Text>提交后内容将经过审核，请遵守平台规范，不要发布违法违规信息</Text>
       </View>
 
       {/* 提交按钮 */}

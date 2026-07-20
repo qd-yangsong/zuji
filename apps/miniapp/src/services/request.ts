@@ -32,6 +32,12 @@ export async function request<T = unknown>(options: {
     header,
   });
   if (res.statusCode >= 400) {
+    // 401：token 过期或无效，清除登录状态并提示用户
+    if (res.statusCode === 401) {
+      Taro.removeStorageSync('token');
+      Taro.removeStorageSync('zuji_user');
+      Taro.showToast({ title: '登录已过期，请重新登录', icon: 'none', duration: 2000 });
+    }
     throw new Error((res.data as ApiResponse<T>)?.message || `HTTP ${res.statusCode}`);
   }
   return res.data as T;

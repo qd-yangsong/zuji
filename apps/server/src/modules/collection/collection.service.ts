@@ -87,6 +87,47 @@ export class CollectionService {
     return { ok: true };
   }
 
+  // 添加地点到合集（增量添加，不影响已有关联）
+  async addPlace(collectionId: string, placeId: string, userId: string) {
+    const collection = await this.prisma.collection.findUnique({ where: { id: collectionId } });
+    if (!collection) throw new NotFoundException('合集不存在');
+    if (collection.userId !== userId) throw new ForbiddenException('无权操作他人合集');
+
+    // 验证地点归属
+    const place = await this.prisma.place.findUnique({ where: { id: placeId } });
+    if (!place) throw new NotFoundException('地点不存在');
+    if (place.userId !== userId) throw new ForbiddenException('无权操作他人地点');
+
+    // 获取当前最大 sort 值
+    const lastItem = await this.prisma.collectionPlace.findFirst({
+      where: { collectionId },
+      orderBy: { sort: 'desc' },
+    });
+    const sort = (lastItem?.sort ?? -1) + 1;
+
+    // upsert：已存在则跳过，不存在则创建
+    await this.prisma.collectionPlace.upsert({
+      where: { collectionId_placeId: { collectionId, placeId } },
+      create: { collectionId, placeId, sort },
+      update: {},
+    });
+
+    return this.findOne(collectionId, userId);
+  }
+
+  // 从合集中移除地点
+  async removePlace(collectionId: string, placeId: string, userId: string) {
+    const collection = await this.prisma.collection.findUnique({ where: { id: collectionId } });
+    if (!collection) throw new NotFoundException('合集不存在');
+    if (collection.userId !== userId) throw new ForbiddenException('无权操作他人合集');
+
+    await this.prisma.collectionPlace.deleteMany({
+      where: { collectionId, placeId },
+    });
+
+    return { ok: true };
+  }
+
   // 扁平化 places：CollectionPlace[] → Place[]，同时扁平化标签
   private toDto(collection: any) {
     return {

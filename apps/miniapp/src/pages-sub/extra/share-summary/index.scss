@@ -1,0 +1,198 @@
+// 年度足迹总结分享页
+// 可截屏分享的卡片式总结
+
+.summary {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #FAF7F2 0%, #FFF5F0 100%);
+  padding: 32rpx;
+  padding-bottom: 200rpx;
+
+  &__loading, &__error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 200rpx;
+    color: #8B7E6E;
+    font-size: 28rpx;
+  }
+
+  // 主卡片
+  &__card {
+    position: relative;
+    background: #FFFDF9;
+    border-radius: 32rpx;
+    padding: 48rpx 32rpx 32rpx;
+    box-shadow: 0 8rpx 40rpx rgba(61, 50, 38, 0.1);
+    overflow: hidden;
+  }
+
+  // 装饰圆
+  &__decor {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 200rpx;
+    overflow: hidden;
+  }
+
+  &__decor-circle {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.15;
+
+    &--1 {
+      width: 200rpx;
+      height: 200rpx;
+      background: #E8775B;
+      top: -80rpx;
+      right: -40rpx;
+    }
+
+    &--2 {
+      width: 140rpx;
+      height: 140rpx;
+      background: #F4A460;
+      top: -40rpx;
+      left: -30rpx;
+    }
+  }
+
+  // 标题
+  &__header {
+    text-align: center;
+    margin-bottom: 40rpx;
+    position: relative;
+    z-index: 1;
+  }
+
+  &__year {
+    display: block;
+    font-size: 72rpx;
+    font-weight: 800;
+    color: #E8775B;
+    line-height: 1;
+    letter-spacing: 4rpx;
+  }
+
+  &__title {
+    display: block;
+    font-size: 32rpx;
+    font-weight: 600;
+    color: #3D3226;
+    margin-top: 12rpx;
+  }
+
+  &__subtitle {
+    display: block;
+    font-size: 24rpx;
+    color: #8B7E6E;
+    margin-top: 4rpx;
+    font-style: italic;
+  }
+
+  // 主数据
+  &__main-stats {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 32rpx 0;
+    margin-bottom: 32rpx;
+    border-top: 2rpx solid #F5F0E8;
+    border-bottom: 2rpx solid #F5F0E8;
+  }
+
+  &__main-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &__main-num {
+    font-size: 56rpx;
+    font-weight: 800;
+    color: #E8775B;
+    line-height: 1.1;
+  }
+
+  &__main-label {
+    font-size: 22rpx;
+    color: #8B7E6E;
+    margin-top: 8rpx;
+  }
+
+  &__main-divider {
+    width: 2rpx;
+    height: 60rpx;
+    background: #E8E0D5;
+  }
+
+  // 亮点
+  &__highlight {
+    display: flex;
+    align-items: center;
+    gap: 16rpx;
+    padding: 16rpx 24rpx;
+    background: #FAF7F2;
+    border-radius: 16rpx;
+    margin-bottom: 12rpx;
+  }
+
+  &__highlight-icon {
+    font-size: 32rpx;
+  }
+
+  &__highlight-text {
+    font-size: 26rpx;
+    color: #3D3226;
+    font-weight: 500;
+  }
+
+  // 品牌区
+  &__brand {
+    text-align: center;
+    margin-top: 32rpx;
+    padding-top: 24rpx;
+    border-top: 2rpx dashed #E8E0D5;
+  }
+
+  &__brand-name {
+    display: block;
+    font-size: 28rpx;
+    font-weight: 700;
+    color: #3D3226;
+  }
+
+  &__brand-slogan {
+    display: block;
+    font-size: 22rpx;
+    color: #8B7E6E;
+    margin-top: 4rpx;
+  }
+
+  // 操作按钮
+  &__actions {
+    margin-top: 32rpx;
+    text-align: center;
+  }
+
+  &__share-btn {
+    height: 88rpx;
+    background: #E8775B;
+    border-radius: 44rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 30rpx;
+    font-weight: 600;
+    box-shadow: 0 6rpx 20rpx rgba(232, 119, 91, 0.35);
+  }
+
+  &__hint {
+    display: block;
+    font-size: 22rpx;
+    color: #B5A898;
+    margin-top: 12rpx;
+  }
+}

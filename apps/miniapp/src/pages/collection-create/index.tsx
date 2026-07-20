@@ -20,19 +20,27 @@ export default function CollectionCreate() {
   useEffect(() => {
     fetchPlaces({ page: 1, pageSize: 100 })
       .then((res) => setPlaces(res.list))
-      .catch(console.error);
+      .catch((e) => {
+        console.error(e);
+        Taro.showToast({ title: '加载失败', icon: 'error' });
+      });
   }, []);
 
   const handleUploadCover = async () => {
-    const res = await Taro.chooseImage({ count: 1 });
-    Taro.showLoading({ title: '上传中...' });
     try {
-      const url = await uploadImage(res.tempFilePaths[0]);
-      setCoverImage(url);
-    } catch (e) {
-      Taro.showToast({ title: '上传失败', icon: 'error' });
-    } finally {
-      Taro.hideLoading();
+      const mediaRes = await Taro.chooseMedia({ count: 1, mediaType: ['image'], sourceType: ['album', 'camera'] });
+      const tempFilePath = mediaRes.tempFiles[0].tempFilePath;
+      Taro.showLoading({ title: '上传中...' });
+      try {
+        const url = await uploadImage(tempFilePath);
+        setCoverImage(url);
+      } catch (e) {
+        Taro.showToast({ title: '上传失败', icon: 'error' });
+      } finally {
+        Taro.hideLoading();
+      }
+    } catch {
+      // 用户取消选择，静默处理
     }
   };
 
@@ -125,9 +133,9 @@ export default function CollectionCreate() {
                 >
                   <View
                     className='collection-create__place-badge'
-                    style={{ background: theme.iconBg }}
+                    style={{ background: theme.accent }}
                   >
-                    <Text style={{ color: theme.iconColor }}>
+                    <Text style={{ color: '#fff' }}>
                       {place.customName.charAt(0)}
                     </Text>
                   </View>

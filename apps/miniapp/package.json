@@ -37,7 +37,9 @@
   "devDependencies": {
     "@babel/core": "^7.24.0",
     "@babel/preset-react": "^8.0.1",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.6.2",
     "@tarojs/cli": "4.x",
+    "@tarojs/plugin-platform-h5": "4.2.0",
     "@tarojs/taro-loader": "4.x",
     "@tarojs/webpack5-runner": "4.x",
     "@types/react": "^18.0.0",

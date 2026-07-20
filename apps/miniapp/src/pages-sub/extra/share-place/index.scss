@@ -1,0 +1,252 @@
+// 分享页 - 产品邀请函风格
+// 上：地点卡片 / 中：价值说明 / 下：获取 CTA
+
+.share-place {
+  min-height: 100vh;
+  background: #FAF7F2;
+  padding-bottom: 200rpx;
+
+  &__loading, &__error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 200rpx;
+    font-size: 30rpx;
+    color: #8B7E6E;
+  }
+
+  // ===== 地点卡片 =====
+  &__card {
+    margin: 24rpx;
+    background: #FFFDF9;
+    border-radius: 24rpx;
+    overflow: hidden;
+    box-shadow: 0 4rpx 20rpx rgba(61, 50, 38, 0.08);
+  }
+
+  &__cover {
+    height: 280rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+
+    // 装饰圆
+    &::before {
+      content: '';
+      position: absolute;
+      top: -40rpx;
+      right: -30rpx;
+      width: 140rpx;
+      height: 140rpx;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -30rpx;
+      left: -20rpx;
+      width: 100rpx;
+      height: 100rpx;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.15);
+    }
+  }
+
+  &__cover-badge {
+    width: 96rpx;
+    height: 96rpx;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40rpx;
+    font-weight: bold;
+    z-index: 2;
+    box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.1);
+  }
+
+  &__cover-deco {
+    display: none;
+  }
+
+  &__info {
+    padding: 32rpx 28rpx;
+  }
+
+  &__name {
+    display: block;
+    font-size: 36rpx;
+    font-weight: 700;
+    color: #3D3226;
+    margin-bottom: 8rpx;
+  }
+
+  &__meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  &__pin { font-size: 24rpx; margin-right: 4rpx; }
+  &__real-name { font-size: 26rpx; color: #8B7E6E; }
+  &__address { font-size: 26rpx; color: #B5A898; }
+
+  &__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12rpx;
+    margin-top: 20rpx;
+  }
+
+  &__tag {
+    font-size: 24rpx;
+    padding: 6rpx 20rpx;
+    border-radius: 20rpx;
+
+    &--attr { color: #E8775B; background: #FFF5F0; }
+    &--scene { color: #81C784; background: #F0FFF0; }
+  }
+
+  &__stats {
+    margin-top: 20rpx;
+    font-size: 26rpx;
+    color: #B5A898;
+  }
+
+  // 首次感受
+  &__impression {
+    margin-top: 20rpx;
+    padding: 20rpx;
+    background: #FAF7F2;
+    border-radius: 16rpx;
+    border-left: 4rpx solid #E8775B;
+  }
+
+  &__impression-text {
+    display: block;
+    font-size: 26rpx;
+    color: #3D3226;
+    line-height: 1.6;
+    font-style: italic;
+    margin-bottom: 12rpx;
+  }
+
+  &__impression-images {
+    display: flex;
+    gap: 8rpx;
+    margin-top: 8rpx;
+  }
+
+  &__impression-img-wrap {
+    width: 120rpx;
+    height: 120rpx;
+    border-radius: 8rpx;
+    overflow: hidden;
+  }
+
+  &__impression-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &__map {
+    width: 100%;
+    height: 280rpx;
+    border-radius: 16rpx;
+    margin-top: 20rpx;
+  }
+
+  &__nav-btn {
+    height: 80rpx;
+    background: #FFFDF9;
+    border: 2rpx solid #E8775B;
+    border-radius: 40rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #E8775B;
+    font-size: 28rpx;
+    font-weight: 500;
+    margin-top: 16rpx;
+  }
+
+  // ===== 价值说明区 =====
+  &__value {
+    margin: 0 24rpx 24rpx;
+    padding: 32rpx 28rpx;
+    background: #FFFDF9;
+    border-radius: 24rpx;
+    text-align: center;
+    box-shadow: 0 2rpx 12rpx rgba(61, 50, 38, 0.05);
+  }
+
+  &__value-title {
+    display: block;
+    font-size: 28rpx;
+    color: #3D3226;
+    font-weight: 600;
+    margin-bottom: 24rpx;
+  }
+
+  &__value-features {
+    display: flex;
+    flex-direction: column;
+    gap: 20rpx;
+  }
+
+  &__value-feature {
+    display: flex;
+    align-items: center;
+    gap: 16rpx;
+    text-align: left;
+  }
+
+  &__value-feature-icon {
+    font-size: 40rpx;
+    flex-shrink: 0;
+  }
+
+  &__value-feature-text {
+    font-size: 26rpx;
+    color: #8B7E6E;
+    line-height: 1.5;
+  }
+
+  // ===== 底部 CTA =====
+  &__footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20rpx 32rpx;
+    padding-bottom: calc(20rpx + env(safe-area-inset-bottom));
+    background: #FFFDF9;
+    box-shadow: 0 -4rpx 20rpx rgba(61, 50, 38, 0.08);
+    text-align: center;
+  }
+
+  &__cta {
+    height: 92rpx;
+    background: #E8775B;
+    border-radius: 46rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 32rpx;
+    font-weight: 600;
+    box-shadow: 0 6rpx 20rpx rgba(232, 119, 91, 0.35);
+  }
+
+  &__footer-hint {
+    display: block;
+    font-size: 22rpx;
+    color: #B5A898;
+    margin-top: 8rpx;
+  }
+}

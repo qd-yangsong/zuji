@@ -149,6 +149,23 @@
     box-shadow: 0 -2rpx 10rpx rgba(0,0,0,0.05);
   }
 
+  &__add-btn {
+    height: 88rpx;
+    border-radius: 100rpx;
+    background: #fff;
+    border: 2rpx solid #6366f1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16rpx;
+
+    Text {
+      font-size: 28rpx;
+      color: #6366f1;
+      font-weight: 600;
+    }
+  }
+
   &__share-btn {
     height: 88rpx;
     background: #54a0ff;
@@ -159,5 +176,114 @@
     color: #fff;
     font-size: 32rpx;
     font-weight: bold;
+  }
+
+  /* 地点选择弹窗 */
+  &__mask {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 200;
+    display: flex;
+    align-items: flex-end;
+  }
+
+  &__picker {
+    width: 100%;
+    max-height: 70vh;
+    background: #fff;
+    border-radius: 32rpx 32rpx 0 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__picker-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 32rpx;
+    border-bottom: 1rpx solid #f0f0f0;
+  }
+
+  &__picker-title {
+    font-size: 32rpx;
+    font-weight: bold;
+    color: #333;
+  }
+
+  &__picker-close {
+    font-size: 36rpx;
+    color: #999;
+    padding: 8rpx 16rpx;
+  }
+
+  &__picker-list {
+    flex: 1;
+    max-height: 56vh;
+    padding: 16rpx 32rpx;
+  }
+
+  &__picker-empty {
+    text-align: center;
+    padding: 80rpx 0;
+    font-size: 28rpx;
+    color: #999;
+  }
+
+  &__picker-item {
+    display: flex;
+    align-items: center;
+    padding: 24rpx 0;
+    border-bottom: 1rpx solid #f5f5f5;
+
+    &--disabled {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+  }
+
+  &__picker-badge {
+    width: 64rpx;
+    height: 64rpx;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  &__picker-badge-text {
+    font-size: 28rpx;
+    font-weight: bold;
+    color: #fff;
+  }
+
+  &__picker-info {
+    flex: 1;
+    margin-left: 20rpx;
+  }
+
+  &__picker-name {
+    display: block;
+    font-size: 30rpx;
+    font-weight: 600;
+    color: #333;
+  }
+
+  &__picker-sub {
+    display: block;
+    font-size: 24rpx;
+    color: #999;
+    margin-top: 4rpx;
+  }
+
+  &__picker-add {
+    font-size: 40rpx;
+    color: #6366f1;
+    font-weight: 300;
+    padding: 0 16rpx;
   }
 }

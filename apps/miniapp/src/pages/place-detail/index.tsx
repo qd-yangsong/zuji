@@ -1,11 +1,11 @@
 import { View, Text, Image, Map } from '@tarojs/components';
 import { useState, useEffect } from 'react';
-import Taro from '@tarojs/taro';
-import { fetchPlaceDetail } from '../../services/place';
+import Taro, { useDidShow } from '@tarojs/taro';
+import { fetchPlaceDetail, deletePlace } from '../../services/place';
 import { fetchCheckins } from '../../services/checkin';
 import { resourceService } from '../../services/resource';
 import ThemeShape from '../../components/ThemeShape';
-import type { PlaceDto, TagDto, TagType, CheckInDto } from '@zuji/shared-types';
+import type { PlaceDto, CheckInDto } from '@zuji/shared-types';
 import './index.scss';
 
 // 格式化日期为 YYYY.MM.DD
@@ -15,11 +15,6 @@ function formatDate(dateStr: string): string {
   const m = String(d.getMonth() + 1).padStart(2, '0');
   const day = String(d.getDate()).padStart(2, '0');
   return `${y}.${m}.${day}`;
-}
-
-// 按标签类型筛选
-function filterTagsByType(tags: TagDto[], type: TagType): TagDto[] {
-  return tags.filter((t) => t.type === type);
 }
 
 export default function PlaceDetail() {
@@ -47,6 +42,15 @@ export default function PlaceDetail() {
     fetchCheckins(id).then(setCheckins).catch(console.error);
   }, [id]);
 
+  // 从子页面返回时刷新详情和打卡时间轴
+  useDidShow(() => {
+    if (!id) return;
+    // 刷新详情（编辑后数据会变化）
+    fetchPlaceDetail(id).then(setPlace).catch(console.error);
+    // 刷新打卡时间轴
+    fetchCheckins(id).then(setCheckins).catch(console.error);
+  });
+
   const handleCheckin = () => {
     if (!place) return;
     Taro.navigateTo({ url: '/pages/checkin/index?placeId=' + place.id });
@@ -57,7 +61,7 @@ export default function PlaceDetail() {
     if (!place) return { title: '足迹手帐' };
     return {
       title: `来看看这个地点：${place.customName}`,
-      path: `/pages/share-place/index?id=${place.id}`,
+      path: `/pages-sub/extra/share-place/index?id=${place.id}`,
     };
   });
 
@@ -66,8 +70,23 @@ export default function PlaceDetail() {
     Taro.showShareMenu({
       withShareTicket: true,
       menus: ['shareAppMessage', 'shareTimeline'],
-    });
+    } as any);
     Taro.showToast({ title: '点击右上角分享给好友', icon: 'none' });
+  };
+
+  // 打开微信内置地图，用户可选择高德/腾讯/百度等导航
+  const handleNavigate = () => {
+    if (!place) return;
+    Taro.openLocation({
+      latitude: place.latitude,
+      longitude: place.longitude,
+      name: place.customName,
+      address: place.realName + (place.address ? ` ${place.address}` : ''),
+      scale: 18,
+    }).catch((e) => {
+      console.error('打开地图失败:', e);
+      Taro.showToast({ title: '打开地图失败', icon: 'error' });
+    });
   };
 
   const handleBack = () => {
@@ -82,12 +101,22 @@ export default function PlaceDetail() {
           Taro.showModal({
             title: '确认删除',
             content: '删除后无法恢复，确定吗？',
-            success: (r) => {
-              if (r.confirm) Taro.showToast({ title: '删除功能即将上线', icon: 'none' });
+            success: async (r) => {
+              if (r.confirm) {
+                try {
+                  await deletePlace(place!.id);
+                  Taro.showToast({ title: '删除成功', icon: 'success' });
+                  setTimeout(() => Taro.navigateBack(), 1000);
+                } catch (e) {
+                  console.error('删除地点失败:', e);
+                  Taro.showToast({ title: '删除失败', icon: 'error' });
+                }
+              }
             },
           });
         } else if (res.tapIndex === 0) {
-          Taro.showToast({ title: '编辑功能即将上线', icon: 'none' });
+          // 跳转到编辑页，传递地点 ID
+          Taro.navigateTo({ url: `/pages/place-create/index?id=${place!.id}` });
         }
       },
     });
@@ -114,10 +143,8 @@ export default function PlaceDetail() {
   }
 
   const theme = resourceService.getThemeByName(place.customName);
-  const attributeTags = filterTagsByType(place.tags, 'attribute');
-  const sceneTags = filterTagsByType(place.tags, 'scene');
   const markers = [
-    { id: 1, latitude: place.latitude, longitude: place.longitude, width: 30, height: 30 },
+    { id: 1, latitude: place.latitude, longitude: place.longitude, width: 30, height: 30, iconPath: '' },
   ];
 
   return (
@@ -149,69 +176,49 @@ export default function PlaceDetail() {
         </View>
       )}
 
-      {/* 封面区：纯 CSS 渐变背景 + 居中首字徽章 + ThemeShape 图形 */}
+      {/* 封面区：杂志风 — 几何印章 + 名称 + 标签横排 */}
       <View className='place-detail__cover' style={{ background: theme.gradient }}>
-        {/* 首字徽章：80rpx 白色圆形 */}
-        <View className='place-detail__cover-badge'>
-          <Text
-            className='place-detail__cover-letter'
-            style={{ color: theme.accent }}
-          >
-            {place.customName.charAt(0)}
-          </Text>
+        {/* 几何印章：放大版 ThemeShape 内嵌首字 */}
+        <View className='place-detail__seal'>
+          <View className='place-detail__seal-shape'>
+            <ThemeShape geoType={theme.geoType} />
+          </View>
+          <View className='place-detail__seal-letter-wrap'>
+            <Text
+              className='place-detail__seal-letter'
+              style={{ color: theme.accent }}
+            >
+              {place.customName.charAt(0)}
+            </Text>
+          </View>
         </View>
-        {/* 主题几何图形（放大 1.3 倍） */}
-        <View className='place-detail__cover-shape'>
-          <ThemeShape geoType={theme.geoType as any} className='place-detail__cover-shape-inner' />
-        </View>
+
+        {/* 地点名称 */}
+        <Text className='place-detail__cover-name'>{place.customName}</Text>
+
+        {/* 标签横排 */}
+        {place.tags.length > 0 && (
+          <View className='place-detail__cover-tags'>
+            {place.tags.map((tag) => (
+              <Text
+                key={tag.id}
+                className='place-detail__cover-tag'
+                style={{ background: theme.light, color: theme.accent }}
+              >
+                {tag.type === 'scene' ? `适合${tag.name}` : tag.name}
+              </Text>
+            ))}
+          </View>
+        )}
       </View>
 
-      {/* 信息卡片（圆角向上覆盖封面底部） */}
+      {/* 信息卡片 */}
       <View className='place-detail__body'>
-        <Text className='place-detail__custom-name'>{place.customName}</Text>
         <View className='place-detail__meta'>
           <View className='place-detail__pin-dot' />
           <Text className='place-detail__real-name'>{place.realName}</Text>
           {place.address && <Text className='place-detail__address'> · {place.address}</Text>}
         </View>
-
-        {/* 标签分组：属性 + 场景 */}
-        {(attributeTags.length > 0 || sceneTags.length > 0) && (
-          <View className='place-detail__tag-block'>
-            {attributeTags.length > 0 && (
-              <View className='place-detail__tag-row'>
-                <Text className='place-detail__tag-label'>属性</Text>
-                <View className='place-detail__tags'>
-                  {attributeTags.map((tag) => (
-                    <Text
-                      key={tag.id}
-                      className='place-detail__tag'
-                      style={{ background: theme.light, color: theme.accent }}
-                    >
-                      {tag.name}
-                    </Text>
-                  ))}
-                </View>
-              </View>
-            )}
-            {sceneTags.length > 0 && (
-              <View className='place-detail__tag-row'>
-                <Text className='place-detail__tag-label'>场景</Text>
-                <View className='place-detail__tags'>
-                  {sceneTags.map((tag) => (
-                    <Text
-                      key={tag.id}
-                      className='place-detail__tag'
-                      style={{ background: theme.light, color: theme.accent }}
-                    >
-                      适合{tag.name}
-                    </Text>
-                  ))}
-                </View>
-              </View>
-            )}
-          </View>
-        )}
 
         {/* 统计信息 */}
         <View className='place-detail__divider' />
@@ -297,6 +304,11 @@ export default function PlaceDetail() {
           <View className='place-detail__map-title'>
             <View className='place-detail__map-pin-dot' />
             <Text className='place-detail__map-label'>位置</Text>
+            {/* 去这里按钮：打开微信内置地图，可选高德/腾讯等导航 */}
+            <View className='place-detail__map-nav-btn' onClick={handleNavigate}>
+              <View className='place-detail__map-nav-arrow' />
+              <Text className='place-detail__map-nav-text'>去这里</Text>
+            </View>
           </View>
           <View className='place-detail__map-wrapper'>
             <Map
@@ -305,10 +317,11 @@ export default function PlaceDetail() {
               longitude={place.longitude}
               markers={markers}
               scale={16}
+              onError={() => {}}
             />
             {/* 右下角主题装饰图形 */}
             <View className='place-detail__map-sign'>
-              <ThemeShape geoType={theme.geoType as any} />
+              <ThemeShape geoType={theme.geoType} />
             </View>
           </View>
         </View>
@@ -324,7 +337,6 @@ export default function PlaceDetail() {
           onClick={handleShare}
         >
           <Text className='place-detail__btn-text'>分享</Text>
-          <Text className='place-detail__btn-sub'>即将上线</Text>
         </View>
       </View>
     </View>

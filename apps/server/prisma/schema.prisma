@@ -11,18 +11,23 @@ datasource db {
 }
 
 model User {
-  id           String   @id @default(cuid())
-  openid       String   @unique
-  unionid      String?  @unique
-  nickname     String?
-  avatarUrl    String?
-  role         String   @default("user") // user | admin
-  status       String   @default("active") // active | banned
-  bannedAt     DateTime?
-  bannedReason String?
-  password     String?  // 仅 admin 账号有密码（bcrypt 哈希）
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id             String   @id @default(cuid())
+  openid         String   @unique
+  unionid        String?  @unique
+  nickname       String?
+  avatarUrl      String?
+  signature      String?  // 个性签名（「我的」页面封面）
+  role           String   @default("user") // user | admin
+  status         String   @default("active") // active | banned
+  bannedAt       DateTime?
+  bannedReason   String?
+  password       String?  // 仅 admin 账号有密码（bcrypt 哈希）
+  stickerUnlocks String[] // 已解锁的贴纸 ID 列表（纪念+成就贴纸）
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  places  Place[]
+  routes  Route[]
 
   @@map("users")
 }
@@ -44,12 +49,12 @@ model TagGroup {
   @@map("tag_groups")
 }
 
-// 标签 —— 三层体系：attribute（属性）/ scene（场景）/ event（事件）
+// 标签 —— 五层体系：attribute（属性）/ scene（场景）/ event（事件）/ vibe（氛围）/ category（客观分类）
 model Tag {
   id          String    @id @default(cuid())
   userId      String?   // null = 系统预设，所有用户共享
   name        String    // 标签名称
-  type        String    // attribute | scene | event
+  type        String    // attribute | scene | event | vibe | category
   groupId     String?   // 所属标签组（仅 scene 类型可归组）
   isSystem    Boolean   @default(false) // 是否系统预设
   usageCount  Int       @default(0) // 使用次数，用于热门排序
@@ -65,23 +70,34 @@ model Tag {
 
 // 地点 —— 用户收藏的地点，关联属性标签和场景标签
 model Place {
-  id              String   @id @default(cuid())
-  userId          String   // 所属用户
-  realName        String   // 地点真实名称（如"海底捞火锅（南门店）"）
-  customName      String   // 用户自定义昵称（如"我家楼下深夜小馆"）
-  latitude        Float    // 纬度
-  longitude       Float    // 经度
-  address         String?  // 详细地址
-  coverImage      String?  // 封面图 URL
-  checkinCount    Int      @default(0) // 打卡次数（计算字段，由 CheckIn 触发更新）
-  collectedAt     DateTime @default(now()) // 收藏时间
-  reviewStatus    String   @default("passed") // passed | pending | rejected
-  reviewReason    String?  // 审核拒绝原因
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  id              String    @id @default(cuid())
+  userId          String    // 所属用户
+  realName        String    // 地点真实名称（如"海底捞火锅（南门店）"）
+  customName      String    // 用户自定义昵称（如"我家楼下深夜小馆"）
+  latitude        Float     // 纬度
+  longitude       Float     // 经度
+  address         String?   // 详细地址
+  coverImage      String?   // 封面图 URL
+  checkinCount    Int       @default(0) // 打卡次数（计算字段，由 CheckIn 触发更新）
+  collectedAt     DateTime  @default(now()) // 收藏时间
+  // 「收藏即记录」字段
+  firstImpression String?   // 首次感受文字
+  firstImages     String[]  // 首次记录的照片
+  // 情感评估
+  rating          Int?      // 评分 1-5
+  wantToRevisit   Boolean   @default(false) // 想再去
+  // 贴纸
+  stickerIds      String[]  // 已贴上的贴纸 ID 列表
+  // 审核
+  reviewStatus    String    @default("passed") // passed | pending | rejected
+  reviewReason    String?   // 审核拒绝原因
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   tags            PlaceTag[]
   checkins        CheckIn[]
   collections     CollectionPlace[]
+  routePlaces     RoutePlace[]
 
   @@index([userId])
   @@index([userId, collectedAt])
@@ -104,19 +120,20 @@ model PlaceTag {
 
 // 打卡记录 —— 用户在某个地点的一次到访记录
 model CheckIn {
-  id          String   @id @default(cuid())
-  placeId     String   // 关联地点
-  userId      String   // 所属用户
-  content     String?  // 文字日记
-  images      String[] // 图片 URL 列表（PostgreSQL 数组）
-  isFirst     Boolean  @default(false) // 是否首次收藏时的记录
-  checkinAt   DateTime @default(now()) // 打卡时间
-  reviewStatus String  @default("passed") // passed | pending | rejected
-  reviewReason String? // 审核拒绝原因
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  place       Place    @relation(fields: [placeId], references: [id], onDelete: Cascade)
-  tags        CheckInTag[]
+  id           String    @id @default(cuid())
+  placeId      String    // 关联地点
+  userId       String    // 所属用户
+  content      String?   // 文字日记
+  images       String[]  // 图片 URL 列表（PostgreSQL 数组）
+  isFirst      Boolean   @default(false) // 是否首次收藏时的记录
+  checkinAt    DateTime  @default(now()) // 打卡时间
+  stickerIds   String[]  // 打卡记录的贴纸
+  reviewStatus String    @default("passed") // passed | pending | rejected
+  reviewReason String?   // 审核拒绝原因
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  place        Place     @relation(fields: [placeId], references: [id], onDelete: Cascade)
+  tags         CheckInTag[]
 
   @@index([placeId, checkinAt])
   @@index([userId])
@@ -152,7 +169,7 @@ model Collection {
   @@map("collections")
 }
 
-// 合集-地点中间表（多对多）
+// 合集-地点中间表（多对多）— 保留向后兼容，新功能走 Route
 model CollectionPlace {
   id           String   @id @default(cuid())
   collectionId String
@@ -165,6 +182,46 @@ model CollectionPlace {
   @@unique([collectionId, placeId])
   @@index([placeId])
   @@map("collection_places")
+}
+
+// ========== 路线系统（v2 合集升级） ==========
+
+// 路线 —— 有序的地点集合。支持「合集（无序分类）」和「旅程（有序攻略）」两种模式
+model Route {
+  id          String      @id @default(cuid())
+  userId      String      // 所属用户
+  name        String      // 路线名称
+  description String?     // 路线描述
+  coverImage  String?     // 封面图
+  type        String      @default("collection") // collection | journey
+  status      String      @default("active") // active | completed
+  startDate   DateTime?   // 旅程出发日期
+  endDate     DateTime?   // 旅程结束日期
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  places      RoutePlace[]
+
+  @@index([userId])
+  @@index([userId, type])
+  @@map("routes")
+}
+
+// 路线-地点中间表（有序）
+model RoutePlace {
+  id        String   @id @default(cuid())
+  routeId   String
+  placeId   String
+  sortOrder Int      @default(0) // 排序序号
+  dayLabel  String?  // 旅程天标注，如 "Day 1"
+  notes     String?  // 该地点在路线中的备注
+  createdAt DateTime @default(now())
+  route     Route    @relation(fields: [routeId], references: [id], onDelete: Cascade)
+  place     Place    @relation(fields: [placeId], references: [id], onDelete: Cascade)
+
+  @@unique([routeId, placeId])
+  @@index([placeId])
+  @@map("route_places")
 }
 
 // ========== 后台管理相关模型 ==========

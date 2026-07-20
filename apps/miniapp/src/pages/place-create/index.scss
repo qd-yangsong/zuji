@@ -1,107 +1,329 @@
-.place-create {
+// ========================================
+// 足迹手帐 — 收藏地点（收藏即记录）
+// 设计语言：手帐纸张感，温暖柔和
+// ========================================
+
+@keyframes loc-spin {
+  to { transform: rotate(360deg); }
+}
+
+// 页面底色
+.pc {
   min-height: 100vh;
-  background: #f5f5f5;
-  // 为底部固定按钮留出空间
-  padding-bottom: 140rpx;
+  background: #FAF7F2;
+  padding-bottom: 160rpx;
+}
 
-  &__map {
-    width: 100%;
-    height: 400rpx;
+// ---------- 地图 ----------
+.pc__map-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.pc__map {
+  width: 100%;
+  height: 360rpx;
+}
+
+.pc__loc-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(250, 247, 242, 0.95);
+  gap: 12rpx;
+
+  &--clickable {
+    cursor: pointer;
   }
+}
 
-  &__form {
-    margin: 24rpx;
-    background: #fff;
-    border-radius: 24rpx;
-    padding: 32rpx;
+.pc__loc-spinner {
+  width: 48rpx; height: 48rpx;
+  border: 4rpx solid #E8E0D5;
+  border-top-color: #E8775B;
+  border-radius: 50%;
+  animation: loc-spin 0.8s linear infinite;
+}
+
+.pc__loc-text {
+  font-size: 28rpx;
+  color: #8B7E6E;
+}
+
+.pc__loc-sub {
+  font-size: 24rpx;
+  color: #B5A898;
+}
+
+.pc__search-btn {
+  position: absolute;
+  top: 24rpx; right: 24rpx;
+  background: rgba(255, 253, 249, 0.95);
+  border-radius: 32rpx;
+  padding: 10rpx 28rpx;
+  box-shadow: 0 2rpx 12rpx rgba(61, 50, 38, 0.08);
+}
+
+.pc__search-btn-text {
+  font-size: 26rpx;
+  color: #E8775B;
+  font-weight: 500;
+}
+
+// ---------- 表单区块 ----------
+.pc__section {
+  margin: 24rpx 24rpx 0;
+  background: #FFFDF9;
+  border-radius: 20rpx;
+  padding: 32rpx 28rpx;
+  box-shadow: 0 2rpx 16rpx rgba(61, 50, 38, 0.05);
+
+  &--impression {
+    border-left: 6rpx solid #E8775B;
   }
+}
 
-  &__cover {
-    width: 100%;
-    height: 300rpx;
-    border-radius: 16rpx;
-    overflow: hidden;
-    margin-bottom: 32rpx;
-    background: #f0f0f0;
-  }
+.pc__section-title {
+  display: block;
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #3D3226;
+  margin-bottom: 4rpx;
+}
 
-  &__cover-img {
-    width: 100%;
-    height: 100%;
-  }
+.pc__section-hint {
+  display: block;
+  font-size: 24rpx;
+  color: #B5A898;
+  margin-bottom: 24rpx;
+}
 
-  &__cover-placeholder {
-    width: 100%;
-    height: 100%;
+// ---------- 封面 ----------
+.pc__cover {
+  width: 100%;
+  height: 280rpx;
+  border-radius: 16rpx;
+  overflow: hidden;
+  margin-bottom: 32rpx;
+  background: #F5F0E8;
+}
+
+.pc__cover-img {
+  width: 100%;
+  height: 100%;
+}
+
+.pc__cover-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3rpx dashed #D4C8B8;
+  border-radius: 16rpx;
+  background: #FAF7F2;
+}
+
+.pc__cover-text {
+  font-size: 28rpx;
+  color: #B5A898;
+}
+
+// ---------- 表单字段 ----------
+.pc__field {
+  margin-bottom: 24rpx;
+
+  &--row {
     display: flex;
     align-items: center;
-    justify-content: center;
-    border: 2rpx dashed #ccc;
-    border-radius: 16rpx;
   }
+}
 
-  &__cover-text {
-    font-size: 28rpx;
-    color: #999;
+.pc__label {
+  display: block;
+  font-size: 28rpx;
+  color: #3D3226;
+  margin-bottom: 10rpx;
+  font-weight: 500;
+
+  &--inline {
+    margin-bottom: 0;
+    margin-right: 20rpx;
   }
+}
 
-  &__field {
-    margin-bottom: 24rpx;
+.pc__input {
+  width: 100%;
+  height: 80rpx;
+  font-size: 28rpx;
+  color: #3D3226;
+  background: #FAF7F2;
+  border-radius: 12rpx;
+  padding: 0 20rpx;
+  box-sizing: border-box;
+}
+
+// ---------- textarea（感受区） ----------
+.pc__textarea {
+  width: 100%;
+  min-height: 140rpx;
+  font-size: 28rpx;
+  color: #3D3226;
+  background: #FAF7F2;
+  border-radius: 12rpx;
+  padding: 20rpx;
+  box-sizing: border-box;
+  line-height: 1.7;
+}
+
+// ---------- 标签 ----------
+.pc__tags {
+  margin-top: 8rpx;
+}
+
+.pc__tag-title {
+  display: block;
+  font-size: 26rpx;
+  color: #8B7E6E;
+  margin-bottom: 10rpx;
+}
+
+// ---------- 打卡照片 ----------
+.pc__photos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+  margin-bottom: 24rpx;
+}
+
+.pc__photo-item {
+  position: relative;
+  width: 156rpx;
+  height: 156rpx;
+  border-radius: 12rpx;
+  overflow: hidden;
+  box-shadow: 0 2rpx 8rpx rgba(61, 50, 38, 0.08);
+}
+
+.pc__photo-img {
+  width: 100%;
+  height: 100%;
+}
+
+.pc__photo-remove {
+  position: absolute;
+  top: 0; right: 0;
+  width: 40rpx; height: 40rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.45);
+  border-radius: 0 12rpx 0 12rpx;
+}
+
+.pc__photo-remove-x {
+  font-size: 28rpx;
+  color: #fff;
+  line-height: 1;
+}
+
+.pc__photo-add {
+  width: 156rpx;
+  height: 156rpx;
+  border-radius: 12rpx;
+  border: 3rpx dashed #D4C8B8;
+  background: #FAF7F2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4rpx;
+}
+
+.pc__photo-add-plus {
+  font-size: 44rpx;
+  color: #B5A898;
+  line-height: 1;
+}
+
+.pc__photo-add-text {
+  font-size: 22rpx;
+  color: #B5A898;
+}
+
+// ---------- 评分 ----------
+.pc__rating {
+  display: flex;
+  gap: 12rpx;
+}
+
+.pc__rating-star {
+  font-size: 44rpx;
+  color: #D4C8B8;
+  transition: transform 0.15s ease;
+
+  &--active {
+    color: #F4A460;
+    transform: scale(1.08);
   }
+}
 
-  &__label {
-    display: block;
-    font-size: 28rpx;
-    color: #333;
-    margin-bottom: 12rpx;
-    font-weight: 500;
+// ---------- Toggle 开关 ----------
+.pc__toggle {
+  width: 96rpx;
+  height: 52rpx;
+  border-radius: 26rpx;
+  background: #E8E0D5;
+  position: relative;
+  transition: background 0.25s ease;
+
+  &--on {
+    background: #E8775B;
   }
+}
 
-  &__input {
-    width: 100%;
-    height: 80rpx;
-    font-size: 28rpx;
-    border-bottom: 2rpx solid #eee;
-    padding-bottom: 8rpx;
-  }
+.pc__toggle-knob {
+  position: absolute;
+  top: 4rpx;
+  left: 4rpx;
+  width: 44rpx; height: 44rpx;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.12);
+  transition: left 0.25s ease;
+}
 
-  &__tags {
-    margin-top: 32rpx;
-  }
+.pc__toggle--on .pc__toggle-knob {
+  left: 48rpx;
+}
 
-  &__tag-title {
-    display: block;
-    font-size: 28rpx;
-    color: #333;
-    margin-bottom: 12rpx;
-    font-weight: 500;
-  }
+// ---------- 底部提交 ----------
+.pc__footer {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  padding: 20rpx 32rpx;
+  padding-bottom: calc(20rpx + env(safe-area-inset-bottom));
+  background: #FFFDF9;
+  box-shadow: 0 -2rpx 16rpx rgba(61, 50, 38, 0.06);
+}
 
-  &__footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 20rpx 32rpx;
-    // 适配底部安全区
-    padding-bottom: calc(20rpx + env(safe-area-inset-bottom));
-    background: #fff;
-    box-shadow: 0 -2rpx 12rpx rgba(0, 0, 0, 0.05);
-  }
+.pc__submit {
+  height: 92rpx;
+  background: #E8775B;
+  border-radius: 46rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 32rpx;
+  font-weight: 600;
+  letter-spacing: 2rpx;
+  box-shadow: 0 4rpx 16rpx rgba(232, 119, 91, 0.3);
 
-  &__submit {
-    height: 88rpx;
-    background: #54a0ff;
-    border-radius: 44rpx;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-    font-size: 30rpx;
-    font-weight: 500;
-
-    &--disabled {
-      opacity: 0.6;
-    }
+  &--disabled {
+    opacity: 0.5;
   }
 }

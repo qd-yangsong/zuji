@@ -12,6 +12,8 @@ export interface UserDto {
   openid: string;
   nickname?: string;
   avatarUrl?: string;
+  signature?: string;
+  stickerUnlocks?: string[];
 }
 
 // 登录返回
@@ -21,7 +23,7 @@ export interface LoginResponseDto {
 }
 
 // 标签类型枚举
-export type TagType = 'attribute' | 'scene' | 'event';
+export type TagType = 'attribute' | 'scene' | 'event' | 'vibe' | 'category';
 
 // 标签组
 export interface TagGroupDto {
@@ -79,6 +81,12 @@ export interface PlaceDto {
   createdAt: string;
   updatedAt: string;
   tags: TagDto[];
+  // 「收藏即记录」字段
+  firstImpression?: string | null;
+  firstImages?: string[];
+  rating?: number | null;
+  wantToRevisit?: boolean;
+  stickerIds?: string[];
   // 审核状态：passed | pending | rejected（后端默认 passed，老数据兼容为可选）
   reviewStatus?: string;
   reviewReason?: string | null;
@@ -94,6 +102,11 @@ export interface CreatePlaceDto {
   coverImage?: string;
   attributeTagIds: string[];
   sceneTagIds: string[];
+  // 「收藏即记录」字段（可选）
+  firstImpression?: string;
+  firstImages?: string[];
+  rating?: number;
+  wantToRevisit?: boolean;
 }
 
 // 查询地点请求
@@ -113,7 +126,7 @@ export interface ThemeResource {
   gradient: string;        // CSS 渐变背景
   accent: string;          // 主题强调色（标签文字、首字徽章文字色）
   light: string;           // 浅色背景（标签底色）
-  geoType: string;         // CSS 几何图形类型：night/coffee/park/gather/stay/exhibit
+  geoType: 'night' | 'coffee' | 'park' | 'gather' | 'stay' | 'exhibit'; // CSS 几何图形类型
 }
 
 // 远程主题配置响应（第二阶段：从服务端下发）
@@ -143,6 +156,7 @@ export interface CheckInDto {
   createdAt: string;
   updatedAt: string;
   tags: TagDto[];
+  stickerIds?: string[];
   // 审核状态：passed | pending | rejected（后端默认 passed，老数据兼容为可选）
   reviewStatus?: string;
   reviewReason?: string | null;
@@ -187,4 +201,87 @@ export interface JourneyMarkerDto {
   longitude: number;
   checkinCount: number;
   lastCheckinAt: string | null;
+}
+
+// ========== 路线系统类型 ==========
+
+// 路线类型
+export type RouteType = 'collection' | 'journey';
+export type RouteStatus = 'active' | 'completed';
+
+// 路线中的地点信息
+export interface RoutePlaceInfo {
+  sortOrder: number;
+  dayLabel?: string | null;
+  notes?: string | null;
+}
+
+// 路线地点（含附加信息）
+export interface RoutePlaceDto extends PlaceDto {
+  routeInfo: RoutePlaceInfo;
+}
+
+// 路线
+export interface RouteDto {
+  id: string;
+  userId: string;
+  name: string;
+  description: string | null;
+  coverImage: string | null;
+  type: RouteType;
+  status: RouteStatus;
+  startDate: string | null;
+  endDate: string | null;
+  createdAt: string;
+  updatedAt: string;
+  places: RoutePlaceDto[];
+}
+
+// 创建路线请求
+export interface CreateRouteDto {
+  name: string;
+  description?: string;
+  coverImage?: string;
+  type?: RouteType;
+  startDate?: string;
+  endDate?: string;
+  placeIds?: string[];
+}
+
+// 附近地点匹配结果
+export interface NearbyPlaceDto {
+  placeId: string;
+  customName: string;
+  realName: string;
+  latitude: number;
+  longitude: number;
+  distance: number;
+  checkinCount: number;
+  lastCheckinAt: string | null;
+  tags: TagDto[];
+}
+
+// 旅程时间线条目
+export interface TimelineEntryDto {
+  id: string;
+  placeId: string;
+  placeName: string;
+  latitude: number;
+  longitude: number;
+  coverImage: string | null;
+  content: string | null;
+  images: string[];
+  isFirst: boolean;
+  checkinAt: string;
+}
+
+// 年度足迹总结
+export interface YearSummaryDto {
+  year: number;
+  placeCount: number;
+  checkinCount: number;
+  uniquePlaceCount: number;
+  routeCount: number;
+  topMonth: number | null;
+  topTag: { id: string; name: string } | null;
 }

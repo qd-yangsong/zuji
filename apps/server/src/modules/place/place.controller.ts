@@ -20,6 +20,50 @@ export class PlaceController {
     return this.placeService.findAll(user.id, query);
   }
 
+  // 模糊搜索（名称 + 标签）
+  @Get('search')
+  search(
+    @Query('q') keyword: string,
+    @CurrentUser() user: { id: string; openid: string },
+  ) {
+    return this.placeService.search(user.id, keyword);
+  }
+
+  // 附近地点匹配（用于「记录」Tab）
+  @Get('nearby')
+  findNearby(
+    @Query('lat') lat: string,
+    @Query('lng') lng: string,
+    @Query('radius') radius: string,
+    @CurrentUser() user: { id: string; openid: string },
+  ) {
+    return this.placeService.findNearby(
+      user.id,
+      parseFloat(lat),
+      parseFloat(lng),
+      radius ? parseInt(radius) : 100,
+    );
+  }
+
+  // 旅程时间线（用于发现页）
+  @Get('timeline')
+  getTimeline(
+    @Query('year') year: string,
+    @CurrentUser() user: { id: string; openid: string },
+  ) {
+    return this.placeService.getTimeline(user.id, year ? parseInt(year) : undefined);
+  }
+
+  // 年度足迹总结
+  @Get('summary')
+  getYearSummary(
+    @Query('year') year: string,
+    @CurrentUser() user: { id: string; openid: string },
+  ) {
+    const yearNum = year ? parseInt(year) : new Date().getFullYear();
+    return this.placeService.getYearSummary(user.id, yearNum);
+  }
+
   @Get('journey/map')
   getJourneyMap(@CurrentUser() user: { id: string; openid: string }) {
     return this.placeService.getJourneyMarkers(user.id);

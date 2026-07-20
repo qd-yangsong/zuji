@@ -1,0 +1,107 @@
+.guide {
+  min-height: 100vh;
+  background: #f8f9fa;
+  padding: 24rpx 24rpx 80rpx;
+
+  // 顶部标题
+  &__header {
+    text-align: center;
+    padding: 40rpx 0 48rpx;
+  }
+
+  &__header-title {
+    display: block;
+    font-size: 40rpx;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 12rpx;
+  }
+
+  &__header-sub {
+    display: block;
+    font-size: 26rpx;
+    color: #999;
+  }
+
+  // 卡片列表
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 20rpx;
+  }
+
+  // 单个卡片
+  &__card {
+    background: #fff;
+    border-radius: 20rpx;
+    padding: 32rpx 28rpx;
+    box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
+  }
+
+  &__card-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16rpx;
+  }
+
+  &__card-icon-wrap {
+    width: 72rpx;
+    height: 72rpx;
+    border-radius: 18rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  &__card-icon {
+    font-size: 36rpx;
+  }
+
+  &__card-title-wrap {
+    margin-left: 20rpx;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__card-num {
+    font-size: 22rpx;
+    color: #ccc;
+    font-weight: 600;
+    letter-spacing: 2rpx;
+  }
+
+  &__card-title {
+    font-size: 32rpx;
+    font-weight: 700;
+    margin-top: 2rpx;
+  }
+
+  &__card-desc {
+    font-size: 26rpx;
+    color: #666;
+    line-height: 1.7;
+  }
+
+  // 底部反馈入口
+  &__footer {
+    margin-top: 40rpx;
+    background: #fff;
+    border-radius: 16rpx;
+    padding: 28rpx 32rpx;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
+  }
+
+  &__footer-text {
+    font-size: 28rpx;
+    color: #666;
+  }
+
+  &__footer-arrow {
+    font-size: 36rpx;
+    color: #ccc;
+  }
+}

@@ -1,4 +1,4 @@
-import { IsString, IsNumber, IsOptional, IsArray, MinLength, MaxLength } from 'class-validator';
+import { IsString, IsNumber, IsOptional, IsArray, IsBoolean, IsInt, Min, Max, MinLength, MaxLength } from 'class-validator';
 
 export class CreatePlaceDto {
   @IsString()
@@ -32,4 +32,24 @@ export class CreatePlaceDto {
   @IsArray()
   @IsString({ each: true })
   sceneTagIds!: string[];
+
+  // 「收藏即记录」字段（可选）
+  @IsOptional()
+  @IsString()
+  firstImpression?: string;
+
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  firstImages?: string[];
+
+  @IsOptional()
+  @IsInt()
+  @Min(1)
+  @Max(5)
+  rating?: number;
+
+  @IsOptional()
+  @IsBoolean()
+  wantToRevisit?: boolean;
 }

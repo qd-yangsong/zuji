@@ -1,0 +1,207 @@
+// 贴纸本组件 - 三区结构
+// 全屏弹层，顶部三区 Tab + 基础区分类 Tab
+
+.sticker-book {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(61, 50, 38, 0.6);
+  z-index: 1000;
+  display: flex;
+  align-items: flex-end;
+
+  &__panel {
+    width: 100%;
+    height: 85vh;
+    background: #FAF7F2;
+    border-radius: 32rpx 32rpx 0 0;
+    display: flex;
+    flex-direction: column;
+    animation: slideUp 0.3s ease;
+
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 28rpx 32rpx 16rpx;
+  }
+
+  &__title {
+    font-size: 32rpx;
+    font-weight: 600;
+    color: #3D3226;
+  }
+
+  &__close {
+    font-size: 48rpx;
+    color: #8B7E6E;
+    line-height: 1;
+    padding: 0 8rpx;
+  }
+
+  // 三区 Tab
+  &__zones {
+    display: flex;
+    padding: 0 32rpx 16rpx;
+    gap: 12rpx;
+  }
+
+  &__zone {
+    flex: 1;
+    text-align: center;
+    padding: 14rpx 0;
+    border-radius: 20rpx;
+    background: #FFFDF9;
+    font-size: 26rpx;
+    color: #8B7E6E;
+    box-shadow: 0 2rpx 8rpx rgba(61, 50, 38, 0.04);
+
+    &--active {
+      background: #E8775B;
+      color: #fff;
+      font-weight: 600;
+    }
+  }
+
+  &__zone-count {
+    display: block;
+    font-size: 20rpx;
+    margin-top: 2rpx;
+    opacity: 0.7;
+  }
+
+  // 基础分类
+  &__categories {
+    white-space: nowrap;
+    padding: 0 16rpx 12rpx;
+  }
+
+  &__category {
+    display: inline-block;
+    padding: 8rpx 20rpx;
+    margin-right: 10rpx;
+    border-radius: 20rpx;
+    background: #FFFDF9;
+    font-size: 24rpx;
+    color: #8B7E6E;
+
+    &--active {
+      background: #3D3226;
+      color: #FFFDF9;
+    }
+  }
+
+  // 贴纸网格
+  &__grid-wrap {
+    flex: 1;
+    padding: 0 32rpx;
+  }
+
+  &__grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16rpx;
+    padding: 8rpx 0 24rpx;
+  }
+
+  &__item {
+    width: 96rpx;
+    height: 96rpx;
+    border-radius: 16rpx;
+    background: #FFFDF9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    box-shadow: 0 2rpx 8rpx rgba(61, 50, 38, 0.06);
+    transition: transform 0.15s ease;
+
+    &--locked {
+      background: #F5F0E8;
+
+      .sticker-book__svg {
+        filter: grayscale(1);
+        opacity: 0.3;
+      }
+    }
+
+    &--selected {
+      background: #FFF5F0;
+      box-shadow: 0 0 0 3rpx #E8775B, 0 4rpx 12rpx rgba(232, 119, 91, 0.2);
+      transform: scale(1.05);
+    }
+  }
+
+  &__svg {
+    width: 64rpx;
+    height: 64rpx;
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &__lock {
+    position: absolute;
+    bottom: 4rpx;
+    right: 4rpx;
+    font-size: 20rpx;
+    opacity: 0.5;
+  }
+
+  // 底部
+  &__footer {
+    padding: 16rpx 32rpx;
+    padding-bottom: calc(16rpx + env(safe-area-inset-bottom));
+    background: #FFFDF9;
+    border-top: 2rpx solid #F5F0E8;
+    display: flex;
+    align-items: center;
+    gap: 16rpx;
+  }
+
+  &__selected-preview {
+    flex: 1;
+    display: flex;
+    gap: 8rpx;
+    min-height: 48rpx;
+    align-items: center;
+  }
+
+  &__preview-item {
+    width: 48rpx;
+    height: 48rpx;
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 16rpx;
+  }
+
+  &__count {
+    font-size: 24rpx;
+    color: #8B7E6E;
+  }
+
+  &__confirm-btn {
+    padding: 14rpx 36rpx;
+    background: #E8775B;
+    color: #fff;
+    border-radius: 28rpx;
+    font-size: 26rpx;
+    font-weight: 500;
+    box-shadow: 0 4rpx 12rpx rgba(232, 119, 91, 0.3);
+  }
+}

@@ -1,116 +1,177 @@
-// 卡片墙页面样式 -- 纯 CSS 几何图形 + 色块叠加方案
+// 卡片墙页面样式 -- 手帐风格 + 场景化筛选 + 内嵌搜索
 
 .cards {
   min-height: 100vh;
-  background: #faf6f1; // 全局暖灰底色
-  padding-bottom: 140rpx;
+  background: #FAF7F2;
+  padding-bottom: 160rpx;
 
-  // ===== 顶部标题栏 =====
+  // ===== 顶部栏 =====
   &__header {
     position: relative;
-    padding: 24rpx 32rpx 12rpx;
+    padding: 28rpx 32rpx 12rpx;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
   }
 
   &__title {
     font-size: 36rpx;
     font-weight: 600;
-    color: #333;
-    letter-spacing: 4rpx;
+    color: #3D3226;
+    letter-spacing: 2rpx;
   }
 
-  &__search {
-    position: absolute;
-    right: 20rpx;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 96rpx;
-    height: 96rpx;
-    border-radius: 50%;
-    background: #fff;
-    box-shadow: 0 4rpx 14rpx rgba(0, 0, 0, 0.1);
+  &__header-right {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
+    gap: 16rpx;
   }
 
-  // CSS 绘制放大镜图标：::before 圆 + ::after 斜线手柄
-  &__search-icon {
-    position: relative;
-    width: 34rpx;
-    height: 34rpx;
+  // 排序按钮
+  &__sort-btn {
+    display: flex;
+    align-items: center;
+    gap: 6rpx;
+    background: #FFFDF9;
+    border-radius: 24rpx;
+    padding: 8rpx 20rpx;
+    box-shadow: 0 2rpx 8rpx rgba(61, 50, 38, 0.06);
+  }
 
+  &__sort-btn-text {
+    font-size: 24rpx;
+    color: #8B7E6E;
+  }
+
+  &__sort-btn-arrow {
+    font-size: 16rpx;
+    color: #B5A898;
+  }
+
+  // 排序下拉菜单
+  &__sort-menu {
+    position: absolute;
+    top: 80rpx;
+    right: 80rpx;
+    background: #FFFDF9;
+    border-radius: 16rpx;
+    padding: 8rpx 0;
+    box-shadow: 0 8rpx 32rpx rgba(61, 50, 38, 0.12);
+    z-index: 10;
+    min-width: 200rpx;
+  }
+
+  &__sort-menu-item {
+    padding: 16rpx 32rpx;
+    font-size: 26rpx;
+    color: #3D3226;
+
+    &--active {
+      color: #E8775B;
+      font-weight: 600;
+      background: #FFF5F0;
+    }
+  }
+
+  // 搜索图标按钮（点击展开搜索框）
+  &__search-icon {
+    width: 64rpx;
+    height: 64rpx;
+    border-radius: 50%;
+    background: #FFFDF9;
+    box-shadow: 0 2rpx 8rpx rgba(61, 50, 38, 0.06);
+    position: relative;
+
+    // 放大镜圆形
     &::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 24rpx;
-      height: 24rpx;
-      border: 4rpx solid #333;
+      top: 18rpx;
+      left: 18rpx;
+      width: 20rpx;
+      height: 20rpx;
+      border: 3rpx solid #8B7E6E;
       border-radius: 50%;
       box-sizing: border-box;
     }
 
+    // 手柄
     &::after {
       content: '';
       position: absolute;
-      bottom: 0;
-      right: 0;
-      width: 14rpx;
-      height: 4rpx;
-      background: #333;
+      bottom: 18rpx;
+      right: 18rpx;
+      width: 12rpx;
+      height: 3rpx;
+      background: #8B7E6E;
       border-radius: 2rpx;
       transform: rotate(-45deg);
       transform-origin: right center;
     }
-  }
-
-  &__search-label {
-    font-size: 20rpx;
-    color: #333;
-    margin-top: 4rpx;
-    line-height: 1;
-    font-weight: 600;
-  }
-
-  // ===== 排序栏 =====
-  &__sort-bar {
-    display: flex;
-    background: transparent;
-    padding: 16rpx 16rpx 8rpx;
-  }
-
-  &__sort-tab {
-    flex: 1;
-    text-align: center;
-    padding: 16rpx 0;
-    font-size: 28rpx;
-    color: #666;
-    position: relative;
 
     &--active {
-      color: #333;
-      font-weight: 600;
-
-      &::after {
-        content: '';
-        position: absolute;
-        bottom: 4rpx;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 56rpx;
-        height: 6rpx;
-        background: #6366f1;
-        border-radius: 3rpx;
-      }
+      background: #E8775B;
+      &::before { border-color: #fff; }
+      &::after { background: #fff; }
     }
   }
 
-  // ===== 整齐双列网格 =====
+  // ===== 搜索框 =====
+  &__search-box {
+    display: flex;
+    align-items: center;
+    margin: 8rpx 32rpx 16rpx;
+    background: #FFFDF9;
+    border-radius: 32rpx;
+    padding: 8rpx 24rpx;
+    box-shadow: 0 2rpx 12rpx rgba(61, 50, 38, 0.06);
+    position: relative;
+  }
+
+  &__search-input {
+    flex: 1;
+    height: 64rpx;
+    font-size: 28rpx;
+    color: #3D3226;
+  }
+
+  &__search-clear {
+    width: 36rpx;
+    height: 36rpx;
+    border-radius: 50%;
+    background: #E8E0D5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #8B7E6E;
+    font-size: 24rpx;
+  }
+
+  // ===== 场景化筛选栏 =====
+  &__filters {
+    white-space: nowrap;
+    padding: 8rpx 16rpx 16rpx;
+  }
+
+  &__filter {
+    display: inline-block;
+    padding: 12rpx 28rpx;
+    margin-right: 12rpx;
+    border-radius: 24rpx;
+    background: #FFFDF9;
+    font-size: 26rpx;
+    color: #8B7E6E;
+    box-shadow: 0 2rpx 8rpx rgba(61, 50, 38, 0.04);
+    transition: all 0.2s ease;
+
+    &--active {
+      background: #3D3226;
+      color: #FFFDF9;
+      box-shadow: 0 4rpx 12rpx rgba(61, 50, 38, 0.2);
+    }
+  }
+
+  // ===== 卡片网格（保留原有） =====
   &__grid {
     display: flex;
     flex-wrap: wrap;
@@ -127,32 +188,29 @@
     position: relative;
     border-radius: 20rpx;
     overflow: hidden;
-    box-shadow: 0 6rpx 18rpx rgba(0, 0, 0, 0.1);
-    // 卡片高度 420rpx = 视觉区 240rpx + 信息区 180rpx
+    box-shadow: 0 6rpx 18rpx rgba(61, 50, 38, 0.08);
     height: 420rpx;
     display: flex;
     flex-direction: column;
-    background: #fff;
+    background: #FFFDF9;
   }
 
-  // 上半部分：主题渐变背景 + CSS 几何图形
   &__card-visual {
     position: relative;
     flex-shrink: 0;
-    height: 240rpx;
+    height: 180rpx;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
 
-    // 色块叠加：半透明圆形增加层次感
     &::before {
       content: '';
       position: absolute;
-      top: -40rpx;
-      right: -30rpx;
-      width: 140rpx;
-      height: 140rpx;
+      top: -30rpx;
+      right: -20rpx;
+      width: 110rpx;
+      height: 110rpx;
       border-radius: 50%;
       background: rgba(255, 255, 255, 0.18);
       pointer-events: none;
@@ -161,45 +219,43 @@
     &::after {
       content: '';
       position: absolute;
-      bottom: -50rpx;
-      left: -20rpx;
-      width: 110rpx;
-      height: 110rpx;
+      bottom: -35rpx;
+      left: -15rpx;
+      width: 85rpx;
+      height: 85rpx;
       border-radius: 50%;
       background: rgba(255, 255, 255, 0.12);
       pointer-events: none;
     }
   }
 
-  // 左上首字圆形徽章：白底 + accent 文字色
   &__card-badge {
     position: absolute;
-    top: 20rpx;
-    left: 20rpx;
-    width: 64rpx;
-    height: 64rpx;
+    top: 16rpx;
+    left: 16rpx;
+    width: 52rpx;
+    height: 52rpx;
     border-radius: 50%;
     background: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 2;
-    box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.12);
+    box-shadow: 0 2rpx 8rpx rgba(61, 50, 38, 0.12);
   }
 
   &__card-badge-text {
-    font-size: 32rpx;
+    font-size: 28rpx;
     font-weight: bold;
     line-height: 1;
   }
 
-  // 右上收藏爱心：纯 CSS 绘制（旋转方块 + 两个圆角矩形）
   &__card-heart {
     position: absolute;
-    top: 24rpx;
-    right: 24rpx;
-    width: 28rpx;
-    height: 28rpx;
+    top: 18rpx;
+    right: 18rpx;
+    width: 24rpx;
+    height: 24rpx;
     background: #fff;
     transform: rotate(-45deg);
     z-index: 2;
@@ -208,10 +264,10 @@
     &::before {
       content: '';
       position: absolute;
-      top: -14rpx;
+      top: -12rpx;
       left: 0;
-      width: 28rpx;
-      height: 28rpx;
+      width: 24rpx;
+      height: 24rpx;
       border-radius: 50%;
       background: #fff;
     }
@@ -220,76 +276,87 @@
       content: '';
       position: absolute;
       top: 0;
-      left: 14rpx;
-      width: 28rpx;
-      height: 28rpx;
+      left: 12rpx;
+      width: 24rpx;
+      height: 24rpx;
       border-radius: 50%;
       background: #fff;
     }
   }
 
-  // 下半部分：地点信息
   &__card-info {
     flex: 1;
-    padding: 20rpx 22rpx 18rpx;
-    background: #fff;
+    padding: 24rpx 22rpx 20rpx;
+    background: #FFFDF9;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
+    min-width: 0;
   }
 
   &__card-name {
     display: block;
     font-size: 30rpx;
     font-weight: 700;
-    color: #333;
+    color: #3D3226;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    margin-bottom: 8rpx;
   }
 
   &__card-sub {
     display: block;
     font-size: 24rpx;
-    color: #888;
-    margin-top: 6rpx;
+    color: #8B7E6E;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    margin-bottom: 8rpx;
   }
 
   &__card-meta {
     display: flex;
     align-items: center;
-    margin-top: 12rpx;
+    margin-top: 16rpx;
+    overflow: hidden;
+    min-width: 0;
   }
 
   &__card-checkin {
     font-size: 24rpx;
-    color: #666;
+    color: #8B7E6E;
+    flex-shrink: 0;
   }
 
-  // 属性标签：颜色通过内联 style 传递，SCSS 只管布局
   &__card-attrtag {
     margin-left: 16rpx;
     font-size: 22rpx;
     padding: 4rpx 16rpx;
     border-radius: 20rpx;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex-shrink: 1;
   }
 
-  // 场景标签：颜色通过内联 style 传递，SCSS 只管布局
   &__card-scenetag {
-    margin-top: 10rpx;
+    margin-top: 12rpx;
     display: inline-block;
     align-self: flex-start;
     border-radius: 20rpx;
     padding: 4rpx 16rpx;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 
     text {
       font-size: 22rpx;
     }
   }
 
-  // ===== 浮动添加按钮（渐变紫色） =====
+  // ===== 浮动按钮 =====
   &__fab {
     position: fixed;
     right: 32rpx;
@@ -297,12 +364,12 @@
     width: 112rpx;
     height: 112rpx;
     border-radius: 50%;
-    background: linear-gradient(135deg, #6366f1 0%, #818cf8 100%);
+    background: #E8775B;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 8rpx 24rpx rgba(99, 102, 241, 0.45);
+    box-shadow: 0 8rpx 24rpx rgba(232, 119, 91, 0.4);
     z-index: 100;
   }
 
@@ -315,22 +382,20 @@
 
   &__fab-label {
     font-size: 20rpx;
-    color: #6366f1;
+    color: #E8775B;
     margin-top: 4rpx;
     line-height: 1;
   }
 
-  // 反馈按钮：白底紫字、带文字标签
   &__fab--feedback {
     bottom: 330rpx;
-    width: 112rpx;
-    height: 112rpx;
-    background: #fff;
-    box-shadow: 0 6rpx 20rpx rgba(0, 0, 0, 0.14);
-    border: 2rpx solid #ede9fe;
+    width: 96rpx;
+    height: 96rpx;
+    background: #FFFDF9;
+    box-shadow: 0 6rpx 20rpx rgba(61, 50, 38, 0.1);
+    border: 2rpx solid #F5E6D8;
   }
 
-  // CSS 绘制铅笔图标：::before 笔身 + ::after 笔尖
   &__fab-icon--feedback {
     position: relative;
     width: 36rpx;
@@ -341,7 +406,7 @@
       position: absolute;
       width: 6rpx;
       height: 28rpx;
-      background: #6366f1;
+      background: #E8775B;
       border-radius: 2rpx;
       top: 2rpx;
       left: 15rpx;
@@ -356,13 +421,107 @@
       height: 0;
       border-left: 4rpx solid transparent;
       border-right: 4rpx solid transparent;
-      border-top: 7rpx solid #6366f1;
+      border-top: 7rpx solid #E8775B;
       bottom: 3rpx;
       left: 13rpx;
     }
   }
 
-  // ===== 空状态（纯文字 + CSS 装饰圆形） =====
+  // ===== 新用户引导页 =====
+  &__onboarding {
+    padding: 24rpx 32rpx 0;
+  }
+
+  &__onboard-welcome {
+    text-align: center;
+    margin-bottom: 32rpx;
+  }
+
+  &__onboard-welcome-title {
+    display: block;
+    font-size: 40rpx;
+    font-weight: 700;
+    color: #3D3226;
+  }
+
+  &__onboard-welcome-sub {
+    display: block;
+    font-size: 26rpx;
+    color: #8B7E6E;
+    margin-top: 12rpx;
+    line-height: 1.5;
+  }
+
+  &__onboard-steps {
+    margin-bottom: 32rpx;
+  }
+
+  &__onboard-step {
+    display: flex;
+    gap: 20rpx;
+    margin-bottom: 24rpx;
+    align-items: flex-start;
+  }
+
+  &__onboard-step-num {
+    width: 56rpx;
+    height: 56rpx;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &--1 { background: linear-gradient(135deg, #FFD3A5, #FD6585); }
+    &--2 { background: linear-gradient(135deg, #A8E6CF, #DCEDC1); }
+    &--3 { background: linear-gradient(135deg, #89CFF0, #B5EAD7); }
+  }
+
+  &__onboard-step-num-text {
+    font-size: 28rpx;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1;
+  }
+
+  &__onboard-step-content {
+    flex: 1;
+    padding-top: 4rpx;
+  }
+
+  &__onboard-step-title {
+    display: block;
+    font-size: 28rpx;
+    font-weight: 600;
+    color: #3D3226;
+    margin-bottom: 4rpx;
+  }
+
+  &__onboard-step-desc {
+    display: block;
+    font-size: 24rpx;
+    color: #8B7E6E;
+    line-height: 1.5;
+  }
+
+  &__onboard-cta {
+    height: 96rpx;
+    border-radius: 100rpx;
+    background: #E8775B;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8rpx 24rpx rgba(232, 119, 91, 0.3);
+  }
+
+  &__onboard-cta-text {
+    font-size: 32rpx;
+    font-weight: 600;
+    color: #fff;
+    line-height: 1;
+  }
+
+  // ===== 空状态 =====
   &__empty-wrap {
     display: flex;
     flex-direction: column;
@@ -370,12 +529,11 @@
     padding: 80rpx 48rpx 0;
   }
 
-  // CSS 装饰圆形：渐变圆 + 伪元素点缀
   &__empty-circle {
     width: 200rpx;
     height: 200rpx;
     border-radius: 50%;
-    background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+    background: linear-gradient(135deg, #FFF5F0 0%, #F5E6D8 100%);
     position: relative;
     margin-bottom: 40rpx;
 
@@ -411,13 +569,13 @@
 
   &__empty-title {
     font-size: 30rpx;
-    color: #333;
+    color: #3D3226;
     font-weight: 600;
   }
 
   &__empty-sub {
     font-size: 26rpx;
-    color: #999;
+    color: #B5A898;
     margin-top: 8rpx;
   }
 
@@ -427,35 +585,65 @@
     align-items: center;
     justify-content: center;
     padding: 200rpx 0;
-    color: #999;
+    color: #B5A898;
     font-size: 28rpx;
   }
 
-  // ===== 登录引导 =====
+  // ===== 未登录页 =====
   &--login {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding-top: 300rpx;
+    min-height: 100vh;
+    background: #FAF7F2;
+    padding: 0 64rpx;
   }
 
-  &__login-text {
+  &__login-logo {
+    width: 160rpx;
+    height: 160rpx;
+    border-radius: 36rpx;
+    overflow: hidden;
+    margin-bottom: 32rpx;
+    box-shadow: 0 8rpx 32rpx rgba(61, 50, 38, 0.08);
+  }
+
+  &__login-logo-img {
+    width: 100%;
+    height: 100%;
+  }
+
+  &__login-title {
+    font-size: 44rpx;
+    font-weight: 700;
+    color: #3D3226;
+    margin-bottom: 8rpx;
+  }
+
+  &__login-subtitle {
     font-size: 28rpx;
-    color: #999;
-    margin-bottom: 40rpx;
+    color: #8B7E6E;
+    margin-bottom: 64rpx;
   }
 
   &__login-btn {
-    padding: 20rpx 64rpx;
-    background: linear-gradient(135deg, #6366f1 0%, #818cf8 100%);
-    border-radius: 44rpx;
+    padding: 24rpx 80rpx;
+    background: #E8775B;
+    border-radius: 48rpx;
     color: #fff;
-    font-size: 30rpx;
+    font-size: 32rpx;
+    font-weight: 500;
+    box-shadow: 0 8rpx 24rpx rgba(232, 119, 91, 0.3);
 
     &--disabled {
       opacity: 0.6;
     }
   }
 
+  &__login-hint {
+    font-size: 24rpx;
+    color: #B5A898;
+    margin-top: 32rpx;
+  }
 }

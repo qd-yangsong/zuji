@@ -1,0 +1,264 @@
+// ========================================
+// 足迹手帐 — 记录页
+// 手帐风格：打开就记录，自动定位 + 匹配
+// ========================================
+
+.record {
+  min-height: 100vh;
+  background: #FAF7F2;
+  display: flex;
+  flex-direction: column;
+}
+
+// ---------- 顶部定位状态 ----------
+.record__header {
+  padding: 32rpx 32rpx 20rpx;
+  text-align: center;
+}
+
+.record__locating {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12rpx;
+}
+
+.record__loc-spinner {
+  width: 36rpx; height: 36rpx;
+  border: 3rpx solid #E8E0D5;
+  border-top-color: #E8775B;
+  border-radius: 50%;
+  animation: locSpin 0.8s linear infinite;
+}
+
+@keyframes locSpin {
+  to { transform: rotate(360deg); }
+}
+
+.record__loc-text {
+  font-size: 28rpx;
+  color: #8B7E6E;
+}
+
+.record__loc-failed {
+  font-size: 28rpx;
+  color: #8B7E6E;
+}
+
+.record__retry-btn {
+  margin-top: 16rpx;
+  display: inline-block;
+  padding: 10rpx 32rpx;
+  background: #FFFDF9;
+  border-radius: 24rpx;
+  font-size: 26rpx;
+  color: #E8775B;
+  box-shadow: 0 2rpx 12rpx rgba(61, 50, 38, 0.06);
+}
+
+// ---------- 匹配结果列表 ----------
+.record__matched {
+  margin: 0 24rpx;
+}
+
+.record__matched-title {
+  display: block;
+  font-size: 26rpx;
+  color: #8B7E6E;
+  margin-bottom: 16rpx;
+  padding: 0 8rpx;
+}
+
+.record__matched-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+
+// 匹配地点卡片
+.record__place-card {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  background: #FFFDF9;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  box-shadow: 0 2rpx 12rpx rgba(61, 50, 38, 0.05);
+  position: relative;
+  overflow: hidden;
+
+  // 左侧颜色条
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 6rpx;
+    background: #E8775B;
+    border-radius: 0 3rpx 3rpx 0;
+  }
+
+  &--checked {
+    background: #FFF5F0;
+    &::before { background: #F4A460; }
+  }
+}
+
+.record__place-avatar {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #FFD3A5, #FD6585);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36rpx;
+  color: #fff;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.record__place-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.record__place-name {
+  font-size: 30rpx;
+  color: #3D3226;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.record__place-meta {
+  font-size: 24rpx;
+  color: #B5A898;
+  margin-top: 4rpx;
+}
+
+.record__place-arrow {
+  font-size: 28rpx;
+  color: #D4C8B8;
+  flex-shrink: 0;
+}
+
+// ---------- 无匹配 / 创建新地点 ----------
+.record__no-match {
+  margin: 0 24rpx;
+  background: #FFFDF9;
+  border-radius: 20rpx;
+  padding: 40rpx 32rpx;
+  text-align: center;
+  box-shadow: 0 2rpx 16rpx rgba(61, 50, 38, 0.05);
+  border: 3rpx dashed #D4C8B8;
+}
+
+.record__no-match-text {
+  font-size: 28rpx;
+  color: #8B7E6E;
+  display: block;
+  margin-bottom: 20rpx;
+}
+
+.record__new-btn {
+  display: inline-block;
+  padding: 16rpx 48rpx;
+  background: #E8775B;
+  color: #fff;
+  border-radius: 32rpx;
+  font-size: 28rpx;
+  font-weight: 500;
+  box-shadow: 0 4rpx 16rpx rgba(232, 119, 91, 0.3);
+}
+
+// ---------- 快捷记录区域 ----------
+.record__quick {
+  margin: 32rpx 24rpx;
+}
+
+.record__quick-title {
+  display: block;
+  font-size: 26rpx;
+  color: #8B7E6E;
+  margin-bottom: 16rpx;
+  padding: 0 8rpx;
+}
+
+.record__quick-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+
+.record__quick-item {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  background: #FFFDF9;
+  border-radius: 16rpx;
+  padding: 20rpx 24rpx;
+  box-shadow: 0 2rpx 12rpx rgba(61, 50, 38, 0.05);
+}
+
+.record__quick-avatar {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.record__quick-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.record__quick-name {
+  font-size: 28rpx;
+  color: #3D3226;
+  font-weight: 500;
+}
+
+.record__quick-time {
+  font-size: 22rpx;
+  color: #B5A898;
+  margin-top: 2rpx;
+}
+
+.record__quick-action {
+  padding: 10rpx 24rpx;
+  background: #FAF7F2;
+  border-radius: 20rpx;
+  font-size: 24rpx;
+  color: #E8775B;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+// ---------- 空状态 ----------
+.record__empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80rpx 64rpx;
+}
+
+.record__empty-icon {
+  font-size: 96rpx;
+  margin-bottom: 24rpx;
+  opacity: 0.6;
+}
+
+.record__empty-title {
+  font-size: 30rpx;
+  color: #3D3226;
+  font-weight: 500;
+  margin-bottom: 12rpx;
+}
+
+.record__empty-desc {
+  font-size: 26rpx;
+  color: #B5A898;
+  text-align: center;
+  line-height: 1.6;
+}

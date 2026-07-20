@@ -1,5 +1,6 @@
 import { View, Text, ScrollView, Input } from '@tarojs/components';
 import { useEffect, useState } from 'react';
+import Taro from '@tarojs/taro';
 import { fetchTags, createTag } from '../../services/tag';
 import type { TagDto, TagType } from '@zuji/shared-types';
 import './index.scss';
@@ -25,13 +26,17 @@ export default function TagSelector({
   const [loading, setLoading] = useState(false);
   const [showInput, setShowInput] = useState(false);
   const [newTagName, setNewTagName] = useState('');
+  const [creating, setCreating] = useState(false);
 
   // 加载标签列表
   useEffect(() => {
     setLoading(true);
     fetchTags(type)
       .then(setTags)
-      .catch((e) => console.error('加载标签失败:', e))
+      .catch((e) => {
+        console.error('加载标签失败:', e);
+        Taro.showToast({ title: '加载失败', icon: 'error' });
+      })
       .finally(() => setLoading(false));
   }, [type]);
 
@@ -47,6 +52,8 @@ export default function TagSelector({
   // 创建新标签
   const handleCreate = async () => {
     if (!newTagName.trim()) return;
+    if (creating) return;
+    setCreating(true);
     try {
       const newTag = await createTag({ name: newTagName.trim(), type });
       setTags([...tags, newTag]);
@@ -55,6 +62,9 @@ export default function TagSelector({
       setShowInput(false);
     } catch (e) {
       console.error('创建标签失败:', e);
+      Taro.showToast({ title: '创建失败', icon: 'error' });
+    } finally {
+      setCreating(false);
     }
   };
 

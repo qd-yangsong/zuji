@@ -53,6 +53,8 @@ export default function SharePlace() {
       longitude: place.longitude,
       name: place.customName,
       address: place.address || place.realName,
+    }).catch(() => {
+      Taro.showToast({ title: '打开地图失败', icon: 'error' });
     });
   };
 
@@ -82,10 +84,9 @@ export default function SharePlace() {
     <View className='share-place'>
       {/* 封面区 */}
       <View className='share-place__cover' style={{ background: theme.gradient }}>
-        <View className='share-place__cover-badge' style={{ background: theme.iconBg }}>
-          <Text style={{ color: theme.iconColor }}>{place.customName.charAt(0)}</Text>
+        <View className='share-place__cover-badge' style={{ background: theme.accent }}>
+          <Text style={{ color: '#fff' }}>{place?.customName?.charAt(0) || '?'}</Text>
         </View>
-        <Text className='share-place__cover-emoji'>{theme.emoji}</Text>
       </View>
 
       {/* 信息卡片 */}
@@ -119,8 +120,9 @@ export default function SharePlace() {
           className='share-place__map'
           latitude={place.latitude}
           longitude={place.longitude}
-          markers={[{ id: 1, latitude: place.latitude, longitude: place.longitude, width: 30, height: 30 }]}
+          markers={[{ id: 1, latitude: place.latitude, longitude: place.longitude, width: 30, height: 30, iconPath: '' }]}
           scale={16}
+          onError={() => {}}
         />
 
         {/* 提示文案 */}

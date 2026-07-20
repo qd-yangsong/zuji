@@ -74,4 +74,53 @@ export class ShareService {
       places: collection.places.map((cp) => cp.place),
     };
   }
+
+  // 公开查看路线信息（不需要登录）
+  async getSharedRoute(routeId: string) {
+    const route = await this.prisma.route.findUnique({
+      where: { id: routeId },
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        coverImage: true,
+        type: true,
+        status: true,
+        startDate: true,
+        endDate: true,
+        createdAt: true,
+        places: {
+          orderBy: { sortOrder: 'asc' },
+          select: {
+            sortOrder: true,
+            dayLabel: true,
+            notes: true,
+            place: {
+              select: {
+                id: true,
+                realName: true,
+                customName: true,
+                latitude: true,
+                longitude: true,
+                address: true,
+                coverImage: true,
+                checkinCount: true,
+              },
+            },
+          },
+        },
+      },
+    });
+    if (!route) throw new NotFoundException('路线不存在或已被删除');
+
+    return {
+      ...route,
+      places: route.places.map((rp) => ({
+        ...rp.place,
+        sortOrder: rp.sortOrder,
+        dayLabel: rp.dayLabel,
+        notes: rp.notes,
+      })),
+    };
+  }
 }

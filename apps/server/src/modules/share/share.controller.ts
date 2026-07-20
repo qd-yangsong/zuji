@@ -12,9 +12,15 @@ export class ShareController {
     return this.shareService.getSharedPlace(id);
   }
 
-  // 查看分享的合集
+  // 查看分享的合集（向后兼容）
   @Get('collection/:id')
   getSharedCollection(@Param('id') id: string) {
     return this.shareService.getSharedCollection(id);
+  }
+
+  // 查看分享的路线
+  @Get('route/:id')
+  getSharedRoute(@Param('id') id: string) {
+    return this.shareService.getSharedRoute(id);
   }
 }

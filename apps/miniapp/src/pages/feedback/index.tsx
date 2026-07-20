@@ -24,15 +24,20 @@ export default function Feedback() {
       Taro.showToast({ title: '最多上传3张截图', icon: 'none' });
       return;
     }
-    const res = await Taro.chooseImage({ count: 3 - images.length });
-    Taro.showLoading({ title: '上传中...' });
     try {
-      const urls = await Promise.all(res.tempFilePaths.map(uploadImage));
-      setImages([...images, ...urls]);
-    } catch (e) {
-      Taro.showToast({ title: '上传失败', icon: 'error' });
-    } finally {
-      Taro.hideLoading();
+      const mediaRes = await Taro.chooseMedia({ count: 3 - images.length, mediaType: ['image'], sourceType: ['album', 'camera'] });
+      const tempFilePaths = mediaRes.tempFiles.map(f => f.tempFilePath);
+      Taro.showLoading({ title: '上传中...' });
+      try {
+        const urls = await Promise.all(tempFilePaths.map(uploadImage));
+        setImages([...images, ...urls]);
+      } catch (e) {
+        Taro.showToast({ title: '上传失败', icon: 'error' });
+      } finally {
+        Taro.hideLoading();
+      }
+    } catch {
+      // 用户取消选择，静默处理
     }
   };
 

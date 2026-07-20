@@ -25,6 +25,24 @@ export class CollectionController {
     return this.collectionService.create(dto, user.id);
   }
 
+  @Post(':id/places')
+  addPlace(
+    @Param('id') id: string,
+    @Body() body: { placeId: string },
+    @CurrentUser() user: { id: string; openid: string },
+  ) {
+    return this.collectionService.addPlace(id, body.placeId, user.id);
+  }
+
+  @Delete(':id/places/:placeId')
+  removePlace(
+    @Param('id') id: string,
+    @Param('placeId') placeId: string,
+    @CurrentUser() user: { id: string; openid: string },
+  ) {
+    return this.collectionService.removePlace(id, placeId, user.id);
+  }
+
   @Patch(':id')
   update(
     @Param('id') id: string,

@@ -27,10 +27,11 @@ export default function AnnouncementModal({ visible, onClose }: Props) {
     if (!visible) return;
     // 拉取公告
     fetchActiveAnnouncements()
-      .then((data: Announcement[]) => {
+      .then((data) => {
+        const announcements = data as unknown as Announcement[];
         // 过滤已读
         const readIds = Taro.getStorageSync(READ_KEY) || [];
-        const unread = data.filter((a) => !readIds.includes(a.id));
+        const unread = announcements.filter((a) => !readIds.includes(a.id));
         setAnnouncements(unread);
         setCurrentIndex(0);
       })

@@ -9,6 +9,7 @@ import { TagGroupModule } from './modules/tag-group/tag-group.module';
 import { PlaceModule } from './modules/place/place.module';
 import { CheckInModule } from './modules/checkin/checkin.module';
 import { CollectionModule } from './modules/collection/collection.module';
+import { RouteModule } from './modules/route/route.module';
 import { ShareModule } from './modules/share/share.module';
 import { AdminAuthModule } from './modules/admin-auth/admin-auth.module';
 import { AdminAssetModule } from './modules/admin-asset/admin-asset.module';
@@ -34,6 +35,7 @@ import { AppService } from './app.service';
     PlaceModule,
     CheckInModule,
     CollectionModule,
+    RouteModule,
     ShareModule,
     AdminAuthModule,
     AdminAssetModule,

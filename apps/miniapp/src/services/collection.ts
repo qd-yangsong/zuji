@@ -30,3 +30,13 @@ export async function updateCollection(id: string, dto: Partial<CreateCollection
 export async function deleteCollection(id: string): Promise<void> {
   await request({ url: `/collections/${id}`, method: 'DELETE' });
 }
+
+// 添加地点到合集
+export async function addPlaceToCollection(collectionId: string, placeId: string): Promise<CollectionDto> {
+  return request<CollectionDto>({ url: `/collections/${collectionId}/places`, method: 'POST', data: { placeId } });
+}
+
+// 从合集中移除地点
+export async function removePlaceFromCollection(collectionId: string, placeId: string): Promise<void> {
+  await request({ url: `/collections/${collectionId}/places/${placeId}`, method: 'DELETE' });
+}
